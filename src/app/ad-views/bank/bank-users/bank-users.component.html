@@ -1,0 +1,115 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Сотрудники банка</mat-card-title>
+    <div style="display: flex;justify-content: end;align-items: center">
+      <button (click)="adminCreateDialog()" style="color: #3F6D5B;" mat-flat-button>
+        <mat-icon>add</mat-icon>
+        Добавить
+      </button>
+    </div>
+    <hr>
+    <div>
+      <form [formGroup]="filterForm" (ngSubmit)="showFilter()">
+        <div class="row">
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Имя</mat-label>
+              <input type="text" matInput formControlName="firstName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Фамилия</mat-label>
+              <input type="text" matInput formControlName="lastName">
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Номер телефона</mat-label>
+              <input type="text" matInput formControlName="phone">
+            </mat-form-field>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-label>Роль</mat-label>
+              <mat-select formControlName="roleId">
+                <mat-option *ngFor="let item of roleList" [value]="item.id">{{item.displayName}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-end gap-2">
+          <button type="button" class="btn btn-outline-secondary" (click)="refreshFilter()">Сбросить</button>
+          <button type="submit" class="btn btn-warning">Показать</button>
+        </div>
+      </form>
+    </div>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">#</th>
+          <th scope="col">Имя</th>
+          <th scope="col">Фамилия</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">email</th>
+          <th scope="col">Роль</th>
+          <th scope="col">Статус</th>
+          <th scope="col" class="text-end">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item.position}}</td>
+            <td>{{item.firstName}}</td>
+            <td>{{item.lastName}}</td>
+            <td>{{item.phone}}</td>
+            <td>{{item.email}}</td>
+            <td>{{item.role['displayName']}}</td>
+            <td>{{item.status}}</td>
+
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="detail(item.id)">
+                  <mat-icon color="primary">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробнее</span></button>
+                <button (click)="openEditDialog(item.id)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="accent">edit</mat-icon>
+                  <span class="title__menu_item">Редактировать</span></button>
+                <button *ngxPermissionsOnly="['DELETE_ADMIN_USER']" (click)="openDeleteDialog(item.id)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="warn">delete_forever</mat-icon>
+                  <span class="title__menu_item">Удалить</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>
+

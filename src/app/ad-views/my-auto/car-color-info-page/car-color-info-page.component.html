@@ -1,0 +1,40 @@
+<div class="w-100 p-4">
+  <div class="car-color-info">
+    <form [formGroup]="colorForm">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-75">
+            <mat-label>Название цвета</mat-label>
+            <input type="text" readonly matInput formControlName="colorName">
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-75 position-relative">
+            <mat-label>Color picker</mat-label>
+            <input type="text" matInput mask="A{6}" prefix="#" readonly formControlName="colorCode">
+            <div class="color-picker" [style]="{'background-color': colorCode}">
+            </div>
+          </mat-form-field>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6">
+      <app-car-color-info-left
+        [colorId]="colorId"
+        [editedSimilarName]="onEditSimilarName"
+        (onAddSimilarName)="addSimilarName($event)"
+      ></app-car-color-info-left>
+    </div>
+
+    <div class="col-md-6">
+      <app-car-color-info-right
+        [colorId]="colorId"
+        [onAddSimilarName]="onAddSimilarName"
+        (onEdit)="editSimilarName($event)"
+      ></app-car-color-info-right>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,94 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title>
+      <div class="header__title">Настройки маркет</div>
+    </mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Android</th>
+          <th>iOS</th>
+          <th>Web</th>
+          <th>USSD</th>
+          <th>Unknown</th>
+          <th>Тип</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="2"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="!dataList && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container>
+          <tr class="table__td" *ngIf="dataList && !loadingList">
+            <td>1</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <mat-icon style="color: grey">
+                  {{dataList.android ? 'check_box' : 'indeterminate_check_box'}}
+                </mat-icon>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <mat-icon style="color: grey">
+                  {{dataList.ios ? 'check_box' : 'indeterminate_check_box'}}
+                </mat-icon>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <mat-icon style="color: grey">
+                  {{dataList.web ? 'check_box' : 'indeterminate_check_box'}}
+                </mat-icon>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <mat-icon style="color: grey">
+                  {{dataList.ussd ? 'check_box' : 'indeterminate_check_box'}}
+                </mat-icon>
+              </div>
+            </td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center">
+                <mat-icon style="color: grey">
+                  {{dataList.unknown ? 'check_box' : 'indeterminate_check_box'}}
+                </mat-icon>
+              </div>
+            </td>
+            <td>{{dataList.typeEnum}}</td>
+            <td style="width: 250px">
+              <div class="d-flex align-items-center justify-content-center">
+                <button
+                  matTooltip="Подробно"
+                  matTooltipPosition="above"
+                  mat-icon-button
+                  (click)="openEditDialog()"
+                >
+                  <mat-icon style="color: grey">edit</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

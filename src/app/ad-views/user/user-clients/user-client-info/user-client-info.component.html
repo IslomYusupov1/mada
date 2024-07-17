@@ -1,0 +1,134 @@
+<div>
+  <div class="py-2">
+    <h3 class="page-route"><span routerLink="/user/clients">Пользователи</span> / Личная информация</h3>
+    <div class="login-info">
+      <div class="login-info_item">
+        <span>Login</span>
+        <span>{{data['username'] ? data['username'] : '-'}}</span>
+      </div>
+      <div class="login-info_item">
+        <span>Дата посл изменения</span>
+        <span>{{data['updatedAt'] ? data['updatedAt'] : '-'}}</span>
+      </div>
+      <div class="login-info_item">
+        <span>Тип</span>
+        <span
+          class="px-2 rounded-3 text-white"
+          [class]="{
+            'bg-danger': data['zone'] === 'RED',
+            'bg-success': data['zone'] === 'GREEN',
+            'bg-warning': data['zone'] === 'YELLOW'
+          }"
+        >{{data['zone'] ? data['zone'] : '-'}}</span>
+      </div>
+      <div *ngIf="data.vip" class="login-info_item">
+        <span>Статус</span>
+        <span
+          class="px-2 rounded-3 text-white bg-dark"
+        >VIP клиент</span>
+      </div>
+    </div>
+  </div>
+  <div class="personal-info">
+    <h2 class="personal-info_title">Личная информация</h2>
+    <mat-card>
+      <mat-card-content>
+        <div *ngIf="!loading" class="row">
+          <div class="col-md-2">
+            <div class="personal-img">
+              <img [src]="data.avatarPath ? data.avatarPath : ''" alt="">
+            </div>
+          </div>
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>Полное имя</span>
+                    <span>{{data['firstName'] ? data['firstName'] : '-'}} {{data['lastName'] ? data['lastName'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Дата рождения </span>
+                    <span>{{data['birthDate'] ? data['birthDate'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Номер телефона</span>
+                    <span>{{data['phone'] ? data['phone'] : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>Электронная почта</span>
+                    <span>{{data['email'] ? data['email'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Дата регистрации</span>
+                    <span>{{data['createdAt'] ? data['createdAt'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Возраст</span>
+                    <span>{{data['age'] ? data['age'] : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>Роли</span>
+                    <span>{{data['roleDisplayName'] ? data['roleDisplayName'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Платформ</span>
+                    <span>{{data['deviceType'] ? data['deviceType'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Версия</span>
+                    <span>{{data['appVersion'] ? data['appVersion'] : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>DeviceID</span>
+                    <span>{{data['deviceId'] ? data['deviceId'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Device Model</span>
+                    <span>{{data['deviceModel'] ? data['deviceModel'] : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="loading" class="d-flex align-items-center justify-content-center">
+          <mat-progress-spinner
+            mode="indeterminate"
+            value="50"
+          ></mat-progress-spinner>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!--===== TABS =====-->
+  <div>
+    <ul class="profile-tab">
+      <li *ngFor="let item of tabs"
+          class="profile-tab_item"
+          [class.profile-tab_active]="item.active"
+          (click)="openTabContent(item.value)"
+      >{{item.name}}</li>
+    </ul>
+    <div>
+      <app-user-profile [id]="userId" [passport]="passportData" *ngIf="currentTab === 'profile'"></app-user-profile>
+      <app-user-cards [id]="userId" *ngIf="currentTab === 'cards'"></app-user-cards>
+      <app-user-wallet [id]="userId" *ngIf="currentTab === 'wallet'"></app-user-wallet>
+      <app-user-deposits [id]="userId" *ngIf="currentTab === 'deposits'"></app-user-deposits>
+      <app-user-loans [id]="userId" *ngIf="currentTab === 'loans'"></app-user-loans>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="d-flex align-items-center justify-content-between">
+      <div class="header__title">Коллекции баннеров</div>
+      <div>
+        <button
+          (click)="openCreateBannerCollection()"
+          class="btn btn-success">+ Добавить</button>
+      </div>
+    </mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Название</th>
+          <th>Тип</th>
+          <th>Описание</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="5">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="5" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{reqData.page * reqData.size + (i + 1)}}</td>
+            <td>{{item.title}}</td>
+            <td>{{item.collectionType}}</td>
+            <td>{{item.description}}</td>
+            <td style="width: 250px">
+              <div class="d-flex align-items-center justify-content-center">
+                <button
+                  matTooltip="Подробно"
+                  matTooltipPosition="above"
+                  mat-icon-button
+                  routerLink="/settings/banner/banners"
+                  [queryParams]="{col_id: item.id}"
+                >
+                  <mat-icon style="color: grey">remove_red_eye</mat-icon>
+                </button>
+                <button
+                  matTooltip="Редактировать"
+                  matTooltipPosition="above"
+                  mat-icon-button
+                  (click)="openEditDialog(item.id)"
+                >
+                  <mat-icon color="primary">edit</mat-icon>
+                </button>
+                <button
+                  matTooltip="Удалить"
+                  matTooltipPosition="above"
+                  mat-icon-button
+                  (click)="showDeleteDialog(item.id)"
+                >
+                  <mat-icon color="warn">delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

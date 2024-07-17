@@ -1,0 +1,505 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">История транзакций</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <ng-container
+        *ngIf="prevMonthStatistics && thisMonthStatistics && prevYearStatistics && todayStatistics && prevYearStatistics">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <div class="card">
+            <div class="card-header bg-secondary d-flex align-items-center justify-content-between">
+              <span class="text-white">За прощлый месяц</span>
+              <mat-icon style="color: white; cursor: pointer" (click)="statisticsSync('LAST_MONTH')">refresh</mat-icon>
+            </div>
+            <div class="card-body">
+              <div class="card-item">
+                <span>Количество транзакций:</span>
+                <span>{{prevMonthStatistics?.['totalCount']}}</span>
+              </div>
+              <div class="card-item">
+                <span>Сумма транзакций:</span>
+                <span>{{prevMonthStatistics?.['amount'] | currency: '':''}} UZS</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-warning d-flex align-items-center justify-content-between">
+              <span class="text-white">За текуший месяц</span>
+              <mat-icon style="color: white; cursor: pointer" (click)="statisticsSync('THIS_MONTH')">refresh</mat-icon>
+            </div>
+            <div class="card-body">
+              <div class="card-item">
+                <span>Количество транзакций:</span>
+                <span>{{thisMonthStatistics?.['totalCount']}}</span>
+              </div>
+              <div class="card-item">
+                <span>Сумма транзакций:</span>
+                <span>{{thisMonthStatistics?.['amount'] | currency: '':''}} UZS</span>
+              </div>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-header bg-success d-flex align-items-center justify-content-between">
+              <span class="text-white">За сегодня</span>
+              <mat-icon style="color: white; cursor: pointer" (click)="statisticsSync('TODAY')">refresh</mat-icon>
+            </div>
+            <div class="card-body">
+              <div class="card-item">
+                <span>Количество транзакций:</span>
+                <span>{{todayStatistics?.['totalCount']}}</span>
+              </div>
+              <div class="card-item">
+                <span>Сумма транзакций:</span>
+                <span>{{todayStatistics?.['amount'] | currency: '':''}} UZS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+          <div class="card">
+            <div style="background-color: #6EB974" class="card-header d-flex align-items-center justify-content-between">
+              <span class="text-white">За прошлый год</span>
+              <mat-icon style="color: white; cursor: pointer" (click)="statisticsSync('LAST_YEAR')">refresh</mat-icon>
+            </div>
+            <div class="card-body">
+              <div class="card-item">
+                <span>Количество транзакций:</span>
+                <span>{{prevYearStatistics?.['totalCount']}}</span>
+              </div>
+              <div class="card-item">
+                <span>Сумма транзакций:</span>
+                <span>{{prevYearStatistics?.['amount'] | currency: '':''}} UZS</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div style="background-color: #6EB974" class="card-header d-flex align-items-center justify-content-between">
+              <span class="text-white">За текущий год</span>
+              <mat-icon style="color: white; cursor: pointer" (click)="statisticsSync('THIS_YEAR')">refresh</mat-icon>
+            </div>
+            <div class="card-body">
+              <div class="card-item">
+                <span>Количество транзакций:</span>
+                <span>{{currentYearStatistics?.['totalCount']}}</span>
+              </div>
+              <div class="card-item">
+                <span>Сумма транзакций:</span>
+                <span>{{currentYearStatistics?.['amount'] | currency: '':''}} UZS</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+
+      <div class="d-flex justify-content-between align-items-center pt-2 pb-2">
+        <div>
+          <button (click)="isFilter = !isFilter" class="btn-green">
+            <img src="./assets/new-icons/filter.svg" alt="">
+            Фильтр
+            <img src="./assets/new-icons/filter-1.svg" alt="">
+          </button>
+        </div>
+        <div class="d-flex align-items-center gap-3">
+          <div>
+            <button
+              type="button"
+              matTooltip="Обновить"
+              matTooltipPosition="above"
+              mat-icon-button
+              (click)="getData()"
+            >
+              <mat-icon>refresh</mat-icon>
+            </button>
+          </div>
+          <div>
+            <button class="export-btn" (click)="exportToExcel()">
+              <img width="24" src="assets/new-icons/excel-icon.svg" alt="excel">
+              <span class="ms-1">Экспортировать</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isFilter" class="mt-3 mb-3">
+        <form [formGroup]="dateForm" (ngSubmit)="periodResult()">
+          <div class="border rounded-2 p-2">
+            <div class="mb-2">
+              <app-ad-filter-buttons
+                [selectedBtn]="selectedFilterBtn"
+                (time)="setTime($event)"
+                (fromTime)="setFromTime($event)"
+                (toTime)="setToTime($event)"
+              ></app-ad-filter-buttons>
+            </div>
+
+            <div class="row">
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Имя</mat-label>
+                  <input type="text" matInput formControlName="firstName">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Фамилия</mat-label>
+                  <input type="text" matInput formControlName="lastName">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Тел</mat-label>
+                  <input type="text" matInput formControlName="phone">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>ПИНФЛ</mat-label>
+                  <input type="text" matInput formControlName="pinfl">
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>ID операции</mat-label>
+                  <input type="text" matInput formControlName="operationId">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Категория операции</mat-label>
+                  <mat-select formControlName="recipientToken">
+                    <mat-option *ngFor="let item of categoryList" [value]="item.uuid">{{item.categoryName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Мерчант</mat-label>
+                  <mat-select formControlName="merchant" (selectionChange)="getRecipientListByMerchant($event)">
+                    <mat-option *ngFor="let item of merchantList" [value]="item">{{item}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Получатель</mat-label>
+                  <input type="text" matInput [formControl]="serviceControl" [matAutocomplete]="auto">
+                  <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn" (optionSelected)="logger($event)">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{option.title}}
+                    </mat-option>
+                  </mat-autocomplete>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Тип отправителя</mat-label>
+                  <mat-select formControlName="senderType">
+                    <mat-option
+                      *ngFor="let item of senderTypeList"
+                      [value]="item.serviceName"
+                    >{{item.description}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Тип получателя</mat-label>
+                  <mat-select formControlName="receiverType">
+                    <mat-option
+                      *ngFor="let item of receiverTypeList"
+                      [value]="item.serviceName"
+                    >{{item.description}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Тип операции</mat-label>
+                  <mat-select formControlName="operationType">
+                    <mat-option
+                      *ngFor="let item of typesList"
+                      [value]="item.type"
+                    >{{item.displayName}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline" class="w-100">
+                  <mat-label>Статуc</mat-label>
+                  <mat-select formControlName="status">
+                    <mat-option value="">Все</mat-option>
+                    <mat-option value="SUCCESS">SUCCESS</mat-option>
+                    <mat-option value="ERROR">ERROR</mat-option>
+                    <mat-option value="PENDING">PENDING</mat-option>
+                    <mat-option value="PREPARE">PREPARE</mat-option>
+                    <mat-option value="CONFIRM">CONFIRM</mat-option>
+                    <mat-option value="CANCELLED">CANCELLED</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center mt-2 gap-3">
+              <div>
+                <mat-form-field appearance="standard">
+                  <mat-label>От суммы</mat-label>
+                  <input
+                    type="text"
+                    inputmode="numeric"
+                    mask="separator.2"
+                    formControlName="fromAmount"
+                    matInput>
+                </mat-form-field>
+              </div>
+              -
+              <div>
+                <mat-form-field appearance="standard">
+                  <mat-label>До суммы</mat-label>
+                  <input
+                    type="text"
+                    inputmode="numeric"
+                    mask="separator.2"
+                    formControlName="toAmount"
+                    matInput>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center mt-2">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="refreshFilter()"
+              >
+                Сбросить
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success ms-2"
+              >
+                Показать
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <hr>
+
+      <div
+        *ngIf="totalDebits"
+        class="d-flex align-items-center justify-content-between my-2"
+      >
+        <div class="table-statistics">
+          <div>
+            <span>Дебит:</span>
+            <span>{{(totalDebits.debit.amount / 100) | currency: '': ''}} {{totalDebits.debit.currency}}</span>
+          </div>
+          |
+          <div>
+            <span>Кредит:</span>
+            <span>{{(totalDebits.credit.amount / 100) | currency: '': ''}} {{totalDebits.credit.currency}}</span>
+          </div>
+          |
+          <div>
+            <span>Разница:</span>
+            <span>{{((totalDebits.debit.amount - totalDebits.credit.amount) / 100) | currency:'':''}} {{totalDebits.credit.currency}}</span>
+          </div>
+        </div>
+
+        <div class="table-statistics">
+          <div>
+            <span>
+              Количество транзакций:
+            </span>
+            <span>
+              {{totalItems}}
+            </span>
+          </div>
+        </div>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Отправитель</th>
+          <th>Получатель</th>
+          <th>Телефон</th>
+          <th>Тип операции</th>
+          <th>Дата транзакции</th>
+          <th>Валюта</th>
+          <th>Сумма</th>
+          <th>Статус</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="9">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td>{{item.details.senderOwner}}</td>
+            <td>{{item.title}}</td>
+            <td>{{item.phone}}</td>
+            <td>{{item.operationType}}</td>
+            <td>{{item.date['date']}} {{item.date['time']}}</td>
+            <td>{{item.amount.currency}}</td>
+            <td>{{(item.amount.amount / 100) | currency: '':''}}</td>
+            <td>
+              <span
+                class="text-white px-2 py-1 rounded-3"
+                [class]="{
+                'bg-danger' : item.status === 'ERROR',
+                'bg-success' : item.status === 'SUCCESS',
+                'bg-warning' : item.status === 'PENDING',
+                'bg-primary': item.status === 'CONFIRM',
+                'bg-secondary' : item.status === 'PREPARE' || item.status === 'CANCELLED'
+                }"
+              >
+                {{item.status}}
+              </span>
+            </td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <div>
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openDetailsDialog(item)"
+                  >
+                    <mat-icon color="accent" class="p-0">info</mat-icon>
+                    <span class="title__menu_item">Подробно</span>
+                  </button>
+                </div>
+                <div *ngxPermissionsOnly="['CHECK_TRANSACTION']">
+                  <button
+                    *ngIf="item.status !== 'SUCCESS' && item.status !== 'PREPARE'"
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openCheckHoldDialog(item.uuid, item.operationType)"
+                  >
+                    <mat-icon color="primary" class="p-0">remove_red_eye</mat-icon>
+                    <span class="title__menu_item">Проверить статус</span>
+                  </button>
+                </div>
+                <div *ngxPermissionsOnly="['LOAN_CONFIRM']">
+                  <button
+                    *ngIf="(item.operationType === 'P2L' || item.operationType === 'P2Loan') && item.status === 'PENDING'"
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openChangeStatusDialog(item.uuid, 'STATUS_CHANGE')"
+                  >
+                    <mat-icon color="primary" class="p-0">edit</mat-icon>
+                    <span class="title__menu_item">Изменить статус</span>
+                  </button>
+                </div>
+                <div *ngxPermissionsOnly="['LOAN_CONFIRM']">
+                  <button
+                    *ngIf="(item.operationType === 'P2L' || item.operationType === 'P2Loan') && item.status === 'PENDING'"
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openChangeStatusDialog(item.uuid, 'LOAN_CONFIRM')"
+                  >
+                    <mat-icon color="primary" class="p-0">check_circle_outline</mat-icon>
+                    <span class="title__menu_item">Подтвердить оплату</span>
+                  </button>
+                </div>
+                <div *ngxPermissionsOnly="['CONFIRM_TRANSACTION']">
+                  <button
+                    *ngIf="(item.operationType === 'P2L' || item.operationType === 'P2Loan') && item.status === 'PENDING'"
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openChangeStatusDialog(item.uuid, 'TRANSACTION_HOLD')"
+                  >
+                    <mat-icon color="primary" class="p-0">check_circle</mat-icon>
+                    <span class="title__menu_item">Последнее подтверждение</span>
+                  </button>
+                </div>
+                <div>
+                  <button
+                    *ngIf="(item.operationType === 'P2L' || item.operationType === 'P2Loan')"
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openRedemptionDialog(item.uuid)"
+                  >
+                    <mat-icon color="warn" class="p-0">report_problem</mat-icon>
+                    <span class="title__menu_item">Сверка реестра</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="(item.operationType === 'P2DO' || item.operationType === 'P2DepositOpen') && item.status === 'PENDING'">
+                  <button class="mat__menu__item" mat-menu-item (click)="openDepositCheck(item.id)">
+                    <mat-icon color="warn" class="p-0">check</mat-icon>
+                    <span class="title__menu_item">Проверить проводку</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="item.recipientService === 'uzasbo_student' || item.recipientService === 'uzasbo_child' || item.recipientService === 'account' || item.recipientService === 'budget'">
+                  <button class="mat__menu__item" mat-menu-item
+                          (click)="paymentToolCheck(item.id, item.uuid, item.operationType, item.status, item.recipientService, item.senderService)">
+                    <mat-icon color="warn" class="p-0">settings</mat-icon>
+                    <span class="title__menu_item">Инструмент</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="item.operationType === 'P2L' || item.operationType === 'P2Loan' || item.operationType === 'W2P' || item.operationType === 'Wallet2P' || item.operationType === 'P2P'">
+                  <button class="mat__menu__item" mat-menu-item
+                          (click)="paymentToolCheck(item.id, item.uuid, item.operationType, item.status, item.recipientService, item.senderService)">
+                    <mat-icon color="warn" class="p-0">settings</mat-icon>
+                    <span class="title__menu_item">Инструмент</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="item.recipientService === 'paynet' || item.recipientService === 'inps' || item.senderService === 'inps_outcome'">
+                  <button class="mat__menu__item" mat-menu-item
+                          (click)="paymentToolCheck(item.id, item.uuid, item.operationType, item.status, item.recipientService, item.senderService)">
+                    <mat-icon color="warn" class="p-0">settings</mat-icon>
+                    <span class="title__menu_item">Инструмент</span>
+                  </button>
+                </div>
+                <div
+                  *ngIf="(item.operationType === 'P2D' || item.operationType === 'P2Deposit') && item.status === 'PENDING'">
+                  <button *ngxPermissionsOnly="['DEPOSIT_INCREASE_TRY']" class="mat__menu__item" mat-menu-item
+                          (click)="openRetryDeposit(item.id)">
+                    <mat-icon color="accent" class="p-0">refresh</mat-icon>
+                    <span class="title__menu_item">Повторить попытку</span>
+                  </button>
+                </div>
+                <div  *ngxPermissionsOnly="['TRANSACTION_OPERATION_LIST']">
+                  <button  class="mat__menu__item" mat-menu-item
+                          [routerLink]="['/transaction-operations']" [queryParams]="{id:item.id}">
+                    <mat-icon color="accent" class="p-0">notes</mat-icon>
+                    <span class="title__menu_item">Операции</span>
+                  </button>
+                </div>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

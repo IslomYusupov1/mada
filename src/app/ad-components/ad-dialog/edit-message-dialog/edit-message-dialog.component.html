@@ -1,0 +1,31 @@
+<div style="padding: 24px">
+  <div class="header__title mb-4">Редактировние</div>
+  <form [formGroup]="editMessageForm">
+    <div>
+      <mat-form-field  class="w-100" appearance="outline">
+        <mat-label>Ключ</mat-label>
+        <input [required]="true" formControlName="key" placeholder="Введите ключ" matInput/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Язык</mat-label>
+        <mat-select [required]="true" formControlName="lang">
+          <mat-option *ngFor="let lang of lang" [value]="lang.value">
+            {{lang.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Сообщение</mat-label>
+        <input [required]="true" formControlName="message" matInput placeholder="Введите сообщение"/>
+      </mat-form-field>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button (click)="cancel()" style="width: 103px;height: 36px;font-size: 14px;" class="btn btn-outline-success me-2">Отменить</button>
+      <button (click)="editMessage()" style="background:#3F6D5B;color: #FFFFFF;width: 150px;height: 36px; border:0; font-size: 14px;">Редактировать</button>
+    </div>
+  </form>
+</div>

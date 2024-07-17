@@ -1,0 +1,54 @@
+<div>
+  <h2 class="text-center" style="color: #3f6d5b">Подробно</h2>
+  <div class="vip-user-limit">
+    <div class="user-limit">
+      <span>Банк</span>
+      <span>{{data.item.bankOne['name']}}</span>
+    </div>
+
+    <div class="user-limit">
+      <span>Тип карты</span>
+      <span>{{data.item['cardType']}}</span>
+    </div>
+
+    <div class="user-limit">
+      <span>Тип операции</span>
+      <span>{{data.item['operationType']}}</span>
+    </div>
+
+    <div class="user-limit">
+      <span>Код операции</span>
+      <span>{{data.item['operationCode']}}</span>
+    </div>
+  </div>
+
+  <div *ngFor="let item of data.item.limits" class="vip-limit-card">
+    <div class="user-limit">
+      <span>Тип периода</span>
+      <span>{{item.periodType}}</span>
+    </div>
+    <div class="user-limit">
+      <span>Неограниченная сумма</span>
+      <span>{{item['unlimitedAmount'] ? 'Да' : 'Нет'}}</span>
+    </div>
+    <div class="user-limit">
+      <span>Лимит суммы</span>
+      <span>{{item['amountLimit'] ? (item['amountLimit'] / 100 | currency: '': '') : '-'}}</span>
+    </div>
+    <div class="user-limit">
+      <span>Неограниченное количество</span>
+      <span>{{item['unlimitedCount'] ? 'Да' : 'Нет'}}</span>
+    </div>
+    <div class="user-limit">
+      <span>Ограничение количества</span>
+      <span>{{item['countLimit'] ? item['countLimit'] : '-'}}</span>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-end">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="close()"
+    >Закрыть</button>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div class="model-image-card">
+  <div class="model-image-card_header">
+    <div class="model-image-card_title">{{colorInfo.colorName}}</div>
+    <div>
+      <img style="cursor: pointer" src="./assets/new-icons/edit-icon.svg" (click)="editImage()" alt="#">
+    </div>
+  </div>
+
+  <div class="model-image-card_content">
+    <div class="model-image-card_image">
+      <img [src]="image" alt="">
+    </div>
+  </div>
+
+  <div class="model-image-card_color">
+    <div
+      [style]="{'background-color': colorInfo.colorCode || 'grey'}"
+      class="color-paint"
+    ></div>
+    <div class="color-code">{{colorInfo.colorCode ? colorInfo.colorCode : '-'}}</div>
+  </div>
+</div>

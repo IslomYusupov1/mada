@@ -1,0 +1,58 @@
+<mat-card style="box-shadow: none">
+  <mat-card-content>
+    <div class="d-flex justify-content-end align-items-center">
+      <button class="btn btn-success rounded-pill"
+              *ngxPermissionsOnly="['TYPE_CREATE_PRODUCT_LOAN']"
+              [routerLink]="['/products/loans/type/create']"
+              [queryParams]="{loan:loanType}">
+        + Добавить
+      </button>
+    </div>
+    <div class="row mt-3">
+      <div *ngFor="let item of loanTypeList" class="col-md-12 mb-3">
+        <div class="card loan-type-card">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4">
+                <div
+                  [style]="item && item.logoUrl ? 'background-image:url('+item[0].logoUrl+')' : 'background-image: url(\''+defaultImg+'\')'"
+                  class="loan-type-logo"></div>
+              </div>
+              <div class="col-md-7">
+                <p class="fw-bolder" style="font-size: 16px">Название: <span
+                  style="font-size: 18px">{{item.loanName}}</span></p>
+                <p class="fw-bolder" style="font-size: 16px">Информация: <span
+                  class="fw-normal">{{item.description}}</span></p>
+                <div>
+                  <button class="btn btn-success d-flex align-items-center" [routerLink]="['/products/loans/list']" [queryParams]="{list:item.id}">
+                    Подробнее
+                    <mat-icon class="d-flex align-items-center ms-3" style="font-size: 16px">arrow_forward</mat-icon>
+                  </button>
+                </div>
+              </div>
+              <div class="col-md-1">
+                <div class="d-flex flex-column align-items-end">
+                  <button mat-icon-button
+                          *ngxPermissionsOnly="['TYPE_UPDATE_PRODUCT_LOAN']"
+                          matTooltip="изменить"
+                          matTooltipPosition="before"
+                          [routerLink]="['/products/loans/type/edit']"
+                          [queryParams]="{loan: item.id}">
+                    <mat-icon color="primary">edit</mat-icon>
+                  </button>
+                  <button mat-icon-button
+                          *ngxPermissionsOnly="['TYPE_DELETE_PRODUCT_LOAN']"
+                          matTooltip="удалить"
+                          matTooltipPosition="before"
+                          (click)="showCancelDialog(item.id)">
+                    <mat-icon color="warn">delete_outline</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

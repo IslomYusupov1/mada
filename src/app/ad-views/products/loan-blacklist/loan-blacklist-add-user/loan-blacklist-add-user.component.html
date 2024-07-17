@@ -1,0 +1,38 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Добавление пользователя</h2>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div>
+    <form [formGroup]="formModel" (ngSubmit)="addUserToBlackList()">
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>ПИНФЛ</mat-label>
+          <input type="text" matInput formControlName="pinfl">
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Продукт</mat-label>
+          <mat-select formControlName="loanType" multiple>
+            <mat-option *ngFor="let item of loanTypeList" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Коммент</mat-label>
+          <textarea rows="5" matInput formControlName="adminComment"></textarea>
+        </mat-form-field>
+      </div>
+      <hr>
+      <div class="d-flex align-items-center justify-content-end gap-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Закрыть</button>
+        <button type="submit" class="btn btn-outline-success">Добавить</button>
+      </div>
+    </form>
+  </div>
+</div>

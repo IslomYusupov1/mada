@@ -1,0 +1,72 @@
+<mat-card>
+  <mat-card-title>
+    <button routerLink="/bank/atms" class="bg-light" mat-icon-button>
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    <button (click)="formSubmit()" style="border-radius: 40px" class="btn btn-success ms-2" type="submit">Сохранить</button>
+  </mat-card-title>
+  <mat-card-content>
+    <div class="container">
+      <form [formGroup]="createATMForm">
+        <div class="row">
+          <div class="col-sm-6 col-md-6">
+            <label for="name">Название</label>
+            <input type="text" formControlName="name" class="form-control" id="name" aria-describedby="emailHelp" placeholder="Название" >
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="phone">Телефон номер</label>
+            <input formControlName="phone" type="tel" class="form-control" id="phone" placeholder="Телефон номер">
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="email">email</label>
+            <input formControlName="mail" type="email" class="form-control" id="email" placeholder="email" >
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="location">Местоположение</label>
+            <input formControlName="orientation" type="text" class="form-control" id="location"
+                   placeholder="Местоположение" >
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="longitude">Долгота</label>
+            <input formControlName="longitude" type="number" class="form-control" id="longitude" placeholder="Долгота"
+                   [required]="true">
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="latitude">Широта</label>
+            <input formControlName="latitude" type="number" class="form-control" id="latitude" placeholder="Широта"
+                   [required]="true">
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="openedAt">Время открытии</label>
+            <input formControlName="openedAt" type="time" class="form-control" id="openedAt" placeholder="00:00"
+                   [required]="true">
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <label for="closedAt">Время закрытии</label>
+            <input formControlName="closedAt" type="time" class="form-control" id="closedAt" placeholder="00:00"
+                   [required]="true">
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <mat-form-field class="w-100 mt-3" appearance="outline">
+              <mat-label>Тип региона</mat-label>
+              <mat-select [required]="true" formControlName="regionType">
+                <mat-option *ngFor="let region of regionType" [value]="region">
+                  {{region}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <div class="col-sm-6 col-md-6">
+            <mat-form-field class="w-100 mt-3" appearance="outline">
+              <mat-label>Выходные дни</mat-label>
+              <mat-select formControlName="closedDays" multiple>
+                <mat-option *ngFor="let week of weekDays" [value]="week.value">{{week.name}}</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </mat-card-content>
+</mat-card>

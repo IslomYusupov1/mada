@@ -1,0 +1,25 @@
+<div>
+  <h2 class="text-center" style="color: #3f6d5b">Подтверждение</h2>
+  <div class="mt-2">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Введите ключ</mat-label>
+      <input type="text" matInput [(ngModel)]="keyInput">
+    </mat-form-field>
+  </div>
+  <div class="mt-2 d-flex justify-content-end">
+    <button
+      type="button"
+      class="btn btn-outline-secondary me-2"
+      (click)="close()"
+    >
+      Закрыть
+    </button>
+    <button
+      type="submit"
+      class="btn btn-success me-2"
+      (click)="confirm()"
+    >
+      Подтвердить
+    </button>
+  </div>
+</div>

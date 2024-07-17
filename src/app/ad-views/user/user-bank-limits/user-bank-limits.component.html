@@ -1,0 +1,61 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Список банков</mat-card-title>
+    <br>
+    <hr>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line text-center">
+          <th scope="col">№</th>
+          <th scope="col" style="width: 150px">Лого</th>
+          <th scope="col">Наименование</th>
+          <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td class="em-col"></td>
+          <td colspan="4">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+          <td class="em-col"></td>
+        </tr>
+
+        <tr *ngIf="dataList && dataList.length <= 0 && !loadingList">
+          <td class="em-col"></td>
+          <td colspan="4" class="grey97-text text-center py-4">Список пуст</td>
+          <td class="em-col"></td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td text-center" *ngIf="!loadingList">
+            <td>{{item['position']}}</td>
+            <td>
+              <div style="width: 100px; height: 30px; background-color: grey; margin: 0 auto;">
+                <img style="object-fit: contain" class="w-100 h-100" [src]="item.imagePath" alt="">
+              </div>
+            </td>
+            <td>{{item['name']}}</td>
+            <td>
+              <ng-container *ngxPermissionsOnly="['BANK_TRANSACTION_LIMIT_GET']">
+                <button
+                  class="btn btn-warning btn-sm"
+                  (click)="routerToOne(item.id, item.name)"
+                >
+                  Подробно
+                </button>
+              </ng-container>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>

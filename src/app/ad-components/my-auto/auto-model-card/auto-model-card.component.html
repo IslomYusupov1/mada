@@ -1,0 +1,23 @@
+<div class="model-card">
+  <div class="model-card_header">
+    <div class="model-card_title">
+      <div class="model-card_logo">
+        <img [src]="modelLogo" alt="#">
+      </div>
+      <div class="model-card_text">
+        {{model.name}}
+      </div>
+    </div>
+    <div>
+      <img
+        style="cursor: pointer"
+        src="./assets/new-icons/edit-icon.svg"
+        alt=""
+        (click)="openEditDialog()"
+      >
+    </div>
+  </div>
+  <div class="model-card_content">
+    <img (click)="routeToLink()" class="model-img" [src]="image" alt="">
+  </div>
+</div>

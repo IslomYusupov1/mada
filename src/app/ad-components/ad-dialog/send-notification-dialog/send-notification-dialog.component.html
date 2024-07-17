@@ -1,0 +1,30 @@
+<form [formGroup]="sendForm">
+  <h2 class="header__title">Выборочное отправление</h2>
+    <div>
+      <mat-form-field class="w-100" appearance="fill">
+        <mat-label>Пользователи</mat-label>
+        <mat-chip-list #chipGrid >
+          <mat-chip (removed)="remove(user)" *ngFor="let user of users">
+            {{user.phone}}
+            <button matChipRemove [attr.aria-label]="'remove ' + user">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip>
+        </mat-chip-list>
+        <input placeholder="Поиск по номеру" #userInput [formControl]="userCtrl"
+               [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+               (keyup)="logger($event)"
+               [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+               (matChipInputTokenEnd)="add($event)"/>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let filter of filteredUsers | async" [value]="filter">
+            {{filter.phone}} ({{filter['firstName'] ? filter['firstName'] : ''}} {{filter['lastName'] ? filter['lastName'] : ''}})
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+  <div style="display: flex;justify-content: end;align-items: center">
+    <button (click)="closeDialog()" class="btn btn-outline-secondary me-2">Нет</button>
+    <button (click)="formSubmit()" class="btn btn-success">Отправить</button>
+  </div>
+</form>

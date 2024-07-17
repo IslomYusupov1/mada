@@ -1,0 +1,21 @@
+<div>
+  <h2 class="border-bottom">Подтверждение</h2>
+  <div>
+    <div class="d-flex align-items-center justify-content-between p-1">
+      <span>Ф.И.О</span>
+      <span>{{data.fullName}}</span>
+    </div>
+    <form [formGroup]="confirmForm" (ngSubmit)="confirmUser()">
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Комментарий</mat-label>
+          <textarea rows="5" matInput formControlName="comment"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center justify-content-end gap-2">
+        <button type="button" class="btn btn-outline-secondary" (click)="closeDialog()">Закрыть</button>
+        <button type="submit" class="btn btn-success">Подтвердить</button>
+      </div>
+    </form>
+  </div>
+</div>

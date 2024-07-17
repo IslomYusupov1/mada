@@ -1,0 +1,29 @@
+<div class="px-4 py-4">
+  <button style="float: right" (click)="closeDialog()" mat-icon-button><mat-icon>close</mat-icon></button>
+  <table class="table mb-4">
+    <thead>
+    <tr class="design__line">
+      <th scope="col">Ф.И.О</th>
+      <th scope="col">Номер телефона</th>
+      <th scope="col">тип устройства</th>
+      <th scope="col">язык</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="data.queue.length <= 0">
+      <td colspan="8" class="grey97-text text-center py-4">
+        Список пуст
+      </td>
+    </tr>
+    <ng-container  *ngFor="let item of data.queue; index as i"  >
+      <tr class="table__td">
+        <td>{{item.fullname}}</td>
+        <td>{{item.phone}}</td>
+        <td>{{item.deviceType}}</td>
+        <td>{{item.lang}}</td>
+        <td></td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+</div>

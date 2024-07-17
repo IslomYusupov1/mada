@@ -1,0 +1,65 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Список сбоев MyID пользователей</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Код</th>
+          <th>Время</th>
+          <th>Сообщения</th>
+          <th>Действие</th>
+        </tr>
+        </thead>
+
+        <tbody>
+
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If empty list -->
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{reqData.page * reqData.size + (i + 1)}}</td>
+            <td>{{item.code}}</td>
+            <td>{{item.time}}</td>
+            <td>{{item.message}}</td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <button (click)="openUserFails(item.id)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="primary" style="padding: 0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробнее</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

@@ -1,0 +1,36 @@
+<div class="p-2">
+ <div class="d-flex justify-content-between align-items-center">
+   <div class="header__title mb-3">Детали</div>
+   <button (click)="closeDialog()" mat-icon-button><mat-icon>close</mat-icon></button>
+ </div>
+
+  <div class="d-flex justify-content-between align-items-center">
+    <strong>ПИНФЛ</strong>
+    <div>{{data.goldUsers['pinfl']}}</div>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <strong>Номер телефона</strong>
+    <div>{{data.goldUsers['phone']}}</div>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <strong>Имя</strong>
+    <div>{{data.goldUsers['firstName']}}</div>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <strong>Фамилия</strong>
+    <div>{{data.goldUsers['lastName']}}</div>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <strong>Активность</strong>
+    <div>{{data.goldUsers['isActive'] ? 'Активный' : ' Не активный'}}</div>
+  </div>
+  <hr>
+  <div class="d-flex justify-content-between align-items-center">
+    <strong>Создан в</strong>
+    <div>{{data.goldUsers['createdAt'] }}</div>
+  </div>
+</div>

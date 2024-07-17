@@ -1,0 +1,16 @@
+<mat-card class="loan-content">
+  <mat-card-title>Кредиты</mat-card-title>
+  <br>
+  <mat-card-content>
+    <div class="nav">
+      <ul>
+        <li *ngFor="let item of loanList" [routerLinkActive]="['active']" [routerLink]="['/products/loans/type']" [queryParams]="{loan: item.value}" [id]="item.id">
+          {{item.text}}
+        </li>
+      </ul>
+    </div>
+    <div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-card-content>
+</mat-card>

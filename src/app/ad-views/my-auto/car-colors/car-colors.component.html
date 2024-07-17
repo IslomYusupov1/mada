@@ -1,0 +1,55 @@
+<div class="car-colors-page">
+  <div class="d-flex align-items-center justify-content-end">
+    <button type="button" class="btn btn-success btn-sm" (click)="openCreateDialog()">+ Добавить</button>
+  </div>
+
+  <div class="car-colors-content pt-4">
+    <ng-container *ngIf="loadingList">
+      <div class="d-flex align-items-center justify-content-center">
+        <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!loadingList && colorsList && colorsList.length === 0">
+      <div class="text-center fst-italic">
+        Список пустой
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="!loadingList && colorsList && colorsList.length > 0">
+      <div class="row">
+        <div *ngFor="let item of colorsList" class="col-lg-3 col-md-4 col-sm-6 col-12 mb-2">
+          <div class="color-card" >
+            <div class="color-card_left" (click)="routeToInfo(item.id)">
+              <div class="color-card_title">
+                {{item.colorName}}
+              </div>
+              <div class="color-card_code">
+                <img src="./assets/new-icons/color-palette-icon.svg" alt="">
+                <span>{{item.colorCode | uppercase}}</span>
+              </div>
+            </div>
+
+            <div class="color-card_right">
+              <div
+                [style]="{'background-color': item.colorCode || '#000000'}"
+                [class.border-1]="!item.colorCode || item.colorCode === '#ffffff'"
+                class="color-round"></div>
+            </div>
+
+            <div class="edit-icon">
+              <img src="./assets/new-icons/edit-icon.svg" alt="" (click)="openEditDialog(item)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

@@ -1,0 +1,83 @@
+<div>
+  <h2 class="text-center">Редактирование</h2>
+  <form [formGroup]="reqEditForm" (ngSubmit)="editReqParam()">
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Название</mat-label>
+          <input type="text" matInput formControlName="title">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Маска</mat-label>
+          <input type="text" matInput formControlName="mask">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Тип</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let item of data.typeList" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Ключевое имя</mat-label>
+          <input type="text" matInput formControlName="keyName">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Суффикс (suffix)</mat-label>
+          <input type="text" matInput formControlName="suffix">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Префикс (prefix)</mat-label>
+          <input type="text" matInput formControlName="prefix">
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Значение (value)</mat-label>
+          <input type="text" matInput formControlName="value">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6 mb-2">
+        <mat-checkbox formControlName="required">Обязательное поле</mat-checkbox>
+      </div>
+
+      <div class="col-md-6 mb-2">
+        <mat-checkbox formControlName="readOnly">Только для чтения</mat-checkbox>
+      </div>
+
+      <div class="col-md-6 mb-2">
+        <mat-checkbox formControlName="canValue">Значения (can value)</mat-checkbox>
+      </div>
+
+      <div class="col-md-6 mb-2">
+        <mat-checkbox formControlName="canValidate">Проверка (can validate)</mat-checkbox>
+      </div>
+    </div>
+    <hr>
+    <div class="d-flex align-items-center justify-content-end pt-2">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        Закрыть
+      </button>
+      <button type="submit" class="btn btn-success ms-2">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,97 @@
+<mat-card>
+  <mat-card-title class="d-flex align-items-center">
+    <button mat-icon-button class="bg-light me-3" (click)="backUrl()">
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    Кредиты ({{loanName}})
+  </mat-card-title>
+  <mat-card-content>
+    <div class="d-flex justify-content-end align-items-center">
+      <button
+        *ngxPermissionsOnly="['CREATE_PRODUCT_LOAN']"
+        class="btn btn-success rounded-pill"
+        [routerLink]="['/products/loans/create']"
+        [queryParams]="{loan:type_id}">
+        + Добавить
+      </button>
+    </div>
+    <div class="row mt-3">
+      <ng-container *ngIf="loansList && loansList.length > 0">
+        <div *ngFor="let item of loansList" class="col-md-6">
+          <div class="card loan-card shadow-sm h-100">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <div
+                    [style]="item && item.imgUrl ? 'background-image:url('+item.imgUrl+')' : 'background-image: url(\''+defaultImg+'\')'"
+                    class="loan-card-logo"></div>
+                </div>
+                <div class="col-md-8">
+                  <p>Описание: {{item.name}}</p>
+                  <p>До:
+                    <span>{{item.maxValue ? (item.maxValue / 100 | currency : '' : '') : '0' }} {{item.currency ? item.currency : ''}}</span>
+                  </p>
+                  <p>От:
+                    <span>{{item.minValue ? (item.minValue / 100 | currency : '' : '') : '0' }} {{item.currency ? item.currency : ''}}</span>
+                  </p>
+                  <p>От:
+                    <span>{{item.fromPeriod ? item.fromPeriod + ' до ' + item.toPeriod : item.toPeriod}} {{item.periodType}}</span>
+                  </p>
+                  <p>Первоначальный взнос:
+                    <span>{{item.initialPayment ? item.initialPayment : '0'}} {{item.initialPaymentType === 'RATE' ? '%' : 'UZS'}}</span>
+                  </p>
+                  <p>Процентная ставка: <span class="badge bg-success rounded-pill">{{item.annualRate}} %</span></p>
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-12">
+                  <p>Условия: <span>{{item.requirements}}</span></p>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer bg-white">
+              <div class="d-flex justify-content-end align-items-center">
+                <div
+                  *ngxPermissionsOnly="['DEACTIVATE_PRODUCT_LOAN']"
+                  class="d-flex justify-content-end align-items-center"
+                >
+                  <button *ngIf="item.active === true" class="me-2" matTooltip="деактивировать"
+                          matTooltipPosition="above" mat-icon-button (click)="showDeactivateDialog(item.id)">
+                    <mat-icon color="warn">close</mat-icon>
+                  </button>
+                  <button *ngIf="item.active === false" class="me-2" matTooltip="активировать"
+                          matTooltipPosition="above" mat-icon-button (click)="showActivateDialog(item.id)">
+                    <mat-icon color="primary">check</mat-icon>
+                  </button>
+                </div>
+                <button
+                  *ngxPermissionsOnly="['UPDATE_PRODUCT_LOAN']"
+                  mat-icon-button
+                  matTooltip="Изменить"
+                  matTooltipPosition="above"
+                  [routerLink]="['/products/loans/edit']"
+                  [queryParams]="{loan_id:item.id}">
+                  <mat-icon color="primary">edit</mat-icon>
+                </button>
+                <button
+                  *ngxPermissionsOnly="['DELETE_PRODUCT_LOAN']"
+                  mat-icon-button matTooltip="Удалить"
+                  matTooltipPosition="above"
+                  (click)="showCancelDialog(item.id)">
+                  <mat-icon color="warn">delete_outline</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+
+      <div *ngIf="loansList && loansList.length === 0">
+        <div class="col-md-12 mt-2">
+          <h2 class="text-center mt-2 fst-italic">{{text}}</h2>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

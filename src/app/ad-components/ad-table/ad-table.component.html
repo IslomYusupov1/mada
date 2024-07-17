@@ -1,0 +1,32 @@
+<div>
+  <table class="table mb-4">
+    <thead class="table-dark">
+      <tr>
+        <th class="em-col"></th>
+        <ng-container *ngFor="let header of headers; index as i;">
+          <th>{{ header.title }}</th>
+        </ng-container>
+        <th class="em-col"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngIf="items.length < 1">
+        <td class="em-col"></td>
+        <td colspan="3" class="grey97-text text-center py-4">Список пуст</td>
+        <td class="em-col"></td>
+      </tr>
+      <ng-container *ngFor="let item of items; index as j;">
+        <tr>
+          <td class="em-col"></td>
+          <ng-container *ngFor="let header of headers; index as k;">
+            <td *ngIf="header.value !== 'action' && header.value !== 'actions'">{{ item[header.value] }}</td>
+            <td *ngIf="header.value === 'action' || header.value === 'actions'">
+              <ng-content></ng-content>
+            </td>
+          </ng-container>
+          <td class="em-col"></td>
+        </tr>
+      </ng-container>
+    </tbody>
+  </table>
+</div>

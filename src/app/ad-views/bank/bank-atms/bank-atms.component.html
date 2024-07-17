@@ -1,0 +1,66 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">АТМ</mat-card-title>
+    <div style="display: flex;justify-content: end;align-items: center">
+      <button style="color: #3F6D5B;"  routerLink="/bank/atms/create" mat-flat-button>
+        <mat-icon>add</mat-icon>
+        Добавить
+      </button>
+    </div>
+    <mat-card-content>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">Название</th>
+          <th scope="col">Местоположение</th>
+          <th scope="col">Телефон</th>
+          <th scope="col">Не рабочие дни</th>
+          <th scope="col">Статус</th>
+          <th class="text-center">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+
+          <td colspan="8">
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item.name}}</td>
+            <td>{{item.orientation}}</td>
+            <td>{{item.phone}}</td>
+            <td><div *ngIf="item.closedDays && item.closedDays.length"><span class="ms-2 bg-danger text-white px-2 rounded-3 py-1"  *ngFor="let item of item.closedDays">{{getLanguage(item)}}</span></div></td>
+
+            <td><span class="text-white px-2 py-2 rounded-5 text-center" [class]="item.status ==='ACTIVE'?'bg-success':'bg-danger'">{{item.status === 'ACTIVE'? 'Активный':'Заблокировано'}}</span></td>
+            <td>
+              <div style="justify-content: center;display: flex">
+                <button  mat-icon-button (click)="showLocation(item.latitude,item.longitude)">
+                  <mat-icon color="primary">location_on</mat-icon>
+                </button>
+                <button *ngIf="item.status === 'BLOCKED'" mat-icon-button (click)="showActiveDialog(item.id)">
+                  <mat-icon color="primary">check</mat-icon>
+                </button>
+                <button *ngIf="item.status === 'ACTIVE'" mat-icon-button (click)="showDeactiveDialog(item.id)">
+                  <mat-icon color="warn">close</mat-icon>
+                </button>
+                <button mat-icon-button [routerLink]="['/bank/atms/edit']" [queryParams]="{id:item.id}">
+                  <mat-icon color="accent">edit</mat-icon>
+                </button>
+                <button (click)="showCancelDialog(item.id)" mat-icon-button>
+                  <mat-icon color="warn">delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>

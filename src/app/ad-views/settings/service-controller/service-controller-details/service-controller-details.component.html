@@ -1,0 +1,28 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Детали</h2>
+    <button class="btn btn-sm btn-outline-secondary" (click)="closeDialog()">Закрыть</button>
+  </div>
+  <hr>
+  <div class="border rounded-2 p-2">
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Наименование</span>
+      <span>{{data.info['service']}}</span>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Родитель</span>
+      <span>{{data.info['parentService']}}</span>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Статус</span>
+      <span>{{data.info['status']}}</span>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Причина</span>
+      <span>{{data.info['stopReason'] ? data.info['stopReason'] : '-'}}</span>
+    </div>
+  </div>
+</div>

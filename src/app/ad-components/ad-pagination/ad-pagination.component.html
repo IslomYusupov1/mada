@@ -1,0 +1,52 @@
+<nav>
+  <ul *ngIf="totalPagesList.length > 0" class="pagination">
+    <li class="page-item" [class.disabled]="page <= 1">
+      <a
+        style="background: transparent!important"
+        class="page-link"
+        href="javascript:void(0)"
+        tabindex="-1"
+        aria-label="Previous"
+        (click)="prev()"
+        ><span aria-hidden="true">&laquo;</span></a>
+    </li>
+    <ng-template [ngIf]="totalPages <= 5">
+      <li
+        *ngFor="let item of totalPagesList"
+        class="page-item"
+        [class.active]="item == page"
+      >
+        <a class="page-link" href="javascript:void(0)" (click)="toPage(item)">{{item}}</a></li>
+    </ng-template>
+    <ng-template [ngIf]="totalPages > 5">
+      <li
+        *ngFor="let item of totalPagesList"
+        class="page-item"
+        [class]="{
+          active: item == page,
+          'd-none':
+            item != 1 &&
+            item != page - 2 &&
+            item != page - 1 &&
+            item != page &&
+            item != page + 1 &&
+            item != page + 2 &&
+            item != totalPages,
+          disabled:
+            (page - 2 != 1 && page - 2 == item) ||
+            (page + 2 != totalPages && page + 2 == item)
+        }"
+      >
+        <a class="page-link" href="javascript:void(0)" (click)="toPage(item)">{{
+          (page - 2 != 1 && page - 2 == item) ||
+          (page + 2 != totalPages && page + 2 == item)
+            ? "..."
+            : item
+        }}</a>
+      </li>
+    </ng-template>
+    <li class="page-item" [class.disabled]="page >= totalPages">
+      <a style="background: transparent!important;" class="page-link" href="javascript:void(0)" aria-label="Next" (click)="next()"><span aria-hidden="true">&raquo;</span></a>
+    </li>
+  </ul>
+</nav>

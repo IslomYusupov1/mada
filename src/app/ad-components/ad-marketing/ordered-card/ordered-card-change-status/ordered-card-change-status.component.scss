@@ -1,0 +1,28 @@
+.mat-form-field {
+  width: 100%;
+}
+.ordered-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  &_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px;
+    border-bottom: 1px solid #ababab;
+
+    span:first-child {
+      font-size: 14px;
+      color: #191C1A;
+      font-weight: 400;
+    }
+
+    span:last-child {
+      font-size: 16px;
+      color: #3F6D5B;
+      font-weight: 500;
+    }
+  }
+}

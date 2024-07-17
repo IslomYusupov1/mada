@@ -1,0 +1,41 @@
+<div>
+  <div class="text-center">Добавление</div>
+  <form [formGroup]="createServiceForm" (ngSubmit)="createService()">
+    <div class="row">
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Название</mat-label>
+          <textarea type="text" matInput formControlName="defaultName"></textarea>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Тип услуги</mat-label>
+          <mat-select formControlName="type">
+            <mat-option *ngFor="let item of data.serviceTypes" [value]="item">{{item}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-form-field appearance="outline">
+          <mat-label>Название запроса</mat-label>
+          <input type="text" matInput formControlName="requestName">
+        </mat-form-field>
+      </div>
+      <div class="col-md-12">
+        <mat-checkbox formControlName="show">Показать</mat-checkbox>
+      </div>
+      <div class="col-md-12">
+        <mat-checkbox formControlName="myId">Контрол FaceID</mat-checkbox>
+      </div>
+    </div>
+    <div class="d-flex align-items-center justify-content-end pt-2">
+      <button type="button" class="btn btn-outline-secondary me-2" (click)="close()">
+        Закрыть
+      </button>
+      <button type="submit" class="btn btn-outline-success">
+        Добавить
+      </button>
+    </div>
+  </form>
+</div>

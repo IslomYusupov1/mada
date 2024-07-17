@@ -1,0 +1,65 @@
+<mat-card>
+  <mat-card-title>
+    <div class="d-flex align-items-center justify-content-between">
+      <div>FAQ</div>
+      <div *ngIf="dataList.length > 0">
+        <button *ngIf="!isDrop" mat-icon-button (click)="minimize()">
+          <img src="./assets/new-icons/Group-4-2.svg" alt="" style="max-height: 60%;">
+        </button>
+        <button *ngIf="isDrop" mat-button (click)="minimize()">Отменить</button>
+        <button *ngIf="isDrop" mat-button color="primary" (click)="sortData()">Сохранить</button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button
+        *ngIf="!isDrop"
+        class="btn btn-success ms-2"
+        (click)="openCreateCategoryDialog()"
+      >
+        + Добавить категорию
+      </button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <div cdkDropList [class]="isDrop ? 'p-list' : 'row pat-list pt-4'" (cdkDropListDropped)="drop($event)">
+      <div
+        [class]="isDrop ? 'p-box' : 'col-sm-6 col-md-4 col-lg-3 mb-3'"
+        *ngFor="let item of dataList" cdkDrag
+        [class.disab]="!item.visible"
+      >
+        <div class="p-placeholder" *cdkDragPlaceholder></div>
+        <div class="p-handle" cdkDragHandle [class.d-none]="!isDrop">
+          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </div>
+        <div  [class]="isDrop ? 'd-flex align-items-center' : 'mat-card'" [class.disab]="!item.visible">
+          <div [class]="isDrop ? 'p-title' : 'mat-card-title text-left py-1 d-flex align-items-end'">
+            <div style="cursor: pointer" (click)="navigateTo(item.id)" class="title-item">{{ item.title }}</div>
+          </div>
+          <mat-divider *ngIf="!isDrop"></mat-divider>
+          <mat-card-actions *ngIf="!isDrop" class="text-end">
+            <button
+              matTooltip="Редактировать"
+              matTooltipPosition="above"
+              mat-icon-button
+              class="fw-light" color="primary"
+              (click)="openEditDialog(item.id)"
+            >
+              <mat-icon>edit_outline</mat-icon>
+            </button>
+            <button
+              matTooltip="Перевод названия"
+              matTooltipPosition="above"
+              (click)="categoryTitleDialog(item.id)"
+              mat-icon-button class="fw-light">
+              <mat-icon>translate</mat-icon>
+            </button>
+          </mat-card-actions>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,113 @@
+<div>
+  <h2>Перевод названия</h2>
+  <form [formGroup]="titleTranslationForm">
+    <div class="card mb-3">
+      <div class="card-body">
+        <div>Краткое название</div>
+        <mat-tab-group>
+          <mat-tab label="RU">
+            <div class="mt-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Название</mat-label>
+                <input type="text" matInput formControlName="RUS">
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="UZ">
+            <div class="mt-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Nomi</mat-label>
+                <input type="text" matInput formControlName="UZB">
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="ENG">
+            <div class="mt-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Title</mat-label>
+                <input type="text" matInput formControlName="ENG">
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="KAA">
+            <div class="mt-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Nomi</mat-label>
+                <input type="text" matInput formControlName="KAA">
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="KRL">
+            <div class="mt-2">
+              <mat-form-field appearance="outline">
+                <mat-label>Nomi</mat-label>
+                <input type="text" matInput formControlName="KRL">
+              </mat-form-field>
+            </div>
+          </mat-tab>
+        </mat-tab-group>
+      </div>
+    </div>
+  </form>
+
+  <ng-container *ngIf="data.type === 'SERVICE'">
+    <form [formGroup]="fullTitleTranslationForm">
+      <div class="card">
+        <div class="card-body mb-3">
+          <div>Полное название</div>
+          <mat-tab-group>
+            <mat-tab label="RU">
+              <div class="mt-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Название</mat-label>
+                  <textarea type="text" matInput formControlName="RUS"></textarea>
+                </mat-form-field>
+              </div>
+            </mat-tab>
+            <mat-tab label="UZ">
+              <div class="mt-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nomi</mat-label>
+                  <textarea type="text" matInput formControlName="UZB"></textarea>
+                </mat-form-field>
+              </div>
+            </mat-tab>
+            <mat-tab label="ENG">
+              <div class="mt-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Title</mat-label>
+                  <textarea type="text" matInput formControlName="ENG"></textarea>
+                </mat-form-field>
+              </div>
+            </mat-tab>
+            <mat-tab label="KAA">
+              <div class="mt-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nomi</mat-label>
+                  <textarea type="text" matInput formControlName="KAA"></textarea>
+                </mat-form-field>
+              </div>
+            </mat-tab>
+            <mat-tab label="KRL">
+              <div class="mt-2">
+                <mat-form-field appearance="outline">
+                  <mat-label>Nomi</mat-label>
+                  <textarea type="text" matInput formControlName="KRL"></textarea>
+                </mat-form-field>
+              </div>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+
+  <div class="d-flex align-items-center justify-content-end pt-3">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">
+      Отмена
+    </button>
+    <button type="button" class="btn btn-success ms-2" (click)="saveTranslate()">
+      Сохранить
+    </button>
+  </div>
+</div>

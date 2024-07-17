@@ -1,0 +1,195 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">История кэшбэков</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <button (click)="isFilter = !isFilter" class="btn-green">
+            <img src="./assets/new-icons/filter.svg" alt="">
+            Фильтровать по периоду
+            <img src="./assets/new-icons/filter-1.svg" alt="">
+          </button>
+        </div>
+        <div class="d-flex gap-3">
+          <!--          <div>-->
+          <!--            <mat-form-field appearance="standard">-->
+          <!--              <mat-label>Тип операции</mat-label>-->
+          <!--              <mat-select (selectionChange)="filterForType($event)">-->
+          <!--                <mat-option value="">Все</mat-option>-->
+          <!--                <mat-option value="P2P">P2P</mat-option>-->
+          <!--                <mat-option value="P2S">P2S</mat-option>-->
+          <!--                <mat-option value="P2L">P2L</mat-option>-->
+          <!--                <mat-option value="P2ECOM">P2ECOM</mat-option>-->
+          <!--              </mat-select>-->
+          <!--            </mat-form-field>-->
+          <!--          </div>-->
+          <div>
+            <mat-form-field appearance="standard">
+              <mat-label>Статуc</mat-label>
+              <mat-select (selectionChange)="statusFilter($event)">
+                <mat-option value="">Все</mat-option>
+                <mat-option value="SUCCESS">SUCCESS</mat-option>
+                <mat-option value="ERROR">ERROR</mat-option>
+                <mat-option value="PREPARE">PREPARE</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="isFilter" class="mt-3 mb-3">
+        <div class="text-center filter">
+          <div class="filter__options">
+            <button type="button"
+                    [class]="{'btn--active': yesterdayBtn}"
+                    (click)="setFilterDate('yesterday')"
+            >
+              За вчера
+            </button>
+            <button type="button"
+                    [class]="{'btn--active': todayBtn}"
+                    (click)="setFilterDate('today')"
+            >
+              За сегодня
+            </button>
+            <button type="button"
+                    [class]="{'btn--active': prevMonthBtn}"
+                    (click)="setFilterDate('prevMonth')"
+            >
+              За прошлый месяц
+            </button>
+            <button type="button"
+                    [class]="{'btn--active': monthBtn}"
+                    (click)="setFilterDate('month')"
+            >
+              За текуший месяц
+            </button>
+            <button type="button"
+                    [class]="{'btn--active': settingsBtn}"
+                    (click)="showSettings('settings')"
+            >
+              Настройка
+            </button>
+          </div>
+          <div *ngIf="showDateSettings">
+            <form [formGroup]="dateForm">
+              <mat-form-field appearance="standard">
+                <mat-label>С</mat-label>
+                <input type="date" matInput formControlName="from">
+              </mat-form-field>
+              <mat-form-field appearance="standard" class="ms-3">
+                <mat-label>До</mat-label>
+                <input type="date" matInput formControlName="to">
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center gap-3 mt-2">
+          <div>
+            <mat-form-field appearance="standard">
+              <mat-label>Номер телефона</mat-label>
+              <input type="text" matInput [(ngModel)]="phone">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="standard">
+              <mat-label>Кошелек</mat-label>
+              <input type="text" matInput [(ngModel)]="ident">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="standard">
+              <mat-label>ID операции</mat-label>
+              <input type="text" matInput [(ngModel)]="operationId">
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center mt-2">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="refreshFilter()"
+          >
+            Сбросить
+          </button>
+          <button
+            type="submit"
+            class="btn btn-success ms-2"
+            (click)="periodResult()"
+          >
+            Показать
+          </button>
+        </div>
+      </div>
+
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Лого</th>
+          <th>Имя получателя</th>
+          <th>Номер получателя</th>
+          <th>Кошелек</th>
+          <th>Номер карты</th>
+          <th>Процесс</th>
+          <th>Кэшбэк</th>
+          <th>Дата</th>
+          <th>Статус</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loading -->
+        <tr *ngIf="loading">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length <= 0 && !loading">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loading">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td><img style="object-fit: contain" width="24" height="24"
+                     [src]="item.logo.path+'/'+item.logo.name+'.'+item.logo.ext" alt=""></td>
+            <td>{{item.recipientName ? item.recipientName : 'Неизвестно'}}</td>
+            <td>{{item.recipientPhone ? item.recipientPhone : 'Неизвестно'}}</td>
+            <td>{{item.ident ? item.ident : 'Неизвестно'}}</td>
+            <td>{{item.pan ? item.pan : 'Неизвестно'}}</td>
+            <td>{{item.cause ? item.cause : 'Неизвестно'}}</td>
+            <td>{{(item.cashback / 100) | currency:'':''}} UZS</td>
+            <td>{{item.date['date']}} {{item.date['time']}}</td>
+            <td>
+              <span [class]="{
+                'bg-danger' : item.status === 'ERROR',
+                'bg-success' : item.status === 'SUCCESS',
+                'bg-warning' : item.status === 'PREPARE'
+              }" class="text-white px-2 py-1 rounded-3">
+                {{item.status}}
+              </span>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

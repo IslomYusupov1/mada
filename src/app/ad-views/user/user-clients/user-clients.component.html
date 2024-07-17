@@ -1,0 +1,209 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Отчет по зарегистрированным клиентам</mat-card-title>
+    <div class="mb-2">
+      <form [formGroup]="searchForm" (ngSubmit)="filterUsers()">
+        <div class="search">
+          <div>
+            <app-ad-filter-buttons
+              [selectedBtn]="selectedFilterBtn"
+              (time)="setTime($event)"
+              (fromTime)="setFromTime($event)"
+              (toTime)="setToTime($event)"
+            ></app-ad-filter-buttons>
+          </div>
+
+          <div class="search-form">
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Поиск по номер телефона</mat-label>
+                <input matInput type="text" formControlName="phone">
+                <button type="button" *ngIf="searchInput && searchInput.value.length > 0" matSuffix mat-icon-button
+                        aria-label="Clear"
+                        (click)="clearInput()">
+                  <mat-icon>close</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="search-form__element">
+              <mat-form-field appearance="standard">
+                <mat-label>Тип клиента</mat-label>
+                <mat-select formControlName="zone">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="RED">Красный (red)</mat-option>
+                  <mat-option value="YELLOW">Жёлтый (yellow)</mat-option>
+                  <mat-option value="GREEN">Зеленый (green)</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="search-form">
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Пол</mat-label>
+                <mat-select formControlName="gender">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="UNKNOWN">UNKNOWN</mat-option>
+                  <mat-option value="MALE">MALE</mat-option>
+                  <mat-option value="FEMALE">FEMALE</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Поиск по региону</mat-label>
+                <mat-select formControlName="regionId" (selectionChange)="setDistrictValue($event)">
+                  <mat-option *ngFor="let item of addressRegionList" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Поиск по району</mat-label>
+                <mat-select formControlName="districtId">
+                  <mat-option *ngFor="let item of regionChildList" [value]="item.id">{{item.name}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="search-form">
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Поиск по имени</mat-label>
+                <input type="text" matInput formControlName="firstName">
+              </mat-form-field>
+            </div>
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Поиск по фамилии</mat-label>
+                <input type="text" matInput formControlName="lastName">
+              </mat-form-field>
+            </div>
+            <div class="search-form__element">
+              <mat-form-field class="example-form-field" appearance="standard">
+                <mat-label>Поиск по ПИНФЛ</mat-label>
+                <input type="text" matInput formControlName="pinfl">
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="search-form">
+            <div class="search-form__element d-flex justify-content-end">
+              <button
+                type="button"
+                class="btn btn-outline-secondary"
+                (click)="refreshFilter()"
+              >
+                Сбросить фильтр
+              </button>
+            </div>
+            <div type="submit" class="search-form__element">
+              <button class="btn btn-success">
+                Показать
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="mb-2 d-flex justify-content-between">
+        <div>
+          <button class="export-btn" (click)="exportToExcel()">
+            <img width="24" src="assets/new-icons/excel-icon.svg" alt="excel">
+            <span class="ms-1">Экспортировать</span>
+          </button>
+        </div>
+        <div class="text-end">Общее количество: <span style="font-weight: 600; color: #3f6d5b">{{totalItems}}</span>
+        </div>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line text-center">
+          <th scope="col">№</th>
+          <th scope="col">Ф.И.О</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">Статус</th>
+          <th scope="col">Тип</th>
+          <th scope="col">Последнее использования</th>
+          <th scope="col">Дата регистрации</th>
+          <th scope="col">Устройства</th>
+          <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td class="em-col"></td>
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+          <td class="em-col"></td>
+        </tr>
+        <tr *ngIf="dataList && dataList.length <= 0 && !loadingList">
+          <td class="em-col"></td>
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+          <td class="em-col"></td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td text-center" *ngIf="!loadingList">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td>{{item.firstName ? item.firstName : 'Неизвестно'}} {{item.lastName ? item.lastName : ''}}</td>
+            <td>{{item.phone}}</td>
+            <td
+              [class]="{'text-danger':item.status === 'BLOCK','text-success':item.status === 'ACTIVE'}">{{getStatusName(item.status)}}</td>
+            <td>
+              <span
+                style="padding: 4px 10px;color: #FFFFFF; border-radius: 4px!important;"
+                [class]="{'bg-danger' : item.zone === 'RED', 'bg-success' : item.zone === 'GREEN','bg-warning' : item.zone === 'YELLOW' ,'gold_user' : item.zone === 'GOLD'}">
+                {{item.zone}}</span>
+            </td>
+            <td>{{item.updatedAt}}</td>
+            <td>{{item.createdAt}}</td>
+            <td>{{item.deviceType ? item.deviceType : 'Неизвестно'}}</td>
+
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button
+                  class="mat__menu__item"
+                  mat-menu-item
+                  routerLink="/user/client/info"
+                  [queryParams]="{id: item.id}"
+                >
+                  <mat-icon color="accent" class="p-0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробно</span>
+                </button>
+                <button *ngIf="item.zone ==='YELLOW'" class="mat__menu__item" mat-menu-item
+                        (click)="reIdentity(item.id)">
+                  <mat-icon color="primary" style="padding: 0">autorenew</mat-icon>
+                  <span class="title__menu_item">Переидентификация</span>
+                </button>
+                <ng-container *ngxPermissionsOnly="['UPDATE_TO_VIP']">
+                  <button
+                    *ngIf="!item.vip"
+                    class="mat__menu__item"
+                    mat-menu-item
+                    (click)="upToVipStatus(item.id)"
+                  >
+                    <mat-icon color="primary" style="padding: 0">arrow_upward</mat-icon>
+                    <span class="title__menu_item">Повышение до VIP-статуса</span>
+                  </button>
+                </ng-container>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>

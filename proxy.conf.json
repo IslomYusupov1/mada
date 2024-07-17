@@ -1,0 +1,14 @@
+{
+  "/auth": {
+    "target":"http://192.168.20.201:30007",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
+  },
+  "/api": {
+    "target":"http://192.168.20.201:32656",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": false
+  }
+}

@@ -1,0 +1,28 @@
+<div>
+  <h2 class="text-center">Редактирование</h2>
+  <div>
+    <form [formGroup]="logSettingsForm" (ngSubmit)="logSettingsUpdate()">
+      <div class="row mb-3">
+        <div class="col-12">
+          <mat-form-field appearance="standard" class="w-100">
+            <mat-label>Ключ</mat-label>
+            <input type="text" formControlName="key" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-checkbox formControlName="value">Значение</mat-checkbox>
+        </div>
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <button type="button" class="btn btn-outline-secondary" (click)="close()">
+          Отмена
+        </button>
+
+        <button type="submit" class="btn btn-success ms-2">
+          Сохранить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

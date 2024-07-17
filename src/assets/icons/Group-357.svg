@@ -1,0 +1,45 @@
+<!--suppress ALL -->
+<svg xmlns="http://www.w3.org/2000/svg" width="193" height="30" viewBox="0 0 193 30">
+  <defs>
+    <style>.a {
+      fill: #fff;
+      stroke: #eaeaea;
+    }
+
+    .b, .c {
+      fill: #343F97;
+    }
+
+    .b {
+      font-size: 14px;
+      font-family: SegoeUI, Segoe UI;
+    }
+
+    .d {
+      fill: #4b4b4b;
+    }
+
+    .e {
+      stroke: none;
+    }
+
+    .f {
+      fill: none;
+    }</style>
+  </defs>
+  <g transform="translate(-1327 -499)">
+    <g class="a" transform="translate(1327 499)">
+      <rect class="e" width="193" height="30" rx="15"/>
+      <rect class="f" x="0.5" y="0.5" width="192" height="29" rx="14.5"/>
+    </g>
+    <text class="b" transform="translate(1357.211 519)">
+      <tspan x="0" y="0">Фильтр отображения</tspan>
+    </text>
+    <path class="c"
+          d="M8.744,14.294a.6.6,0,0,1-.357-.119L6,12.389a.6.6,0,0,1-.238-.476V8.565l-4.179-4.7A2.323,2.323,0,0,1,3.324,0h8.458a2.323,2.323,0,0,1,1.735,3.864l-4.177,4.7V13.7A.6.6,0,0,1,8.744,14.294Zm-1.787-2.68,1.191.893V8.338a.6.6,0,0,1,.151-.4l4.329-4.87a1.132,1.132,0,0,0-.846-1.882H3.324a1.132,1.132,0,0,0-.846,1.881L6.807,7.943a.6.6,0,0,1,.15.4Z"
+          transform="translate(1336.307 507.14)"/>
+    <path class="d"
+          d="M13.679,8.555,10.345,5.222A.727.727,0,0,0,9.32,6.25l3.332,3.332a.727.727,0,0,1,0,1.028L9.32,13.942a.727.727,0,1,0,1.028,1.028l3.331-3.332A2.18,2.18,0,0,0,13.679,8.555Z"
+          transform="translate(1516.197 502.893) rotate(90)"/>
+  </g>
+</svg>

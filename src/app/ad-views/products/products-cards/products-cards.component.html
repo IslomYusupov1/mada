@@ -1,0 +1,171 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Пластиковые карты</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="d-flex justify-content-between align-items-center">
+        <button
+          class="btn btn-secondary d-flex align-items-center rounded-pill"
+          (click)="isFilter = !isFilter"
+        >
+          <mat-icon class="me-2">filter_list</mat-icon>
+          Фильтр
+        </button>
+        <button
+          *ngxPermissionsOnly="['CREATE_PRODUCT_CARD']"
+          class="btn btn-success rounded-pill"
+          routerLink="/products/card/create"
+        >
+          + Добавить
+        </button>
+      </div>
+      <div *ngIf="isFilter" class="mt-3">
+        <form action="" [formGroup]="filterForm">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-label>Валюта</mat-label>
+              <mat-select [formControl]="currency" multiple class="form-select" placeholder="Все">
+                <mat-select-trigger>
+                  {{currency.value?.[0] || ''}}<span
+                  *ngIf="(currency.value?.length || 0) > 1">, {{currency.value?.[1] || ''}}</span>
+                </mat-select-trigger>
+                <mat-option *ngFor="let item of currencyList" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </div>
+            <div class="col-md-3">
+              <mat-label>Тип карты</mat-label>
+              <mat-select [formControl]="depositType" multiple class="form-select" placeholder="Все">
+                <mat-select-trigger>
+                <span *ngFor="let name of depositType.value">{{name || ''}}<span
+                  *ngIf="(depositType.value?.length || 0) > 1">, </span></span>
+                  <!--                {{depositType.value?.[0] || ''}}<span *ngIf="(depositType.value?.length || 0) > 1">, {{depositType.value?.[1] || ''}}</span>-->
+                </mat-select-trigger>
+                <mat-option *ngFor="let item of depositTypeList" [value]="item">{{item}}</mat-option>
+              </mat-select>
+            </div>
+            <div class="col-md-2">
+              <label for="periodType">Время</label>
+              <select id="periodType" class="form-select" formControlName="periodType"
+                      required>
+                <option value="" [selected]="true">Все</option>
+                <option value="UNLIMITED">UNLIMITED</option>
+                <option value="MONTH">MONTH</option>
+                <option value="AGE">AGE</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="active">Статус</label>
+              <select id="active" class="form-select" formControlName="active">
+                <option value="" [selected]="true">Все</option>
+                <option value="true">Актив</option>
+                <option value="false">Деактив</option>
+              </select>
+            </div>
+            <div class="col-md-2">
+              <label for="additional">Дополнительный платеж</label>
+              <select id="additional" class="form-select" formControlName="additional">
+                <option value="" [selected]="true">Все</option>
+                <option value="true">Да</option>
+                <option value="false">Нет</option>
+              </select>
+            </div>
+          </div>
+          <div class="mt-3">
+            <button class="btn btn-outline-secondary" (click)="filter()">Показать</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="row">
+        <!--===  Content  ===-->
+        <div *ngIf="dataList && dataList.length > 0 && !loadingList" class="mt-2">
+          <div class="col-md-12 mt-3" *ngFor="let item of dataList">
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="w-100 h-100 text-center">
+                      <img height="130" style="object-fit: contain; width: 100%" [src]="item.imgPath" alt="">
+                    </div>
+                  </div>
+                  <div class="col-md-7">
+                    <p class="fw-bolder m-1" style="font-size: 16px">Название: {{item.name}}</p>
+                    <p class="fw-bolder m-1">Тип периода: <span class="fw-normal">{{item.periodType}}</span></p>
+                    <p class="fw-bolder m-1">Период: <span
+                      class="fw-normal">{{item.periodType !== 'UNLIMITED' ? (item.fromPeriod ? 'от ' + item.fromPeriod + '- до ' + item.toPeriod + ' (' + item.periodType + ')' : item.toPeriod + ' (' + item.periodType + ')') : item.periodType}}</span>
+                    </p>
+                    <p class="fw-bolder m-1">Описание: <span class="fw-normal">{{item.requirements}}</span></p>
+                    <p class="fw-bolder m-1">Cтатус:
+                      <span
+                        style="font-size: 12px"
+                        class="py-1 px-2 text-white rounded-3 fw-normal"
+                        [class]="{
+                          'bg-warning': !item.active,
+                          'bg-success': item.active
+                        }">
+                        {{item.active ? 'Активный' : 'Неактивный' }}
+                    </span></p>
+                  </div>
+                  <div class="col-md-2 d-flex flex-column align-items-end m-buttons">
+                    <button
+                      *ngxPermissionsOnly="['UPDATE_PRODUCT_CARD']"
+                      class="me-2"
+                      mat-icon-button matTooltip="изменить"
+                      matTooltipPosition="before"
+                      [routerLink]="['/products/card/edit']"
+                      [queryParams]="{card_id: item.id}"
+                    >
+                      <mat-icon color="primary">edit</mat-icon>
+                    </button>
+                    <button
+                      *ngxPermissionsOnly="['DELETE_PRODUCT_CARD']"
+                      class="me-2"
+                      mat-icon-button
+                      matTooltip="удалить"
+                      matTooltipPosition="before"
+                      (click)="showCancelDialog(item.id)"
+                    >
+                      <mat-icon color="warn">delete_outline</mat-icon>
+                    </button>
+                    <div
+                      *ngxPermissionsOnly="['DEACTIVATE_PRODUCT_CARD']"
+                      class="d-flex align-items-center justify-content-center"
+                    >
+                      <button *ngIf="item.active" class="me-2" matTooltip="деактивировать"
+                              matTooltipPosition="before" mat-icon-button (click)="showDeactivateDialog(item.id)">
+                        <mat-icon color="warn">close</mat-icon>
+                      </button>
+                      <button *ngIf="!item.active" class="me-2" matTooltip="активировать"
+                              matTooltipPosition="before" mat-icon-button (click)="showActivateDialog(item.id)">
+                        <mat-icon color="primary">check</mat-icon>
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!--===  Empty list  ===-->
+        <div *ngIf="!loadingList && dataList && dataList.length === 0" class="text-center py-2">
+          Список пусть
+        </div>
+
+        <!--===  Loader  ===-->
+        <div *ngIf="loadingList" class="d-flex justify-content-center">
+          <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+
+</div>
+

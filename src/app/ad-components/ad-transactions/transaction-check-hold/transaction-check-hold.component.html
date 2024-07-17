@@ -1,0 +1,32 @@
+<div>
+  <h2 class="text-center" style="color: #3f6d5b">Информация о статусе</h2>
+  <div class="border rounded-3 p-2">
+    <div class="transaction-item">
+      <span>Статус</span>
+      <span>{{ data.info?.status }}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Ref</span>
+      <span>
+        {{ data.info.ref }}
+        <img
+          matTooltip="Скопировать текст"
+          matTooltipPosition="above"
+          [cdkCopyToClipboard]="data.info.ref"
+          (click)="copyText()"
+          width="20" height="20"
+          src="./assets/new-icons/paperclip.svg" alt="">
+        <span *ngIf="isCopy" class="copy-text">Текст скопирован</span>
+      </span>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end mt-2">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="close()"
+    >
+      Закрыть
+    </button>
+  </div>
+</div>

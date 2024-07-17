@@ -1,0 +1,49 @@
+<div>
+  <div class="text-center">Добавление информация услуги</div>
+  <form [formGroup]="serviceInfoForm" (ngSubmit)="serviceInfoCreate()">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Тел.номер организации</mat-label>
+        <input type="text" matInput formControlName="organizationPhone">
+      </mat-form-field>
+    </div>
+    <mat-tab-group formArrayName="infoList">
+      <mat-tab *ngFor="let item of formInfoList.controls; index as ind" [label]="item.value.lang">
+        <ng-container [formGroupName]="ind">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Название организации</mat-label>
+              <input type="text" matInput formControlName="organizationName">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Цена услуги</mat-label>
+              <input type="text" matInput formControlName="servicePrice">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Тип пользователя услуги</mat-label>
+              <input type="text" matInput formControlName="serviceUserType">
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>Срок ответа услуги</mat-label>
+              <input type="text" matInput formControlName="serviceTerm">
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="d-flex align-items-center justify-content-end pt-3">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        Закрыть
+      </button>
+      <button type="submit" class="btn btn-success ms-2">
+        Добавить
+      </button>
+    </div>
+  </form>
+</div>

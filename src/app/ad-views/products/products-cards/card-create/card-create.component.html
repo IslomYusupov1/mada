@@ -1,0 +1,148 @@
+<mat-card>
+  <mat-card-title class="d-flex align-items-center">
+    <button mat-icon-button class="bg-light me-3" routerLink="/products/cards">
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    Добавление
+  </mat-card-title>
+  <mat-card-content>
+    <form action="" autocomplete="off" [formGroup]="createCardForm" class="needs-validation">
+      <div class="row">
+        <div class="col-md-12 mt-3">
+          <label for="name">Наименование</label>
+          <input type="text" class="form-control" placeholder="Наименование" id="name" formControlName="name"
+                 [required]="true" [class]="hr.validationClass(name)">
+        </div>
+        <div class="col-md-12 mt-3">
+
+          <mat-tab-group>
+            <mat-tab label="RU">
+              <mat-form-field class="w-100"  appearance="outline">
+                <mat-label>Необходимое</mat-label>
+                <textarea
+                  matInput type="text"
+                  style="height: 100px"
+                  formControlName="requirements"
+                  [required]="true"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab formGroupName="translate" label="UZ">
+              <mat-form-field class="w-100"  appearance="outline">
+                <mat-label>Kerakli malumotlar</mat-label>
+                <textarea
+                  formControlName="uzRequirements"
+                  matInput type="text"
+                  style="height: 100px"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab formGroupName="translate"  label="EN">
+              <mat-form-field class="w-100"  appearance="outline">
+                <mat-label>Requirements</mat-label>
+                <textarea
+                  matInput type="text"
+                  style="height: 100px"
+                  formControlName="enRequirements"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab formGroupName="translate" label="KAA">
+              <mat-form-field class="w-100"  appearance="outline">
+                <mat-label>Kerekli maǵlıwmatlar</mat-label>
+                <textarea
+                  matInput type="text"
+                  style="height: 100px"
+                  formControlName="kaaRequirements"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-md-5 mt-3">
+              <label for="initialPaymentType">Тип первоначального взноса</label>
+              <select id="initialPaymentType" class="form-control" formControlName="initialPaymentType"
+                      (change)="initialPaymentTypeChange($event)" [required]="true"
+                      [class]="hr.validationClass(initialPaymentType)">
+                <option value="" [selected]="true">Тип</option>
+                <option value="AMOUNT">AMOUNT</option>
+                <option value="RATE">RATE</option>
+              </select>
+            </div>
+            <div class="col-md-4 mt-3">
+              <label for="initialPayment">Первоначальный взнос</label>
+              <input type="number" class="form-control" placeholder="{{text}}" id="initialPayment"
+                     formControlName="initialPayment" [required]="true" [class]="hr.validationClass(initialPayment)">
+            </div>
+            <div class="col-md-3 mt-3">
+              <label for="cardType">Тип карты</label>
+              <select id="cardType" class="form-control" formControlName="cardType"
+                      [required]="true" [class]="hr.validationClass(cardType)">
+                <option value="" [selected]="true">Тип</option>
+                <option value="UZCARD">UZCARD</option>
+                <option value="HUMO">HUMO</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 mt-3">
+              <label for="productId">Продукт ID</label>
+              <input type="text" class="form-control" placeholder="Продукт ID" id="productId"
+                     formControlName="productId" [required]="true" [class]="hr.validationClass(productId)">
+            </div>
+            <div class="col-md-4 mt-3">
+              <label for="currency">Валюта</label>
+              <select id="currency" class="form-control" formControlName="currency"
+                      [required]="true" [class]="hr.validationClass(currency)">
+                <option value="" [selected]="true">Валюта</option>
+                <option value="UZS">UZS</option>
+                <option value="USD">USD</option>
+              </select>
+            </div>
+            <div class="col-md-4 mt-3">
+              <label for="periodType">Время</label>
+              <select id="periodType" class="form-control" formControlName="periodType"
+                      (change)="periodTypeChange($event)"
+                      [required]="true" [class]="hr.validationClass(periodType)">
+                <option value="" [selected]="true">Тип</option>
+                <option value="UNLIMITED">UNLIMITED</option>
+                <option value="MONTH">MONTH</option>
+                <option value="AGE">AGE</option>
+              </select>
+            </div>
+            <div class="col-md-12" *ngIf="isUnlimited">
+              <div class="row">
+                <div class="col-md-4 mt-3 d-flex align-items-center">
+                  <mat-checkbox color="primary" formControlName="periodInterval" class="mt-3" (change)="logger($event)">
+                    Интервал
+                  </mat-checkbox>
+                  <mat-icon class="mt-3">arrow_right</mat-icon>
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label for="from">From</label>
+                  <input type="number" class="form-control" placeholder="from" id="from" formControlName="fromPeriod">
+                </div>
+                <div class="col-md-4 mt-3">
+                  <label for="to">То</label>
+                  <input type="number" class="form-control" placeholder="to" id="to" formControlName="toPeriod">
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-3 mt-3 d-flex align-items-center">
+              <mat-checkbox color="primary" formControlName="additional" class="mt-3">Дополнительный платеж
+              </mat-checkbox>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-success ms-auto px-4 py-2 d-block" (click)="createDeposit()">Сохранить</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,71 @@
+<form style="position: relative" [formGroup]="createRoleForm">
+  <h1 class="text-center">Добавление роли</h1>
+  <div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Наименования</mat-label>
+      <input [required]="true" matInput formControlName="name">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Отображаемое имя</mat-label>
+      <input [required]="true" matInput formControlName="displayName">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Выберите разрешение</mat-label>
+      <mat-select (openedChange)="onOpenChange($event)" placeholder="Select" [formControl]="permissions" multiple>
+<!--        <mat-select-trigger>-->
+<!--          {{permissions.value ? permissions.value[0] : ''}}-->
+<!--          <span *ngIf="permissions.value?.length > 1" class="additional-selection">-->
+<!--            (+{{permissions.value.length - 1}} {{permissions.value?.length === 2 ? 'other' : 'others'}})-->
+<!--          </span>-->
+<!--        </mat-select-trigger>-->
+        <div class="select-container">
+          <mat-optgroup>
+            <mat-form-field style="width:100%;">
+              <input #search autocomplete="off" placeholder="Поиск" aria-label="Search" matInput
+                     [formControl]="searchTextBoxControl">
+              <button [disableRipple]="true" *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear"
+                      (click)="clearSearch($event)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </mat-form-field>
+          </mat-optgroup>
+          <mat-optgroup *ngIf="(filteredOptions | async)?.length === 0">
+            <div>Ничего не найдено!</div>
+          </mat-optgroup>
+          <mat-option (onSelectionChange)="selectionChange($event)" *ngFor="let option of filteredOptions | async"
+                      [value]="option.id">
+            {{option.displayName}}
+          </mat-option>
+        </div>
+      </mat-select>
+<!--      <mat-select formControlName="permissions" (selectionChange)="checkedRoles($event)" [required]="true" multiple-->
+<!--                  (openedChange)="onOpenChange(multiSearch)">-->
+
+<!--        <input #multiSearch type="text" autocomplete="off" matInput (input)="onInputChange($event)"-->
+<!--               placeholder="Поиск по названию">-->
+
+<!--        <mat-option *ngFor="let per of filteredProviders" [value]="per.id">-->
+<!--          {{per.displayName}}-->
+<!--        </mat-option>-->
+<!--      </mat-select>-->
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Url</mat-label>
+      <input type="text" formControlName="defaultUrl" [required]="true" matInput>
+    </mat-form-field>
+  </div>
+  <div style="display:flex;justify-content: end">
+    <button type="button" (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;"
+            class="btn btn-outline-success me-2">Отменить
+    </button>
+    <button type="submit" (click)="formSubmit()"
+            style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить
+    </button>
+  </div>
+</form>

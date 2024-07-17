@@ -1,0 +1,44 @@
+<div style="padding: 24px 24px">
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="header__title">Настройки</div>
+    <button (click)="dialogLoan.close()" mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <table class="table mb-4">
+    <thead>
+    <tr class="design__line">
+      <th scope="col">state</th>
+      <th scope="col">createdDate</th>
+      <th scope="col">endDate</th>
+      <th scope="col">действия</th>
+    </tr>
+    </thead>
+    <tbody>
+    <ng-container *ngFor="let item of data.items; index as i;">
+      <tr style="cursor: pointer" class="table__td">
+        <td>{{item.state}}</td>
+        <td><span *ngIf="item.id === null" class="text-danger">процесс не существует</span><span
+          *ngIf="item.id != null">{{item['createdDate']}}</span></td>
+        <td>
+          <div *ngIf="item['endDate'] !==null">{{item['endDate']}}</div>
+        </td>
+        <td>
+          <div>
+            <button (click)="fixLoanStatus(item.state)" mat-icon-button>
+              <mat-icon>check</mat-icon>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <hr>
+  <div class="d-flex justify-content-end">
+    <button type="button" class="btn btn-warning" (click)="refreshList()">Закрыть и обновить</button>
+  </div>
+</div>
+
+

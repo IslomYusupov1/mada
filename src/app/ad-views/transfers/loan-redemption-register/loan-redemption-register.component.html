@@ -1,0 +1,32 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Реестр погашения кредита</mat-card-title>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <form [formGroup]="dateForm" (ngSubmit)="confirm()">
+        <div class="d-flex align-items-center flex-column">
+          <div>
+            <mat-form-field appearance="outline" class="example-form-field">
+              <mat-label>Выберите дату</mat-label>
+              <input matInput type="date" formControlName="date" [max]="yesterday">
+            </mat-form-field>
+          </div>
+          <div class="d-flex align-items-center justify-content-center">
+            <button
+              type="button"
+              class="btn btn-outline-secondary me-2"
+              (click)="refresh()"
+            >
+              Сбросить
+            </button>
+            <button
+              type="submit"
+              class="btn btn-success"
+            >
+              Отправить
+            </button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

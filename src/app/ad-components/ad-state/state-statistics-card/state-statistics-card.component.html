@@ -1,0 +1,27 @@
+<div class="card">
+  <div class="card-header bg-success text-white">{{title}}</div>
+  <div class="card-body">
+    <div class="card__items">
+      <div class="card_item">
+        <div class="card_item__title">Воспользовался услугой</div>
+        <div class="card_item__value">
+          <span class="bg-warning text-dark py-1 px-2 rounded-pill">{{statData.usedService ? statData.usedService : '0'}}</span>
+        </div>
+      </div>
+
+      <div class="card_item">
+        <div class="card_item__title">Неудачные ответы</div>
+        <div class="card_item__value">
+          <span class="bg-danger text-white py-1 px-2 rounded-pill">{{statData.unsuccessfulAnswers || '0'}}</span>
+        </div>
+      </div>
+
+      <div class="card_item">
+        <div class="card_item__title">Успешные ответы</div>
+        <div class="card_item__value">
+          <span class="bg-success text-white py-1 px-2 rounded-pill">{{statData.successfulAnswers || '0'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,66 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Мой профиль</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div *ngIf="!loading" class="border rounded-3 p-2">
+        <div class="row">
+          <div class="col-md-2">
+            <div class="personal-img">
+              <img src="./assets/images/male.png" alt="">
+            </div>
+          </div>
+          <div class="col-md-10">
+            <div class="row">
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>Полное имя</span>
+                    <span>{{data['firstName'] ? data['firstName'] : '-'}} {{data['lastName'] ? data['lastName'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Номер телефона</span>
+                    <span>{{data['phone'] ? data['phone'] : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>Электронная почта</span>
+                    <span>{{data['email'] ? data['email'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Username</span>
+                    <span>{{data['username'] ? data['username'] : '-'}}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="card-data">
+                  <div class="card-data_item">
+                    <span>Статус</span>
+                    <span>{{data['status'] ? data['status'] : '-'}}</span>
+                  </div>
+                  <div class="card-data_item">
+                    <span>Пароль</span>
+                    <span class="password-btn" (click)="openChangePasswordDialog()">
+                      Изменить пароль
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="loading" class="d-flex align-items-center justify-content-center">
+        <mat-progress-spinner
+          mode="indeterminate"
+          value="50"
+        ></mat-progress-spinner>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,206 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Заявки на кредит</mat-card-title>
+    <mat-card-content>
+      <div class="d-flex justify-content-end">
+        <button
+          style="background: #3F6D5B"
+          (click)="showFilter = !showFilter"
+          mat-flat-button
+          class="text-white"
+        >
+          Фильтр
+          <mat-icon class="ms-2 text-white">filter_list</mat-icon>
+        </button>
+      </div>
+      <div class="filter__form_app" *ngIf="showFilter">
+        <form [formGroup]="filterForm">
+          <div>
+            <div class="row">
+              <div class="col-md-6">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>LoanApplicationStep</mat-label>
+                  <mat-select formControlName="loanApplicationStep">
+                    <mat-option [value]="step" *ngFor="let step of [
+          'Все',
+          'NEW',
+          'SCORING_PROCESS',
+          'SCORING_FAIL',
+          'SCORING_SUCCESS',
+          'REQUEST_ACCEPTED',
+          'REQUEST_CANCEL',
+          'INSURANCE_PROCESS',
+          'INSURANCE_ERROR',
+          'LOAN_PROCESS',
+          'ISSUED',
+          ] ">{{step}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>ABSApplicationState</mat-label>
+                  <mat-select formControlName="absApplicationState">
+                    <mat-option [value]="step" *ngFor="let step of [
+          'Все',
+          'CHECK_CONVEYOR',
+          'PAY_INSURANCE',
+          'CREATE_CUSTOMER',
+          'CREATE_APPLICATION',
+          'CHECK_APPLICATION',
+          'CREATE_CONTRACT',
+          'CHECK_CONTRACT',
+          'ABS_ISSUANCE',
+          'INSURANCE_PAYMENT',
+          'INSURANCE_POLICY',
+          'WALLET_ISSUANCE',
+          'CREATE_ISSUANCE'
+          ] ">{{step}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>LoanApplicationStatus</mat-label>
+                  <mat-select formControlName="loanApplicationStatus">
+                    <mat-option [value]="step" *ngFor="let step of ['Все','OPEN','CLOSE'] ">{{step}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>firstName</mat-label>
+                  <input matInput type="text" formControlName="firstName">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>lastName</mat-label>
+                  <input matInput type="text" formControlName="lastName">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>phone</mat-label>
+                  <input matInput type="text" formControlName="phone">
+                </mat-form-field>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>passport</mat-label>
+                  <input matInput type="text" formControlName="passport">
+                </mat-form-field>
+              </div>
+              <div class="col-md-4 d-flex justify-content-between">
+                <mat-form-field class="w-50" appearance="outline">
+                  <mat-label>pinfl</mat-label>
+                  <input matInput type="text" formControlName="pinfl">
+                </mat-form-field>
+                <mat-form-field class="w-50 ms-4" appearance="outline">
+                  <mat-label>client code</mat-label>
+                  <input matInput type="text" formControlName="clientCode">
+                </mat-form-field>
+              </div>
+
+              <div class="d-flex justify-content-end align-items-center gap-3">
+                <button
+                  type="submit"
+                  class="btn btn-success"
+                  (click)="filterDate()"
+                >Поиск
+                </button>
+
+                <button
+                  type="button"
+                  class="btn btn-outline-secondary"
+                  (click)="clearAll()"
+                >Обновить
+                </button>
+              </div>
+
+            </div>
+          </div>
+        </form>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">order</th>
+          <th scope="col">product ID</th>
+          <th scope="col">login</th>
+          <th scope="col">phone</th>
+          <th scope="col">pinfl</th>
+          <th scope="col">client code</th>
+          <th scope="col">passport</th>
+          <th scope="col">applicationCreatedTime</th>
+          <th scope="col">conveyorEndTime</th>
+          <th scope="col">state</th>
+          <th scope="col">absApplicationState</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="11">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="11" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{getOrder(i)}}</td>
+            <td>{{item['productId']}}</td>
+            <td>{{item['userName']}}</td>
+            <td>{{item['userPhone']}}</td>
+            <td>{{item['pinfl']}}</td>
+            <td>{{item['clientCode']}}</td>
+            <td>{{item['passport']}}</td>
+            <td>{{item['applicationCreatedTime']}}</td>
+            <td>{{item['conveyorEndTime'] ? item['conveyorEndTime'] : '-'}}</td>
+            <td>
+              <span style="padding: 4px 10px;color: #FFFFFF; border-radius: 4px!important;"
+                    [class]="{
+                    'bg-warning':item.state==='PROCESS',
+                    'bg-primary':item.state==='NEW',
+                    'bg-danger':item.state==='FAIL'|| item.state==='ERROR' || item.state==='CANCEL',
+                    'bg-success':item.state==='SUCCESS'}"
+              >{{item.state}}</span>
+            </td>
+            <td>{{item['absApplicationState'] ? item['absApplicationState'] : '-'}}</td>
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="openDetail(item.id,'detail', item.absApplicationState)">
+                  <mat-icon color="primary" style="padding: 0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробнее</span></button>
+                <button *ngIf="item.state === 'PROCESS'" class="mat__menu__item" mat-menu-item
+                        (click)="conveyorRefresh(item.id)">
+                  <mat-icon color="primary" style="padding: 0">refresh</mat-icon>
+                  <span class="title__menu_item">Обновить конвейор</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <div class="d-flex justify-content-between align-items-center">
+    <div>
+      <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                         (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+    </div>
+    <div style="font-size: 20px">
+      <strong>Всего :</strong>  {{totalItems}}
+    </div>
+  </div>
+</div>
+

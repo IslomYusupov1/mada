@@ -1,0 +1,37 @@
+<div>
+  <div class="create-form_title">
+    Добавить цвет
+  </div>
+  <div class="form-content">
+    <form [formGroup]="createForm" (ngSubmit)="createColor()">
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Введите название цвета</mat-label>
+          <input type="text" matInput formControlName="colorName">
+        </mat-form-field>
+      </div>
+
+      <div class="d-flex">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Код цвета</mat-label>
+          <input
+            mask="A{6}"
+            prefix="#"
+            type="text" matInput
+            (keyup)="changeColorInput($event)"
+            formControlName="colorCode">
+        </mat-form-field>
+        <input class="color-input"
+               type="color"
+               (change)="patchColorCodeInput($event)"
+               title="Выберите свой цвет"
+               formControlName="colorPalette">
+      </div>
+      <hr>
+      <div class="d-flex align-items-center gap-2">
+        <button type="submit" class="btn btn-sm btn-primary">Сохранить</button>
+        <button type="button" class="btn btn-sm btn-secondary" (click)="close()">Закрыть</button>
+      </div>
+    </form>
+  </div>
+</div>

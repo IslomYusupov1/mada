@@ -1,0 +1,55 @@
+<div class="statistics-card">
+  <div class="statistics-card__header">
+    <span>{{ countInfo.transactionType }}</span>
+    <span class="card-currency">UZS</span>
+  </div>
+  <div class="statistics-card__body">
+    <div class="total-stat_row">
+      <div class="total-stat__left">
+        <div class="stat-title">Среднее</div>
+        <div class="stat-content">{{ countInfo.averageCount }}</div>
+      </div>
+      <div class="total-stat__right">
+        <div class="stat-title">Сумма</div>
+        <div class="stat-content">{{ countInfo.averageSum | currencyNew }}</div>
+      </div>
+    </div>
+
+    <div class="total-stat_row">
+      <div class="total-stat__left">
+        <div class="stat-title">Максимальная</div>
+        <div class="stat-content">{{ countInfo.maxCount }}</div>
+      </div>
+      <div class="total-stat__right">
+        <div class="stat-title">Сумма</div>
+        <div class="stat-content">{{ countInfo.maxSum | currencyNew }}</div>
+      </div>
+    </div>
+
+    <div class="total-stat_row">
+      <div class="total-stat__left">
+        <div class="stat-title">За вчера</div>
+        <div class="stat-content">{{ countInfo.yesterdayCount }}</div>
+      </div>
+      <div class="total-stat__right">
+        <div class="stat-title">Сумма</div>
+        <div class="stat-content">{{ countInfo.yesterdaySum | currencyNew }}</div>
+      </div>
+    </div>
+
+    <div class="total-stat_row">
+      <div class="total-stat__left">
+        <div class="stat-title">За сегодня</div>
+        <div class="stat-content">{{ countInfo.todayCount }}</div>
+      </div>
+      <div class="total-stat__right">
+        <div class="stat-title">Сумма</div>
+        <div class="stat-content">{{ countInfo.todaySum | currencyNew }}</div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-between border-top px-3 py-1">
+    <span style="font-size: 12px">Последнее обновление:</span>
+    <span style="font-size: 12px">{{ countInfo.lastUpdated }}</span>
+  </div>
+</div>

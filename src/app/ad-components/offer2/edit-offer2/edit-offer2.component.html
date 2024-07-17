@@ -1,0 +1,83 @@
+<div style="padding: 24px" class="create-offer">
+  <form [formGroup]="editOfferForm">
+    <div class="mb-3">
+      <button (click)="router.navigate(['settings/offer2'])" matTooltip="Назад" matTooltipPosition="below"
+              mat-icon-button>
+        <mat-icon>keyboard_arrow_left</mat-icon>
+      </button>
+      <button style="background: #3F6D5B" mat-flat-button (click)="formSubmit()"><span
+        style="color: white">Сохранить</span></button>
+    </div>
+    <div class="row">
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Наименование</mat-label>
+          <input [required]="true" formControlName="name" matInput>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Тип</mat-label>
+          <mat-select [required]="true" formControlName="type">
+            <mat-option *ngFor="let type of types" [value]="type.Type">{{type.Type}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="col-4">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Состояние</mat-label>
+          <mat-select [required]="true" formControlName="state">
+            <mat-option *ngFor="let state of ['ACTIVE','INACTIVE']" [value]="state">{{state}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">UZB</h3>
+            <ckeditor [editor]="Editor" formControlName="contentUz" data="<p>Hello, world!</p>"
+                      (ready)="onReady($event)" [required]="true"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">RUS</h3>
+            <ckeditor [editor]="Editor" formControlName="contentRu" data="<p>Hello, world!</p>"
+                      (ready)="onReady($event)"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">ENG</h3>
+            <ckeditor [editor]="Editor" formControlName="contentEn" data="<p>Hello, world!</p>"
+                      (ready)="onReady($event)"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">KAA</h3>
+            <ckeditor [editor]="Editor" formControlName="contentKa" data="<p>Hello, world!</p>"
+                      (ready)="onReady($event)"></ckeditor>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-body">
+            <h3 class="card-title">Kr</h3>
+            <ckeditor [editor]="Editor" formControlName="contentKr" data="<p>Hello, world!</p>"
+                      (ready)="onReady($event)"></ckeditor>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

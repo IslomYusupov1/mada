@@ -1,0 +1,67 @@
+<mat-card>
+  <mat-card-title>
+    <h2 class="title">Кредиты пользователя</h2>
+  </mat-card-title>
+  <mat-card-content>
+    <table class="table mb-4">
+      <thead>
+      <tr class="table-header text-center">
+        <th scope="col">№</th>
+        <th scope="col">Название кредита</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">Валюта</th>
+        <th scope="col">Дата начала</th>
+        <th scope="col">Дата закрытия</th>
+        <th scope="col">Дата следующего погашения</th>
+        <th scope="col">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--=====   Loading   =====-->
+      <tr *ngIf="loading">
+        <td class="em-col"></td>
+        <td colspan="8">
+          <ngx-skeleton-loader
+            count="5"
+            [theme]="{ 'height.px': 25 }"
+          ></ngx-skeleton-loader>
+        </td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Empty   =====-->
+      <tr *ngIf="dataList && dataList.length <= 0 && !loading">
+        <td class="em-col"></td>
+        <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Content   =====-->
+      <ng-container *ngFor="let item of dataList; index as i;">
+        <tr class="table-body text-center" *ngIf="!loading">
+          <td>{{i + 1}}</td>
+          <td>
+            {{item['product'] ? item.product.name : '-'}}
+          </td>
+          <td>{{item['amount'] ? (item.amount.amount / 100 | currency:'':'') : '-'}}</td>
+          <td>{{item['currency'] ? item['currency'] : '-'}}</td>
+          <td>{{item['startDate'] ? item.startDate['date'] : '-'}}</td>
+          <td>{{item['closeDate'] ? item.closeDate['date'] : '-'}}</td>
+          <td>{{item['nextRepaymentDate'] ? item.nextRepaymentDate['date'] : '-'}}</td>
+          <td>
+            <button
+              matTooltip="График кредита"
+              matTooltipPosition="above"
+              type="button"
+              mat-icon-button
+              (click)="openLoanScheduleDialog(item.id)"
+            >
+              <mat-icon class="text-secondary">av_timer</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

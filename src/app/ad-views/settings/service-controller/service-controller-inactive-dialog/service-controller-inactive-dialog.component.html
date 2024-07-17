@@ -1,0 +1,22 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Деактивировать {{'(' + data.serviceName + ')'}}</h2>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div>
+    <form [formGroup]="inactiveForm" (ngSubmit)="inactiveService()">
+      <div>
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Причина</mat-label>
+          <input type="text" formControlName="reason" matInput>
+        </mat-form-field>
+      </div>
+      <div class="d-flex align-items-center justify-content-end">
+        <button type="submit" class="btn btn-success">Подтвердить</button>
+      </div>
+    </form>
+  </div>
+</div>

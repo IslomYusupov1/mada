@@ -1,0 +1,10 @@
+.card-body_items {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px;
+
+  &:not(:last-child) {
+    border-bottom: 1px solid #C4C4C4;
+  }
+}

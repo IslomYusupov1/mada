@@ -1,0 +1,19 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Статистика</h2>
+    <button mat-icon-button (click)="closeDialog()"><mat-icon>close</mat-icon></button>
+  </div>
+  <hr>
+  <div class="border rounded-2 p-2">
+    <ng-container *ngIf="data.list.length > 0">
+      <div *ngFor="let item of data.list" class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>{{item.name}} ({{item.phone}})</span>
+        <span>{{item.quantity}}</span>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="data.list.length === 0">
+      <div class="text-center">Список пусть</div>
+    </ng-container>
+  </div>
+</div>

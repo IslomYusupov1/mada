@@ -1,0 +1,100 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title  class="header__title"></mat-card-title>
+    <mat-card-content  class="p-0 pt-2 pb-2 ftz-16">
+      <button routerLink="/marketing/notifications" mat-icon-button><mat-icon>subdirectory_arrow_left</mat-icon></button>
+      <div class="d-flex gap-1">
+       <button mat-flat-button  *ngFor="let button of states" (click)="schedule(button.value)"  [ngClass]="activeState === button.value ? 'text-white bg-secondary rounded-4' : 'text-gray'">{{button.title}}</button>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">Создан в</th>
+          <th scope="col">обновлено в</th>
+          <th scope="col">Время отправки</th>
+          <th scope="col">Всего</th>
+          <th scope="col">Отправлено</th>
+          <th scope="col">Закрыто</th>
+          <th scope="col" class="text-end">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container  *ngFor="let item of dataList; index as i"  >
+          <tr *ngIf="!loadingList && activeState === 'topic' " class="table__td">
+            <td>{{item['createdAt'] ? item['createdAt']  : ''}}</td>
+            <td>{{item['updatedAt'] ?  item['updatedAt'] : ''}}</td>
+            <td>{{item['timeOfDispatch'] ? item['timeOfDispatch'] : ''}}</td>
+            <td>{{item.total ?item.total : '' }}</td>
+            <td>{{item['pushed'] ? item['pushed'] : ''}}</td>
+            <td><div  [class]="item.closed === true ? 'itm__closed' : 'itm__not_closed'"></div></td>
+
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu  #menu>
+                <button *ngIf="!item.closed"  class="mat__menu__item" mat-menu-item (click)="stopSendUser(item.id , 'topic')">
+                  <mat-icon color="warn" style="padding: 0">block</mat-icon>
+                  <span class="title__menu_item">Прекратить отправку</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="!loadingList1 && activeState === 'choose'">
+          <tr style="color: red!important;" *ngFor="let item of dataList1; index as i" class="table__td" >
+            <td>{{item['createdAt'] ? item['createdAt'] : ''}}</td>
+            <td>{{item['updatedAt'] ?  item['updatedAt'] : ''}}</td>
+            <td>{{item['timeOfDispatch'] ? item['timeOfDispatch'] : ''}}</td>
+            <td>{{item.total ?item.total : '' }}</td>
+            <td>{{item['pushed'] ? item['pushed'] : ''}}</td>
+            <td><div  [class]="item.closed === true ? 'itm__closed' : 'itm__not_closed'"></div></td>
+
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="queueDetail(item.id)">
+                  <mat-icon color="primary" style="padding: 0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробнее</span></button>
+                <button *ngIf="!item.closed" class="mat__menu__item" mat-menu-item (click)="stopSendUser(item.id , 'choose')">
+                  <mat-icon color="warn" style="padding: 0">block</mat-icon>
+                  <span class="title__menu_item">Прекратить отправку</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    *ngIf="!loadingList && activeState === 'topic'"
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+  <app-ad-pagination
+    *ngIf="!loadingList1 && activeState === 'choose'"
+    [page]="currentPage1"
+    [totalPages]="totalPages1"
+    (pageClick)="pageClicked1($event)"
+    (pagePrev)="pagePrevTo1()"
+    (pageNext)="pageNextTo1()"
+  ></app-ad-pagination>
+</div>

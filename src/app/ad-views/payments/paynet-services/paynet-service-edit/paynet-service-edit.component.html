@@ -1,0 +1,113 @@
+<div>
+  <h2>Редактирование услуги</h2>
+  <form [formGroup]="editPaynetForm" (ngSubmit)="editPaynetService()">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Название</mat-label>
+        <input type="text" matInput formControlName="title">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Группа</mat-label>
+        <mat-select formControlName="group">
+          <mat-option value="SERVICE">Service</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Тип услуги</mat-label>
+        <mat-select formControlName="serviceTypes">
+          <mat-option *ngFor="let item of data.serviceTypes" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Минимальная сумма</mat-label>
+        <input type="text" matInput formControlName="minAmount" mask="separator.2" suffix=" UZS">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Максимальная сумма</mat-label>
+        <input type="text" matInput formControlName="maxAmount" mask="separator.2" suffix=" UZS">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Мерчанта</mat-label>
+        <mat-select formControlName="merchant">
+          <mat-option *ngFor="let item of data.merchantList" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Шаблон</mat-label>
+        <mat-select formControlName="checkTemplate">
+          <mat-option *ngFor="let item of data.checkTemplateList" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Параметры мерчанта</mat-label>
+        <input type="text" matInput formControlName="merchantParam">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Cтавка кэшбэка - %</mat-label>
+        <input type="text" matInput formControlName="cashbackRate" mask="separator.2" suffix=" %">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Ключевая информация</mat-label>
+        <input type="text" matInput formControlName="keyInfo">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Ключевая оплата</mat-label>
+        <input type="text" matInput formControlName="keyPay">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="forMyHome">для моего дома</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="autoPay">Автоматическая оплата</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="editable">Редактируемый сумма</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="hasOverParam">Имеет дополнительный параметр</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="technicalWorks">Профилактика</mat-checkbox>
+    </div>
+    <div>
+      <mat-checkbox color="primary" formControlName="hasInfo">Имеет информацию</mat-checkbox>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-end">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="close()"
+      >
+        Отмена
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success ms-2"
+      >
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

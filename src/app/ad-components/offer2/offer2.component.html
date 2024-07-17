@@ -1,0 +1,69 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Оферта</mat-card-title>
+    <div style="display: flex;justify-content: space-between;align-items: center">
+      <mat-form-field appearance="outline">
+        <mat-label>Тип</mat-label>
+        <mat-select (selectionChange)="changeType($event)">
+          <mat-option *ngFor="let type of types" [value]="type.Type">{{type.Type}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <button style="color: #3F6D5B;"  routerLink="/settings/offer2/create" mat-flat-button>
+        <mat-icon>add</mat-icon>
+        Добавить
+      </button>
+    </div>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4" >
+        <thead >
+        <tr class="design__line">
+          <th scope="col">ID</th>
+          <th scope="col" >Название</th>
+          <th scope="col" >Тип</th>
+          <th scope="col" >Статус</th>
+          <th scope="col" class="text-end" >Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item.id}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.type}}</td>
+            <td>{{item.state}}</td>
+
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_horiz</mat-icon></button>
+              <mat-menu #menu>
+                <a class="mat__menu__item list-unstyled" mat-menu-item [routerLink]="['/settings/offer2/edit', item.uuid]">
+                  <mat-icon color="accent">edit</mat-icon>
+                  <span class="title__menu_item">Редактировать</span></a>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

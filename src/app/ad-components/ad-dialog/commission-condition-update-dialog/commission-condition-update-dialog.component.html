@@ -1,0 +1,23 @@
+<div>
+  <h2>Редактирования</h2>
+  <form [formGroup]="updateConditionForm">
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Тип</mat-label>
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let type of ['MONTHLY','DAILY']" [value]="type">{{type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Лимитная сумма</mat-label>
+      <input matInput formControlName="limitAmount" />
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-100">
+      <mat-label>Rate</mat-label>
+      <input matInput formControlName="rate" />
+    </mat-form-field>
+    <div><mat-checkbox color="primary" formControlName="isMainRate">Is main rate</mat-checkbox></div>
+    <div><mat-checkbox color="primary" formControlName="isActive">Активность</mat-checkbox></div>
+    <div class="text-center mt-2"> <button mat-raised-button (click)="formSubmit()" class="bg-success text-white">Сохранить</button></div>
+
+  </form>
+</div>

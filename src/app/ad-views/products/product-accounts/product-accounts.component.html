@@ -1,0 +1,64 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Счета</mat-card-title>
+    <div style="display: flex;justify-content: end;align-items: center">
+      <button (click)="openCreateDialog(null)" style="color: #3F6D5B;" mat-flat-button>
+        <mat-icon>add</mat-icon>
+        Добавить
+      </button>
+    </div>
+    <mat-card-content>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">ID</th>
+          <th scope="col">Logo</th>
+          <th scope="col">Названия</th>
+          <th scope="col">Код продукта</th>
+          <th scope="col">Актиность</th>
+          <th class="text-center">Действие</th>
+        </tr>
+        </thead>
+        <tbody cdkDropList (cdkDropListDropped)="drop($event)">
+        <tr *ngIf="loadingList">
+
+          <td colspan="8">
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr cdkDrag cdkDragLockAxis="y" class="table__td" *ngIf="!loadingList">
+            <td>{{item.id}}</td>
+            <td>
+              <img
+                width="36"
+                height="36"
+                style="object-fit: contain"
+                [src]="item.logo ? item.logo.path+'/'+item.logo.name+'.'+item.logo.ext : ''"
+                alt="">
+            </td>
+            <td>{{item.title}}</td>
+            <td>{{item.productCode}}</td>
+            <td><span class="px-2 py-1 rounded-5 text-white" [ngClass]="{'bg-danger':!item.active,'bg-success':item.active}">{{item.active? 'Активный' : ' Не активный'}}</span></td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button (click)="accountTitleDialog(item.id)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="primary">translate</mat-icon>
+                  <span class="title__menu_item">Перевод названия</span></button>
+                <button (click)="openCreateDialog(item.id)"  class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="accent">edit</mat-icon>
+                  <span class="title__menu_item">Редактировать</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

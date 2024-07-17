@@ -1,0 +1,45 @@
+<div class="model-create-form">
+  <div class="create-form_title">
+    Загрузить изображение
+  </div>
+  <form [formGroup]="createForm" (ngSubmit)="editAutoModelImage()">
+    <div class="d-flex align-items-center justify-content-center px-2 mb-3">
+      <div class="upload-image-content" (click)="modelImageInput.click()">
+        <img *ngIf="!uploadedImg" src="./assets/new-icons/upload-icon.svg" alt="">
+        <div *ngIf="!uploadedImg">Upload model image</div>
+        <div *ngIf="uploadedImg" class="model-image">
+          <img [src]="modelImage" alt="">
+        </div>
+        <div *ngIf="uploadedImg" class="d-flex align-items-center gap-2">
+          <img style="width: 18px; height: 18px" src="./assets/new-icons/upload-icon.svg" alt="">
+          <div>
+            Upload model image
+          </div>
+        </div>
+        <input type="file" class="d-none" (change)="uploadModelImage($event)" #modelImageInput>
+      </div>
+    </div>
+
+    <div>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Выберите цвет автомобиля</mat-label>
+        <mat-select formControlName="colorId">
+          <mat-option *ngFor="let item of data.colorsList" [value]="item.id">
+            <div style="display: flex; align-items: center; gap: 4px">
+              <div
+                style="width: 10px; height: 10px; border-radius: 10px; border: 0.5px solid #cccccc"
+                [style]="{'background-color': item.colorCode}"
+              ></div>
+              {{item.colorName}} ({{item.colorCode}})
+            </div>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <hr>
+    <div class="d-flex align-items-center gap-3 px-2">
+      <button type="submit" class="btn btn-primary btn-sm">Сохранить</button>
+      <button type="button" class="btn btn-secondary btn-sm" (click)="close()">Закрыть</button>
+    </div>
+  </form>
+</div>

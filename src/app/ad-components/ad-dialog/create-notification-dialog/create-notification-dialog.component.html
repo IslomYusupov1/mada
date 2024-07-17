@@ -1,0 +1,263 @@
+<form style="margin: 0 24px" [formGroup]="createNotificationForm">
+  <div class="header__title mb-5">
+    Создание уведомления
+  </div>
+  <div class="row">
+    <mat-tab-group>
+      <div class="col-12">
+        <mat-tab label="RU">
+          <div class="col-12">
+            <div class="d-flex border border-1 rounded-3 p-2">
+              <div class="attached-image">
+                <img height="100" width="100" style="object-fit: contain" [src]="imagePath" alt="">
+              </div>
+              <div class="ms-2">
+                <input type="file" class="file-input" (change)="fnChange($event,'RU')" #fileUploadRU>
+                <button mat-button (click)="fileUploadRU.click()">
+                  <mat-icon>attach_file</mat-icon>
+                  Upload image
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Название</mat-label>
+              <input [required]="true" formControlName="title" matInput/>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Описание</mat-label>
+              <textarea [required]="true" formControlName="body" matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Краткое описание</mat-label>
+              <input [required]="true" formControlName="shortBody" matInput/>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+        <mat-tab formGroupName="translate" label="UZ">
+          <div class="col-12">
+            <div class="d-flex border border-1 rounded-3 p-2">
+              <div class="attached-image">
+                <img height="100" width="100" style="object-fit: contain" [src]="imagePathUz" alt="">
+              </div>
+              <div class="ms-2">
+                <input type="file" class="file-input" (change)="fnChange($event,'UZ')" #fileUploadUz>
+                <button mat-button (click)="fileUploadUz.click()">
+                  <mat-icon>attach_file</mat-icon>
+                  Upload image
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Nomlanishi</mat-label>
+              <input formControlName="uzTitle" matInput/>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Tavsif</mat-label>
+              <textarea formControlName="uzBody" matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Qisqacha tavsif</mat-label>
+              <input formControlName="uzShortBody" matInput/>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+        <mat-tab formGroupName="translate" label="ENG">
+          <div class="col-12">
+            <div class="d-flex border border-1 rounded-3 p-2">
+              <div class="attached-image">
+                <img height="100" width="100" style="object-fit: contain" [src]="imagePathEn" alt="">
+              </div>
+              <div class="ms-2">
+                <input type="file" class="file-input" (change)="fnChange($event,'ENG')" #fileUploadEn>
+                <button mat-button (click)="fileUploadEn.click()">
+                  <mat-icon>attach_file</mat-icon>
+                  Upload image
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Title</mat-label>
+              <input formControlName="enTitle" matInput/>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Description</mat-label>
+              <textarea formControlName="enBody" matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Short description</mat-label>
+              <input formControlName="enShortBody" matInput/>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+        <mat-tab formGroupName="translate" label="KAA">
+          <div class="col-12">
+            <div class="d-flex border border-1 rounded-3 p-2">
+              <div class="attached-image">
+                <img height="100" width="100" style="object-fit: contain" [src]="imagePathKaa" alt="">
+              </div>
+              <div class="ms-2">
+                <input type="file" class="file-input" (change)="fnChange($event,'KAA')" #fileUploadKaa>
+                <button mat-button (click)="fileUploadKaa.click()">
+                  <mat-icon>attach_file</mat-icon>
+                  Upload image
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Atalıwı</mat-label>
+              <input formControlName="kaaTitle" matInput/>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Xarakteristikası</mat-label>
+              <textarea formControlName="kaaBody" matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Qısqasha xarakteristika</mat-label>
+              <input formControlName="kaaShortBody" matInput/>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+        <mat-tab formGroupName="translate" label="KRL">
+          <div class="col-12">
+            <div class="d-flex border border-1 rounded-3 p-2">
+              <div class="attached-image">
+                <img height="100" width="100" style="object-fit: contain" [src]="imagePathKrl" alt="">
+              </div>
+              <div class="ms-2">
+                <input type="file" class="file-input" (change)="fnChange($event,'KRL')" #fileUploadKrl>
+                <button mat-button (click)="fileUploadKrl.click()">
+                  <mat-icon>attach_file</mat-icon>
+                  Upload image
+                </button>
+              </div>
+            </div>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Номланиши</mat-label>
+              <input formControlName="krlTitle" matInput/>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Тавсиф</mat-label>
+              <textarea formControlName="krlBody" matInput></textarea>
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field class="w-100" appearance="outline">
+              <mat-label>Қисқача тавсиф</mat-label>
+              <input formControlName="krlShortBody" matInput/>
+            </mat-form-field>
+          </div>
+        </mat-tab>
+      </div>
+    </mat-tab-group>
+    <div class="col-12">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Звук</mat-label>
+        <mat-select [required]="true" formControlName="sound">
+          <mat-option *ngFor="let sound of soundList" [value]="sound.value">{{sound.name}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="col-12 mb-2">
+  <div class="row">
+    <div class="col-4">
+      <span>
+    <mat-checkbox (change)="check($event.checked)" formControlName="zoneFilterEnable" color="primary">Фильтр зон</mat-checkbox>
+   </span>
+      <span class="example-list-section">
+    <ul *ngIf="checkZone">
+      <li>
+        <mat-checkbox formControlName="zoneRed" color="warn">красная зона</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="zoneYellow" color="accent">желтая зона</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="zoneGreen" color="primary">зеленая зона</mat-checkbox>
+      </li>
+       <li>
+        <mat-checkbox formControlName="zoneGold" color="primary">золотая зона</mat-checkbox>
+      </li>
+    </ul>
+  </span>
+    </div>
+    <div class="col-4">
+      <span>
+    <mat-checkbox (change)="checkMale($event.checked)" formControlName="genderFilterEnable" color="primary">Гендерный фильтр</mat-checkbox>
+   </span>
+      <span class="example-list-section">
+    <ul *ngIf="checkSex">
+      <li>
+        <mat-checkbox formControlName="genderMale" color="primary">мужской пол</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="genderFemale" color="primary">женский пол</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="genderUnknown" color="primary">неизвестно</mat-checkbox>
+      </li>
+    </ul>
+  </span>
+    </div>
+    <div class="col-4">
+      <span>
+    <mat-checkbox (change)="checkDevice($event.checked)" formControlName="deviceFilterEnable" color="primary">Фильтр устройств</mat-checkbox>
+   </span>
+      <span class="example-list-section">
+    <ul *ngIf="device">
+      <li>
+        <mat-checkbox formControlName="deviceAndroid" color="primary">устройство андроид</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="deviceIos" color="primary">устройство iOS</mat-checkbox>
+      </li>
+    </ul>
+  </span>
+    </div>
+  </div>
+    </div>
+    <div class="col-12">
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Время отправки</mat-label>
+        <input (change)="utcDate($event)" [required]="true" formControlName="timeOfDispatch" matInput
+               type="datetime-local"/>
+      </mat-form-field>
+    </div>
+  </div>
+  <div style="display:flex;justify-content: end">
+    <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;"
+            class="btn btn-outline-success me-2">Отменить
+    </button>
+    <button (click)="formSubmit()"
+            style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить
+    </button>
+  </div>
+</form>
+

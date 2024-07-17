@@ -1,0 +1,49 @@
+<form *ngIf="type === 'create'"  [formGroup]="createAccountForm" autocomplete="off" class="needs-validation">
+  <div class="header__title mb-2">Добавление</div>
+    <div class="d-flex py-2">
+      <div class="d-flex align-items-center justify-content-center border border-1 p-2"
+           style="width: 150px; height: 150px">
+        <img class="w-100" style="object-fit: contain" [src]="imagePath" alt="">
+      </div>
+      <div class="ms-2">
+        <input type="file" (change)="fileUpload($event)" class="d-none" #fileInput>
+        <button mat-flat-button class="bg-success text-white" (click)="fileInput.click()">Загрузить изображение</button>
+      </div>
+    </div>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Названия</mat-label>
+        <input type="text" placeholder="Названия" id="title" formControlName="title" matInput>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Код продукта</mat-label>
+        <input type="number" placeholder="введите код продукта" id="productCode"
+               formControlName="productCode" matInput>
+      </mat-form-field>
+
+  <button (click)="productAction('create')" style="margin: 0 auto" mat-flat-button type="submit" class="text-white bg-secondary d-flex align-items-center px-5">Сохранить</button>
+</form>
+<form *ngIf="type === 'edit'"  [formGroup]="editAccountForm" autocomplete="off" class="needs-validation">
+  <div class="header__title mb-2">Редактирование</div>
+  <div class="d-flex py-2">
+    <div class="d-flex align-items-center justify-content-center border border-1 p-2"
+         style="width: 150px; height: 150px">
+      <img class="w-100" style="object-fit: contain" [src]="imagePathEdit" alt="">
+    </div>
+    <div class="ms-2">
+      <input type="file" (change)="fileUploadEdit($event)" class="d-none" #fileInput1>
+      <button mat-flat-button class="bg-success text-white" (click)="fileInput1.click()">Загрузить изображение</button>
+    </div>
+  </div>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Названия</mat-label>
+    <input type="text" placeholder="Названия"  formControlName="title" matInput>
+  </mat-form-field>
+  <mat-form-field appearance="outline" class="w-100">
+    <mat-label>Код продукта</mat-label>
+    <input type="number" placeholder="введите код продукта"
+           formControlName="productCode" matInput>
+  </mat-form-field>
+  <div><mat-checkbox color="primary" formControlName="active">Активность</mat-checkbox></div>
+  <button (click)="productAction('edit')" style="margin: 0 auto" mat-flat-button type="submit" class="text-white bg-secondary d-flex align-items-center px-5">Сохранить</button>
+</form>
+

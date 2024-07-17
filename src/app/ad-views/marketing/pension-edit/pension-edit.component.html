@@ -1,0 +1,65 @@
+<div>
+  <div class="header__title">Редактирование</div>
+  <div class="detail__all">
+    <strong>
+      ФИО
+    </strong>
+    <div>
+      {{data.fullName !== null ? data.fullName : 'Нет данних'}}
+    </div>
+  </div>
+  <div class="bottom__line"></div>
+  <div class="detail__all">
+    <strong>
+      Тип карты
+    </strong>
+    <div>
+      {{data.cardType !== null ? data.cardType : 'Нет данних'}}
+    </div>
+  </div>
+  <div class="bottom__line"></div>
+  <div class="detail__all">
+    <strong>
+      Номер карты
+    </strong>
+    <div>
+      {{data.pan !== null ? data.pan : 'Нет данних'}}
+    </div>
+  </div>
+  <div class="bottom__line"></div>
+  <div class="detail__all">
+    <strong>
+      Номер телефона
+    </strong>
+    <div>
+      {{data.phone !== null ? data.phone : 'Нет данних'}}
+    </div>
+  </div>
+  <div class="bottom__line"></div>
+  <div class="detail__all">
+    <strong>
+      Описание
+    </strong>
+    <div>
+      {{data.description !== null && data.description !== "" ? data.description : 'Нет данних'}}
+    </div>
+  </div>
+  <form [formGroup]="editForm" >
+    <div>
+   <mat-form-field class="w-100" appearance="outline">
+     <mat-label>Номер карты</mat-label>
+     <input  mask="0000 0000 0000 0000" formControlName="pan"  [required]="true"  placeholder="Введите номер карты" matInput/>
+   </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Адрес филиала</mat-label>
+        <input  formControlName="branchAddress" [required]="true" placeholder="Введите адрес филиала" matInput/>
+      </mat-form-field>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;" class="btn btn-outline-success me-2">Отменить</button>
+      <button (click)="formSubmit()" style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить</button>
+    </div>
+  </form>
+</div>

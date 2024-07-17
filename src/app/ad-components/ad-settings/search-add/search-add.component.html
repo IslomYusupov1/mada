@@ -1,0 +1,59 @@
+<div *ngIf="addForm">
+  <div class="header__title mb-2">Добавление</div>
+<form [formGroup]="searchCreateForm">
+  <div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Виберите тип</mat-label>
+      <mat-select [required]="true" formControlName="type" (selectionChange)="service($event)">
+        <mat-option *ngFor="let type of data.type" [value]="type">{{type}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Виберите услугу</mat-label>
+      <mat-select [required]="true" formControlName="serviceId" [disabled]="disabled">
+        <mat-option *ngFor="let serv of services" [value]="serv['uuid']">
+          <img class="me-3" width="30px" height="30px" [src]="serv['logo']?.path+'/'+serv['logo']?.name+'.'+serv['logo']?.ext" alt=""> <span style="font-size: 16px">{{serv.title}}</span>
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field  class="w-100" appearance="outline">
+      <mat-label>tags</mat-label>
+      <textarea [required]="true" formControlName="tags" matInput></textarea>
+    </mat-form-field>
+  </div>
+  <div style="display:flex;justify-content: end">
+    <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;" class="btn btn-outline-success me-2">Отменить</button>
+    <button (click)="formSubmit('add')" style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить</button>
+  </div>
+</form>
+</div>
+<div *ngIf="editForm">
+  <div class="header__title mb-2">Редактирование</div>
+  <form [formGroup]="searchEditForm">
+ <div class="text-center mb-3">
+   <img  [src]="data.data['logo']" width="100" height="100" alt="">
+ </div>
+    <div class="text-center">
+      <div>
+        <span class="header__title" style="font-size: 14px!important;">{{data.data.title}}</span>
+      </div>
+      <div class="mb-2">
+        <strong>{{data.data.type}}</strong>
+      </div>
+    </div>
+    <div>
+      <mat-form-field  class="w-100" appearance="outline">
+        <mat-label>tags</mat-label>
+        <textarea [required]="true" formControlName="tags" matInput></textarea>
+      </mat-form-field>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;" class="btn btn-outline-success me-2">Отменить</button>
+      <button (click)="formSubmit('edit')" style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить</button>
+    </div>
+  </form>
+</div>

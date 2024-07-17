@@ -1,0 +1,53 @@
+<div>
+  <table class="table mb-4">
+    <thead>
+    <tr class="design__line">
+      <th scope="col">Кем обновлено</th>
+      <th scope="col">Дата обновлении</th>
+      <th scope="col">Старый статус</th>
+      <th scope="col">Новый статус</th>
+      <th scope="col">Причина обновления</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngIf="data.logs && data.logs.length <= 0">
+      <td colspan="5" class="grey97-text text-center py-4">
+        Список пуст
+      </td>
+    </tr>
+
+    <ng-container *ngFor="let item of data.logs; index as i">
+      <tr class="table__td">
+        <td>{{ item['updatedBy'] }}</td>
+        <td>{{ item['updatedAt'] }}</td>
+        <td>
+          <span
+            class="py-1 px-3 rounded-2"
+            [class]="hrService.getOrderCardStatusClass(item['oldStatus'])"
+          >
+            {{ hrService.getOrderCardStatus(item['oldStatus']) }}
+          </span>
+        </td>
+        <td>
+          <span
+            class="py-1 px-3 rounded-2"
+            [class]="hrService.getOrderCardStatusClass(item['newStatus'])"
+          >
+            {{ hrService.getOrderCardStatus(item['newStatus']) }}
+          </span>
+        </td>
+        <td>{{ item['updateReason'] }}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-end mt-3 border-top border-1 py-2">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="close()"
+    >
+      Закрыть
+    </button>
+  </div>
+</div>

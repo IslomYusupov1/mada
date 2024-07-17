@@ -1,0 +1,97 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2>Детали перевода</h2>
+    <button type="button" mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <div class="pt-2">
+    <div class="p-2 mb-3">
+      <div class="row">
+        <div class="col-md-6 border">
+          <div class="transaction-item">
+            <span>Direction</span>
+            <span>{{data.info['direction']}}</span>
+          </div>
+
+          <div class="transaction-item">
+            <span>Название</span>
+            <span>{{data.info['name']}}</span>
+          </div>
+
+          <div class="transaction-item">
+            <span>Дата</span>
+            <span>{{ hrService.reqDataWithTime(data.info['date']) }}</span>
+          </div>
+
+          <div class="transaction-item">
+            <span>Статус</span>
+            <span>{{ data.info['state'] }}</span>
+          </div>
+        </div>
+
+        <div class="col-md-6 border">
+          <div class="transaction-item">
+            <span>Сумма</span>
+            <span>{{(data.info['amount'] / 100) | currency: '': ''}} {{data.info['currency']}}</span>
+          </div>
+
+          <div class="transaction-item">
+            <span>Комиссия</span>
+            <span>{{(data.info['commissionAmount'] / 100) | currency: '': ''}} {{data.info['currency']}}</span>
+          </div>
+
+          <div class="transaction-item">
+            <span>Валюта</span>
+            <span>{{data.info['currencyName']}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <table class="table">
+      <thead>
+      <tr class="design__line">
+        <th>#</th>
+        <th>Отправитель</th>
+        <th>Получатель</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr class="table__td">
+        <td class="text-secondary">Ф.И.О.</td>
+        <td class="fw-normal">{{data.info.senderTransaction['firstName']}} {{data.info.senderTransaction['lastName']}}</td>
+        <td class="fw-normal">{{data.info.receiverTransaction['firstName']}} {{data.info.receiverTransaction['lastName']}}</td>
+      </tr>
+      <tr class="table__td">
+        <td class="text-secondary">Номер телефона</td>
+        <td class="fw-normal">{{data.info.senderTransaction['phone']}}</td>
+        <td class="fw-normal">{{data.info.receiverTransaction['phone']}}</td>
+      </tr>
+      <tr class="table__td">
+        <td class="text-secondary">Серия паспорта</td>
+        <td class="fw-normal">
+          {{data.info.senderTransaction['passportSerial'] ? data.info.senderTransaction['passportSerial'] : '-'}}
+          {{data.info.senderTransaction['passportNumber'] ? data.info.senderTransaction['passportNumber'] : ''}}
+        </td>
+        <td class="fw-normal">{{data.info.receiverTransaction['passportSerial']}}{{data.info.receiverTransaction['passportNumber']}}</td>
+      </tr>
+      <tr class="table__td">
+        <td class="text-secondary">Страна</td>
+        <td class="fw-normal">{{data.info.senderTransaction['countryName']}}</td>
+        <td class="fw-normal">{{data.info.receiverTransaction['countryName']}}</td>
+      </tr>
+      <tr class="table__td">
+        <td class="text-secondary">Адресс</td>
+        <td class="fw-normal">{{data.info.senderTransaction['address']}}</td>
+        <td class="fw-normal">{{data.info.receiverTransaction['address']}}</td>
+      </tr>
+      <tr class="table__td">
+        <td class="text-secondary">Название сервиса</td>
+        <td class="fw-normal">{{data.info.senderTransaction['serviceName']}}</td>
+        <td class="fw-normal">{{data.info.receiverTransaction['serviceName']}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

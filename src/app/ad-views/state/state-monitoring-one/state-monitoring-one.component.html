@@ -1,0 +1,177 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">
+      <div class="d-flex align-items-center">
+        <mat-icon class="me-2" style="cursor: pointer" routerLink="/state/monitoring">keyboard_return</mat-icon>
+        Мониторинг {{'-' + serviceName}}</div>
+    </mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div>
+        <ng-container *ngIf="!loadingList; else dataLoader">
+          <div class="row mb-4">
+            <div class="col-md-4 mb-2">
+              <app-state-statistics-card title="Общый отчет" [statData]="totalData"></app-state-statistics-card>
+            </div>
+            <div class="col-md-4 mb-2">
+              <app-state-statistics-card title="За прощлый год"
+                                         [statData]="prevYearStatistics"></app-state-statistics-card>
+            </div>
+            <div class="col-md-4 mb-2">
+              <app-state-statistics-card title="За текущий год"
+                                         [statData]="currentYearStatistics"></app-state-statistics-card>
+            </div>
+            <div class="col-md-4 mb-2">
+              <app-state-statistics-card title="За прощлый месяц"
+                                         [statData]="prevMonthStatistics"></app-state-statistics-card>
+            </div>
+            <div class="col-md-4 mb-2">
+              <app-state-statistics-card title="За текущий месяц"
+                                         [statData]="currentMonthStatistics"></app-state-statistics-card>
+            </div>
+            <div class="col-md-4 mb-2">
+              <app-state-statistics-card title="За сегодня" [statData]="todayStatistics"></app-state-statistics-card>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #dataLoader>
+          <div class="d-flex align-items-center justify-content-center">
+            <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+          </div>
+        </ng-template>
+      </div>
+
+      <hr>
+      <form [formGroup]="searchInputForm" (ngSubmit)="filter()">
+        <div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="standard">
+                <mat-label>Поиск по имю</mat-label>
+                <input type="text" matInput formControlName="firstName">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+              <mat-form-field appearance="standard">
+                <mat-label>Поиск по фамилию</mat-label>
+                <input type="text" matInput formControlName="lastName">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+              <mat-form-field appearance="standard">
+                <mat-label>Поиск по номеру телефона</mat-label>
+                <input type="text" matInput formControlName="phone">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+              <mat-form-field appearance="standard">
+                <mat-label>Поиск по ПИНФЛ</mat-label>
+                <input type="text" matInput formControlName="pinfl">
+              </mat-form-field>
+            </div>
+
+            <div class="col-md-3">
+              <mat-form-field appearance="standard">
+                <mat-label>Статус</mat-label>
+                <mat-select formControlName="isSuccess">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="SUCCESS">SUCCESS</mat-option>
+                  <mat-option value="ERROR">ERROR</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" (click)="clearFilter()">
+              Сбросить
+            </button>
+            <button type="submit" class="btn btn-outline-success ms-2">
+              Показать
+            </button>
+          </div>
+        </div>
+        <hr>
+      </form>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Ф.И.О</th>
+          <th>Номер телефона</th>
+          <th>ПИНФЛ</th>
+          <th>Дата запроса</th>
+          <th>Ордер</th>
+          <th>Статус</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="6">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList && dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td>{{item.fio}}</td>
+            <td>{{item.phone}}</td>
+            <td>{{item.pinfl}}</td>
+            <td>{{item.requestDate}}</td>
+            <td>{{item.order}}</td>
+            <td>
+              <span
+                *ngIf="item.successfulAnswers"
+                class="bg-success text-white py-1 px-2 rounded-pill"
+              >SUCCESS</span>
+              <span
+                *ngIf="!item.successfulAnswers"
+                class="bg-danger text-white py-1 px-2 rounded-pill"
+              >ERROR</span>
+            </td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <div>
+                  <button
+                    *ngIf="item.pdfURL"
+                    class="mat__menu__item" mat-menu-item
+                    (click)="downloadPdf(item.pdfURL)"
+                  >
+                    <img src="./assets/images/file/pdf.svg" alt="">
+                    <span class="title__menu_item ms-2">PDF Скачать</span>
+                  </button>
+                </div>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

@@ -1,0 +1,173 @@
+<div>
+  <h2 class="text-center" style="color: #3f6d5b">Редактирование контент баннера</h2>
+  <form [formGroup]="languagesForm" (ngSubmit)="updateBannerContent()">
+    <mat-tab-group>
+      <!--   Russian content   -->
+      <mat-tab label="RUS">
+        <div>
+          <div class="d-flex mt-2 mb-2 pb-2 border-bottom">
+            <div class="attached-image">
+              <img [src]="imageRus" alt="">
+            </div>
+            <div class="ms-2">
+              <input type="file" class="file-input" (change)="onUploadFileRus($event)" #fileUploadRus>
+              <button type="button" mat-button (click)="fileUploadRus.click()">
+                <mat-icon>attach_file</mat-icon>
+                Upload image
+              </button>
+              <p class="m-0 text-secondary">Поддерживается только формат .png</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Название</mat-label>
+            <input type="text" matInput formControlName="titleRus">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Описание</mat-label>
+            <input type="text" matInput formControlName="descriptionRus">
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <!--   Uzbek content   -->
+      <mat-tab label="UZB">
+        <div>
+          <div class="d-flex mt-2 mb-2 pb-2 border-bottom">
+            <div class="attached-image">
+              <img [src]="imageUzb" alt="">
+            </div>
+            <div class="ms-2">
+              <input type="file" class="file-input" (change)="onUploadFileUzb($event)" #fileUploadUzb>
+              <button type="button" mat-button (click)="fileUploadUzb.click()">
+                <mat-icon>attach_file</mat-icon>
+                Upload image
+              </button>
+              <p class="m-0 text-secondary">Поддерживается только формат .png</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Sarlavha</mat-label>
+            <input type="text" matInput formControlName="titleUzb">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Tavsif</mat-label>
+            <input type="text" matInput formControlName="descriptionUzb">
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <!--   English content   -->
+      <mat-tab label="ENG">
+        <div>
+          <div class="d-flex mt-2 mb-2 pb-2 border-bottom">
+            <div class="attached-image">
+              <img [src]="imageEng" alt="">
+            </div>
+            <div class="ms-2">
+              <input type="file" class="file-input" (change)="onUploadFileEng($event)" #fileUploadEng>
+              <button type="button" mat-button (click)="fileUploadEng.click()">
+                <mat-icon>attach_file</mat-icon>
+                Upload image
+              </button>
+              <p class="m-0 text-secondary">Поддерживается только формат .png</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Sarlavha</mat-label>
+            <input type="text" matInput formControlName="titleEng">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Tavsif</mat-label>
+            <input type="text" matInput formControlName="descriptionEng">
+          </mat-form-field>
+        </div>
+      </mat-tab>
+
+      <!--   Karakalpak content   -->
+      <mat-tab label="KAA">
+        <div>
+          <div class="d-flex mt-2 mb-2 pb-2 border-bottom">
+            <div class="attached-image">
+              <img [src]="imageKaa" alt="">
+            </div>
+            <div class="ms-2">
+              <input type="file" class="file-input" (change)="onUploadFileKaa($event)" #fileUploadKaa>
+              <button type="button" mat-button (click)="fileUploadKaa.click()">
+                <mat-icon>attach_file</mat-icon>
+                Upload image
+              </button>
+              <p class="m-0 text-secondary">Поддерживается только формат .png</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Sarlavha</mat-label>
+            <input type="text" matInput formControlName="titleKaa">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Tavsif</mat-label>
+            <input type="text" matInput formControlName="descriptionKaa">
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="KRL">
+        <div>
+          <div class="d-flex mt-2 mb-2 pb-2 border-bottom">
+            <div class="attached-image">
+              <img [src]="imageKr" alt="">
+            </div>
+            <div class="ms-2">
+              <input type="file" class="file-input" (change)="onUploadFileKr($event)" #fileUploadKr>
+              <button type="button" mat-button (click)="fileUploadKr.click()">
+                <mat-icon>attach_file</mat-icon>
+                Upload image
+              </button>
+              <p class="m-0 text-secondary">Поддерживается только формат .png</p>
+            </div>
+          </div>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Сарлавҳа</mat-label>
+            <input type="text" matInput formControlName="titleKrl">
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Тавсиф</mat-label>
+            <input type="text" matInput formControlName="descriptionKrl">
+          </mat-form-field>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+
+    <div class="d-flex align-items-center justify-content-end">
+      <button
+        type="button"
+        class="btn btn-outline-secondary"
+        (click)="close()">
+        Отмена
+      </button>
+      <button
+        type="submit"
+        class="btn btn-outline-success ms-2">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

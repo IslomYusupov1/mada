@@ -1,0 +1,95 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title d-flex align-items-center justify-content-between">
+      <span>Отчеты по переводам</span>
+      <button class="d-flex align-items-center justify-content-center gap-2 btn btn-success"
+              (click)="openRefreshDialog()">
+        <mat-icon>refresh</mat-icon>
+        <span>Обновить</span>
+      </button>
+    </mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <ng-container *ngIf="!loading; else loaderTemplate">
+        <div class="mb-4" *ngIf="totalCount">
+          <div class="statistics-card">
+            <div class="statistics-card__header">
+              Общий отчет
+            </div>
+
+            <div class="statistics-card__body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="total-stat_row">
+                    <div class="total-stat__left">
+                      <div class="stat-title">Среднее</div>
+                      <div class="stat-content">{{ totalCount.totalAverageCount }}</div>
+                    </div>
+                    <div class="total-stat__right">
+                      <div class="stat-title">Сумма</div>
+                      <div class="stat-content">{{ totalCount.totalAverageSum | currencyNew }}</div>
+                    </div>
+                  </div>
+
+                  <div class="total-stat_row">
+                    <div class="total-stat__left">
+                      <div class="stat-title">Максимальная</div>
+                      <div class="stat-content">{{ totalCount.totalMaxCount }}</div>
+                    </div>
+                    <div class="total-stat__right">
+                      <div class="stat-title">Сумма</div>
+                      <div class="stat-content">{{ totalCount.totalMaxSum | currencyNew }}</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <div class="total-stat_row">
+                    <div class="total-stat__left">
+                      <div class="stat-title">За вчера</div>
+                      <div class="stat-content">{{ totalCount.totalYesterdayCount }}</div>
+                    </div>
+                    <div class="total-stat__right">
+                      <div class="stat-title">Сумма</div>
+                      <div class="stat-content">{{ totalCount.totalYesterdaySum | currencyNew }}</div>
+                    </div>
+                  </div>
+
+                  <div class="total-stat_row">
+                    <div class="total-stat__left">
+                      <div class="stat-title">За сегодня</div>
+                      <div class="stat-content">{{ totalCount.totalTodayCount }}</div>
+                    </div>
+                    <div class="total-stat__right">
+                      <div class="stat-title">Сумма</div>
+                      <div class="stat-content">{{ totalCount.totalTodaySum | currencyNew }}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-center justify-content-end gap-2 border-top px-3 py-1">
+              <span style="font-size: 12px">Последнее обновление:</span>
+              <span style="font-size: 12px">{{ totalCount.lastUpdated }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="counts">
+          <div class="row">
+            <div *ngFor="let item of countList" class="col-md-4 mb-4">
+              <app-transfer-report-card [countInfo]="item"></app-transfer-report-card>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-template #loaderTemplate>
+        <div class="d-flex align-items-center justify-content-center p-3">
+          <mat-progress-spinner [value]="50" mode="indeterminate"></mat-progress-spinner>
+        </div>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</div>

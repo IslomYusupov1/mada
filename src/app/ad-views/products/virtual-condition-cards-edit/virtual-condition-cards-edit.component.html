@@ -1,0 +1,135 @@
+<div style="padding: 24px 24px">
+  <mat-card>
+    <div class="d-flex align-items-center">
+      <div>
+        <button routerLink="/products/virtual-cards" mat-icon-button>
+          <mat-icon>keyboard_backspace</mat-icon>
+        </button>
+      </div>
+      <div class="header__title">Редактирование</div>
+    </div>
+    <mat-card-content>
+
+      <form class="w-100" [formGroup]="editForm">
+              <div class="row">
+                <div class="col-4">
+                  <mat-form-field class="w-100" appearance="outline">
+                    <mat-label>Названия</mat-label>
+                    <input matInput formControlName="name" [required]="true"/>
+                  </mat-form-field>
+                </div>
+                <div class="col-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Описание</mat-label>
+                    <input type="text" placeholder="Введите описание" matInput formControlName="description">
+                  </mat-form-field>
+
+                </div>
+                <div class="col-2">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>Порядок</mat-label>
+                    <input type="number" placeholder="Введите порядковый номер" matInput formControlName="order">
+                  </mat-form-field>
+                </div>
+                      <div class="col-2">
+                        <mat-form-field appearance="outline" class="w-100">
+                          <mat-label>Тип</mat-label>
+                          <mat-select formControlName="cardType">
+                            <mat-option *ngFor="let type of ['UZCARD','HUMO','VISA','MASTERCARD']" [value]="type">{{type}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                      </div>
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-1">
+                      <h2 class="mt-2">RU</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Название</mat-label>
+                        <input type="text" matInput formControlName="nameRu">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-1">
+                      <h2 class="mt-2">UZ</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Название</mat-label>
+                        <input type="text" matInput formControlName="nameUz">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-1">
+                      <h2 class="mt-2">EN</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Название</mat-label>
+                        <input type="text" matInput formControlName="nameEng">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-1">
+                      <h2 class="mt-2">KAA</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Название</mat-label>
+                        <input type="text" matInput formControlName="nameKaa">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="row">
+                    <div class="col-1">
+                      <h2 class="mt-2">RU</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Описание</mat-label>
+                        <input type="text" matInput formControlName="descriptionRu">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-1">
+                      <h2 class="mt-2">UZ</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Описание</mat-label>
+                        <input type="text" matInput formControlName="descriptionUz">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-1">
+                      <h2 class="mt-2">EN</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Описание</mat-label>
+                        <input type="text" matInput formControlName="descriptionEng">
+                      </mat-form-field>
+                    </div>
+                    <div class="col-1">
+                      <h2 class="mt-2">KAA</h2>
+                    </div>
+                    <div class="col-11">
+                      <mat-form-field appearance="outline" class="w-100">
+                        <mat-label>Описание</mat-label>
+                        <input type="text" matInput formControlName="descriptionKaa">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+        <div class="text-end">
+
+          <button mat-flat-button [disabled]="editForm.invalid" (click)="formSubmit()" color="primary">
+            Сохранить
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

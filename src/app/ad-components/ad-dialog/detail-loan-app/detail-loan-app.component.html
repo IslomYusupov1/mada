@@ -1,0 +1,133 @@
+<div>
+  <div class="header__title mb-3 d-flex justify-content-between align-items-center">
+    <div>Подробно</div>
+    <div>
+      <button (click)="closeDialog()" mat-icon-button>
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="detail" class="border rounded-2 p-2">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>productId</strong>
+      <div>{{data.items['productId']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>login</strong>
+      <div>{{data.items['userName']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>phone</strong>
+      <div>{{data.items['userPhone']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>name</strong>
+      <div>{{data.items['name']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>passport</strong>
+      <div>{{data.items['passport']}}</div>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>applicationCreatedTime</strong>
+      <div>{{data.items['applicationCreatedTime']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>applicationOrderId</strong>
+      <div>{{data.items['applicationOrderId']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>applicationStep</strong>
+      <div>{{data.items['applicationStep']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>applicationStepTime</strong>
+      <div>{{data.items['applicationStepTime']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>stateTime</strong>
+      <div>{{data.items['stateTime']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>state</strong>
+      <div>{{data.items['state']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>absApplicationState</strong>
+      <div>{{data.items['absApplicationState']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>absApplicationStateTime</strong>
+      <div>{{data.items['absApplicationStateTime']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>Conveyer amount</strong>
+      <div>{{(data.items['absAmount'] / 100) | mask: 'separator.2'}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>clientAmount</strong>
+      <div>{{(data.items['clientAmount'] / 100) | mask: 'separator.2' }}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between border-bottom pb-2 mb-2">
+      <strong>status</strong>
+      <div>{{data.items['status']}}</div>
+    </div>
+
+    <div class="d-flex align-items-center justify-content-between pb-1 mb-1">
+      <strong>statusTime</strong>
+      <div>{{data.items['statusTime']}}</div>
+    </div>
+  </div>
+  <div *ngIf="insurance" class="border rounded-2 p-2">
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insAmount</strong>
+      <div>{{(data.items['insAmount'] / 100) | mask: 'separator.2' }}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insRecipient</strong>
+      <div>{{data.items['insRecipient'] || 'нет данных'}}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insSenderCard</strong>
+      <div>{{data.items['insSenderCard'] || 'нет данных'}}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insStatus</strong>
+      <div>{{data.items['insStatus'] || 'нет данных'}}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insTime</strong>
+      <div>{{data.items['insTime'] || 'нет данных'}}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insTransactionNumber</strong>
+      <div>{{data.items['insTransactionNumber'] || 'нет данных'}}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center border-bottom pb-2 mb-2">
+      <strong>insPolisStatus</strong>
+      <div>{{data.items['insPolisStatus'] || 'нет данных'}}</div>
+    </div>
+    <div class="d-flex justify-content-between align-items-center pb-2 mb-2">
+      <strong>insType</strong>
+      <div>{{data.items['insType'] || 'нет данных'}}</div>
+    </div>
+    <hr>
+    <div>
+      <button *ngIf="data.state && data.state !== 'CHECK_CONVEYOR'" type="button" class="btn btn-warning" (click)="getInsuranceFile()">File</button>
+    </div>
+  </div>
+</div>

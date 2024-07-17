@@ -1,0 +1,51 @@
+<div>
+  <div class="header__title mb-3">
+    Редактирование
+  </div>
+  <form [formGroup]="editUserAdminForm">
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Логин</mat-label>
+        <input formControlName="username" placeholder="Введите логин" [required]="true" matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Номер телефона</mat-label>
+        <input formControlName="phone" placeholder="Введите номер телефона" [required]="true" matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Имя</mat-label>
+        <input formControlName="firstName" placeholder="Введите имю" [required]="true" matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Фамилия</mat-label>
+        <input formControlName="lastName" placeholder="Введите Фамилию" [required]="true" matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>email</mat-label>
+        <input formControlName="email"  placeholder="Введите email" [required]="true" matInput />
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>Выберите роль</mat-label>
+        <mat-select formControlName="roleId"  [required]="true"  >
+          <mat-option  *ngFor="let role of data.roles" [value]="role.id">
+            {{role.displayName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;" class="btn btn-outline-success me-2">Отменить</button>
+      <button (click)="formSubmit()" style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить</button>
+    </div>
+  </form>
+</div>

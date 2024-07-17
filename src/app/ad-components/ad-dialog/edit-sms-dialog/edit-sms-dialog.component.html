@@ -1,0 +1,154 @@
+<div style="margin: 0 24px">
+  <div class="header__title mb-5">Редактирование сообщения</div>
+  <form [formGroup]="createSMSForm">
+    <div class="row mb-2">
+      <mat-tab-group>
+        <div class="col-12">
+          <mat-tab label="RU">
+            <div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Сообщения</mat-label>
+                <input [required]="true" formControlName="message" matInput/>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="UZ">
+            <div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Xabar</mat-label>
+                <input formControlName="uzMessage" matInput/>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="ENG">
+            <div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Message</mat-label>
+                <input formControlName="enMessage" matInput/>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="KAA">
+            <div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Xabar</mat-label>
+                <input formControlName="kaaMessage" matInput/>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+          <mat-tab label="KRL">
+            <div>
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Хабар</mat-label>
+                <input formControlName="krlMessage" matInput/>
+              </mat-form-field>
+            </div>
+          </mat-tab>
+        </div>
+      </mat-tab-group>
+    </div>
+    <div class="row mb-2">
+      <div class="col-12">
+        <div class="row">
+          <div class="col-3"><span>
+        <mat-checkbox (change)="check($event.checked)" formControlName="zoneFilterEnable"
+                      color="primary">Фильтр зон</mat-checkbox></span><span class="example-list-section">
+          <ul *ngIf="checkZone">
+            <li>
+              <mat-checkbox formControlName="zoneRed" color="warn">красная зона</mat-checkbox>
+            </li>
+            <li>
+              <mat-checkbox formControlName="zoneYellow" color="accent">желтая зона</mat-checkbox>
+            </li>
+            <li>
+              <mat-checkbox formControlName="zoneGreen" color="primary">зеленая зона</mat-checkbox>
+            </li>
+          </ul></span>
+          </div>
+          <div class="col-3">
+      <span>
+    <mat-checkbox (change)="checkMale($event.checked)" formControlName="genderFilterEnable" color="primary">Гендерный фильтр</mat-checkbox>
+   </span>
+            <span class="example-list-section">
+            <ul *ngIf="checkSex">
+              <li>
+                <mat-checkbox formControlName="genderMale" color="primary">мужской пол</mat-checkbox>
+              </li>
+              <li>
+                <mat-checkbox formControlName="genderFemale" color="primary">женский пол</mat-checkbox>
+              </li>
+              <li>
+                <mat-checkbox formControlName="genderUnknown" color="primary">неизвестно</mat-checkbox>
+              </li>
+            </ul>
+          </span>
+          </div>
+          <div class="col-3">
+      <span>
+    <mat-checkbox (change)="checkDevice($event.checked)" formControlName="deviceFilterEnable" color="primary">Фильтр устройств</mat-checkbox>
+   </span>
+            <span class="example-list-section">
+    <ul *ngIf="device">
+      <li>
+        <mat-checkbox formControlName="deviceAndroid" color="primary">устройство андроид</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="deviceIos" color="primary">устройство iOS</mat-checkbox>
+      </li>
+      <li>
+        <mat-checkbox formControlName="deviceWeb" color="primary">устройство Web</mat-checkbox>
+      </li>
+    </ul>
+  </span>
+          </div>
+
+          <div class="col-3">
+      <span>
+    <mat-checkbox (change)="checkAgeEvent($event.checked)" formControlName="ageFilterEnable" color="primary">Возрастной фильтр</mat-checkbox>
+   </span>
+            <span class="example-list-section">
+    <ul *ngIf="checkAge">
+      <li>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>С</mat-label>
+          <input type="number" matInput formControlName="ageFrom">
+        </mat-form-field>
+      </li>
+      <li>
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>До</mat-label>
+          <input type="number" matInput formControlName="ageTo">
+        </mat-form-field>
+      </li>
+    </ul>
+  </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Время отправки</mat-label>
+          <input (change)="utcDate($event)" [required]="true" formControlName="timeOfDispatch" matInput
+                 type="datetime-local"/>
+        </mat-form-field>
+      </div>
+      <div class="col-12">
+        <mat-form-field class="w-100" appearance="outline">
+          <mat-label>Время истечения срока действия</mat-label>
+          <input (change)="expireUtcDate($event)" [required]="true" formControlName="expireTime" matInput
+                 type="datetime-local"/>
+        </mat-form-field>
+      </div>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button type="button" (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;"
+              class="btn btn-outline-success me-2">Отменить
+      </button>
+      <button type="submit" (click)="formSubmit()"
+              style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить
+      </button>
+    </div>
+  </form>
+</div>

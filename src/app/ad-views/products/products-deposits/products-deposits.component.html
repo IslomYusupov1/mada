@@ -1,0 +1,188 @@
+<div>
+  <mat-card>
+    <mat-card-title class="header__title">Депозиты</mat-card-title>
+    <br>
+    <mat-card-content>
+      <div class="d-flex justify-content-between align-items-center">
+        <button class="btn btn-secondary d-flex align-items-center rounded-pill" (click)="isFilter = !isFilter">
+          <mat-icon class="me-2">filter_list</mat-icon>
+          Фильтр
+        </button>
+        <button
+          *ngxPermissionsOnly="['CREATE_PRODUCT_DEPOSIT']"
+          class="btn btn-success rounded-pill"
+          routerLink="/products/deposits/create"
+        >
+          + Добавить
+        </button>
+      </div>
+      <div *ngIf="isFilter">
+        <form  [formGroup]="filterForm">
+          <div class="row justify-content-center d-flex" >
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Валюта</mat-label>
+                <mat-select [formControl]="currency" multiple  placeholder="Все">
+                  <mat-select-trigger>
+                    {{currency.value?.[0] || ''}}<span
+                    *ngIf="(currency.value?.length || 0) > 1">, {{currency.value?.[1] || ''}}</span>
+                  </mat-select-trigger>
+                  <mat-option *ngFor="let item of currencyList" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>
+                  Статус
+                </mat-label>
+                <mat-select formControlName="active">
+                  <mat-option *ngFor="let item of [{displayName:'Активный',value:true},{displayName:'Не активный',value:false}]" [value]="item.value">{{item.displayName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Процент</mat-label>
+                <input type="number" matInput placeholder="Процент" formControlName="annualRate">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="text-center mb-1">
+            <button mat-flat-button class="bg-secondary text-white me-2" (click)="filter()">Показать</button>
+            <button (click)="refreshFilter()" mat-icon-button class="bg-secondary"><mat-icon color="accent">refresh</mat-icon></button>
+          </div>
+        </form>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">№</th>
+          <th scope="col">Название</th>
+          <th scope="col">Создан в</th>
+          <th scope="col">Сделано</th>
+          <th scope="col">Обновлено в</th>
+          <th scope="col">Обновлено</th>
+          <th scope="col">Валюта</th>
+          <th scope="col">Тип вклада</th>
+          <th scope="col">Капитализация</th>
+          <th scope="col">Статус</th>
+          <th class="text-center">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="depositsList.length ===0">
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+        <ng-container *ngFor="let item of depositsList; index as i;">
+          <tr class="table__td">
+            <td>{{(currentPage-1) * 100 + (i + 1)}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.create? item.create.date : ''}}</td>
+            <td>{{item.create? item.create.fullName : ''}}</td>
+            <td>{{item.update? item.update.date : ''}}</td>
+            <td>{{item.update? item.update.fullName : ''}}</td>
+            <td>{{item['initialPayment'].currency}}</td>
+            <td>{{item['depositCondition']}}</td>
+            <td><span class="fw-normal bg-success text-white rounded-5 px-2 py-1">{{item['annualRate']}} %</span></td>
+            <td><span
+              [ngClass]="{'bg-success': item.active,'bg-danger':!item.active}"
+              class="fw-normal  text-white  rounded-5 px-2 py-1">{{item.active === true ? 'Активный' : 'Не активный'}}</span></td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item matTooltip="изменить" matTooltipPosition="before"
+                        *ngxPermissionsOnly="['UPDATE_PRODUCT_DEPOSIT']"
+                        [routerLink]="['/products/deposits/edit']"
+                        [queryParams]="{deposit_id: item.id}">
+                  <mat-icon color="primary">edit</mat-icon>
+                  <span class="title__menu_item">Изменить</span>
+                </button>
+                <button class="mat__menu__item" mat-menu-item matTooltip="удалить" matTooltipPosition="before"
+                        *ngxPermissionsOnly="['DELETE_PRODUCT_DEPOSIT']"
+                        (click)="showCancelDialog(item.id)">
+                  <mat-icon color="warn">delete_outline</mat-icon>
+                  <span class="title__menu_item">Удалить</span>
+                </button>
+                <button *ngIf="item.active === true" class="mat__menu__item" matTooltip="деактивировать"
+                        matTooltipPosition="before" mat-menu-item (click)="showDeactivateDialog(item.id)">
+                  <mat-icon color="warn">close</mat-icon>
+                  <span class="title__menu_item">Деактивировать</span>
+                </button>
+                <button *ngIf="item.active === false" class="mat__menu__item" matTooltip="активировать"
+                        matTooltipPosition="before" mat-menu-item (click)="showActivateDialog(item.id)">
+                  <mat-icon color="primary">check</mat-icon>
+                  <span class="title__menu_item">Активировать</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+<!--  <div class="deposit-content px-4 py-1">-->
+<!--    <div *ngIf="depositsList && depositsList.length > 0"  class="row">-->
+<!--        <div class="col-4 mt-3" *ngFor="let item of depositsList">-->
+<!--          <div class="card border-0" style=" box-shadow: rgba(50, 50, 93, 0.25) 0 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;!important;border-radius: 20px">-->
+<!--            <div class="card-body">-->
+<!--              <div class="row">-->
+<!--                <div class="col-md-3">-->
+<!--                  <div-->
+<!--                    [style]="item && item.imgUrl ? 'background-image:url('+item.imgUrl+')' : 'background-image: url(\''+defaultImg+'\')'"-->
+<!--                    class="deposit-logo"></div>-->
+<!--                </div>-->
+<!--                <div class="col-md-7">-->
+<!--                  <p class="fw-bolder m-1" style="font-size: 16px">Название: {{item.name}}</p>-->
+<!--                  <p class="fw-bolder m-1">Тип периода: <span class="fw-normal">{{item.periodType}}</span></p>-->
+<!--                  <p class="fw-bolder m-1">Капитализация: <span-->
+<!--                    class="fw-normal badge bg-success rounded-pill">{{item.annualRate}} %</span></p>-->
+<!--                  <p class="fw-bolder m-1">Описание: <span class="fw-normal">{{item.requirements}}</span></p>-->
+<!--                  <p class="fw-bolder m-1">Период: <span-->
+<!--                    class="fw-normal">{{item.periodType !== 'UNLIMITED' ? (item.fromPeriod ? 'от ' + item.fromPeriod + '- до ' + item.toPeriod + ' (' + item.periodType + ')' : item.toPeriod + ' (' + item.periodType + ')') : item.periodType}}</span>-->
+<!--                  </p>-->
+<!--                  <p class="fw-bolder m-1">Cтатус: <span-->
+<!--                    [ngClass]="{'bg-success': item.active,'bg-danger':!item.active}"-->
+<!--                    class="fw-normal badge text-white  rounded-pill">{{item.active === true ? 'Активный' : 'Не активный'}}</span></p>-->
+<!--                </div>-->
+<!--                <div class="col-md-2 d-flex flex-column align-items-end m-buttons">-->
+<!--                  <button class="me-2" mat-icon-button matTooltip="изменить" matTooltipPosition="before"-->
+<!--                          *ngxPermissionsOnly="['UPDATE_PRODUCT_DEPOSIT']"-->
+<!--                          [routerLink]="['/products/deposits/edit']"-->
+<!--                          [queryParams]="{deposit_id: item.id}">-->
+<!--                    <mat-icon color="primary">edit</mat-icon>-->
+<!--                  </button>-->
+<!--                  <button class="me-2" mat-icon-button matTooltip="удалить" matTooltipPosition="before"-->
+<!--                          *ngxPermissionsOnly="['DELETE_PRODUCT_DEPOSIT']"-->
+<!--                          (click)="showCancelDialog(item.id)">-->
+<!--                    <mat-icon color="warn">delete_outline</mat-icon>-->
+<!--                  </button>-->
+<!--                  <div *ngxPermissionsOnly="['DEACTIVATE_PRODUCT_DEPOSIT']" class="d-flex align-items-center">-->
+<!--                    <button *ngIf="item.active === true" class="me-2" matTooltip="деактивировать"-->
+<!--                            matTooltipPosition="before" mat-icon-button (click)="showDeactivateDialog(item.id)">-->
+<!--                      <mat-icon color="warn">close</mat-icon>-->
+<!--                    </button>-->
+<!--                    <button *ngIf="item.active === false" class="me-2" matTooltip="активировать"-->
+<!--                            matTooltipPosition="before" mat-icon-button (click)="showActivateDialog(item.id)">-->
+<!--                      <mat-icon color="primary">check</mat-icon>-->
+<!--                    </button>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      <div *ngIf="depositsList && depositsList.length === 0">-->
+<!--        <div class="col-md-12 mt-2">-->
+<!--          <h2 class="text-center mt-2 fst-italic">{{text}}</h2>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>
+

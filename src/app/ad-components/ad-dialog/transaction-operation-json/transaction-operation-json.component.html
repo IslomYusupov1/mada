@@ -1,0 +1,10 @@
+<div class="d-flex  gap-xl-3 align-items-center">
+  <div *ngIf="data.type ==='request'">
+    <strong><pre>REQUEST</pre></strong>
+    <code style="font-size: 16px"><pre>{{data.request}}</pre></code>
+  </div>
+  <div *ngIf="data.type === 'response'">
+    <strong><pre>RESPONSE</pre></strong>
+    <code style="font-size: 16px"><pre>{{data.response}}</pre></code>
+  </div>
+</div>

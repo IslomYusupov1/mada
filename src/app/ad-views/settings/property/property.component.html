@@ -1,0 +1,60 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title>
+      <div class="header__title">Настройки свойств</div>
+    </mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="mb-2 pt-2 d-flex align-items-center justify-content-end">
+        <button
+          *ngxPermissionsOnly="['UPDATE_PROPERTIES']"
+          class="btn btn-outline-secondary d-flex align-items-center justify-content-center gap-2"
+          (click)="openUpdateDialog()"
+        >
+          <mat-icon>refresh</mat-icon>
+          Обновить
+        </button>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Ключ</th>
+          <th>Значение</th>
+        </tr>
+        </thead>
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="2"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length === 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList && dataList.length > 0">
+            <td>{{(i + 1)}}</td>
+            <td>{{item.key}}</td>
+            <td>{{item.value}}</td>
+          </tr>
+        </ng-container>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

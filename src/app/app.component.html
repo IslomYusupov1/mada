@@ -1,0 +1,14 @@
+
+<div [class.d-flex]="authToken" style="width: 100%">
+  <app-ad-left-menu-block *ngIf="authToken"></app-ad-left-menu-block>
+
+  <div style="width: 100%; height: 100%">
+    <app-ad-login-top-block class="d-print-none" *ngIf="authToken"></app-ad-login-top-block>
+    <div [style]="authToken ? 'padding-top:61px': ''">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+
+  <app-ad-loading-dialog></app-ad-loading-dialog>
+</div>
+

@@ -1,0 +1,101 @@
+.p-list {
+  width: 500px;
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.fraud-list {
+  max-width: 100%;
+  border: solid 1px #ccc;
+  min-height: 60px;
+  display: block;
+  background: white;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.p-box {
+  padding: 0 4px;
+  border-bottom: solid 1px #ccc;
+  color: rgba(0, 0, 0, 0.87);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  background: white;
+  font-size: 14px;
+  position: relative;
+  height: 45px;
+  &.disab {
+    background-color: $orange2;
+  }
+}
+
+.cdk-drag-preview {
+  box-sizing: border-box;
+  border-radius: 4px;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+              0 8px 10px 1px rgba(0, 0, 0, 0.14),
+              0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.p-box:last-child {
+  border: none;
+}
+
+.p-list.cdk-drop-list-dragging .p-box:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.p-placeholder {
+  background: #ccc;
+  border: dotted 3px #999;
+  min-height: 45px;
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+.p-handle {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #ccc;
+  cursor: move;
+  width: 24px;
+  height: 24px;
+}
+img.pc-image {
+  height: 30px;
+}
+img.mc-image {
+  height: 200px;
+  width: 200px;
+  margin: 0 auto;
+  object-fit: contain;
+  display: block;
+  padding: 10px 0;
+}
+.pat-list {
+  .mat-card {
+    border-radius: 10px !important;
+    &.disab {
+      background-color: $orange2;
+    }
+  }
+  .mat-card-title {
+    font-size: 16px;
+    height: 50px;
+    overflow: hidden;
+    .title-item {
+      width: 100%;
+      max-height: 100%;
+    }
+  }
+}

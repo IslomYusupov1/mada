@@ -1,0 +1,51 @@
+<div>
+  <h2 class="text-center" style="color: #3f6d5b">График погашения</h2>
+  <table class="table mb-4 mt-2">
+    <thead>
+    <tr class="table-header text-center">
+      <th scope="col">№</th>
+      <th scope="col">Рекомендуемая сумма</th>
+      <th scope="col">Основной долг</th>
+      <th scope="col">Начисленные проценты</th>
+      <th scope="col">Дата погашения</th>
+    </tr>
+    </thead>
+    <tbody>
+    <!--=====   Empty   =====-->
+    <tr *ngIf="data.list && data.list.length <= 0">
+      <td class="em-col"></td>
+      <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+      <td class="em-col"></td>
+    </tr>
+
+    <!--=====   Content   =====-->
+    <ng-container *ngFor="let item of data.list; index as i;">
+      <tr class="table-body text-center">
+        <td>{{i + 1}}</td>
+        <td>
+          {{item['amount'] ? (item.amount['recommendedAmount'] / 100 | currency: '': '') : '-'}}
+          {{item['amount'] ? item.amount.currency : ''}}
+        </td>
+        <td>
+          {{item['amount'] ? (item.amount['amount'] / 100 | currency: '': '') : '-'}}
+          {{item['amount'] ? item.amount.currency : ''}}
+        </td>
+        <td>
+          {{item['amount'] ? (item.amount['debt'] / 100 | currency: '': '') : '-'}}
+          {{item['amount'] ? item.amount.currency : ''}}
+        </td>
+        <td>{{item['repaymentDate'] ? item['repaymentDate'] : '-'}}</td>
+      </tr>
+    </ng-container>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-end mt-2">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="close()"
+    >
+      Закрыть
+    </button>
+  </div>
+</div>

@@ -1,0 +1,70 @@
+<div>
+  <h2>Добавление лимита</h2>
+  <div>
+    <form [formGroup]="editLimitForm" (ngSubmit)="editLimit()">
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Тип операции</mat-label>
+            <input type="text" formControlName="operationType" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Тип карты</mat-label>
+            <input type="text" formControlName="cardType" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Код операции</mat-label>
+            <input type="text" formControlName="operationCode" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Тип периода</mat-label>
+            <input type="text" formControlName="periodType" matInput readonly>
+          </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Лимит суммы</mat-label>
+            <input type="text" mask="separator.2" formControlName="amountLimit" matInput>
+          </mat-form-field>
+          <mat-checkbox (change)="changeAmountLimit($event)" formControlName="unlimitedAmount">
+            <span style="font-size: 12px; color: grey; font-weight: normal">Неограниченная сумма</span>
+          </mat-checkbox>
+        </div>
+
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Ограничение количества</mat-label>
+            <input type="number" formControlName="countLimit" matInput>
+          </mat-form-field>
+          <mat-checkbox (change)="changeCountLimit($event)" formControlName="unlimitedCount">
+            <span style="font-size: 12px; color: grey; font-weight: normal">Неограниченное количество</span>
+          </mat-checkbox>
+        </div>
+      </div>
+      <hr>
+      <div class="d-flex align-items-center justify-content-end gap-2">
+        <button
+          type="button"
+          class="btn btn-outline-secondary"
+          (click)="close()"
+        >Закрыть
+        </button>
+        <button
+          type="submit"
+          class="btn btn-success"
+        >Обновить
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

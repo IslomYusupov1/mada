@@ -1,0 +1,58 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+   <div class="d-flex justify-content-between align-items-center">
+     <mat-card-title class="header__title">ЭПОС РЕКОНСИЛИАЦИЯ</mat-card-title>
+     <button  mat-stroked-button (click)="sendAll()">
+       <mat-icon color="primary" class="me-2">all_out</mat-icon>
+       Реконсилиацию для всех
+     </button>
+   </div>
+    <mat-card-content>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">id</th>
+          <th scope="col">merchantId</th>
+          <th scope="col">name</th>
+          <th scope="col">port</th>
+          <th scope="col">terminalId</th>
+          <th class="text-end">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item.id}}</td>
+            <td>{{item.merchantId}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.port}}</td>
+            <td>{{item.terminalId}}</td>
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+
+
+                <button class="mat__menu__item" mat-menu-item (click)="sendOne(item.id)">
+                  <mat-icon color="primary">repeat_one</mat-icon>
+                  <span class="title__menu_item">реконсилиацию к одному</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>
+

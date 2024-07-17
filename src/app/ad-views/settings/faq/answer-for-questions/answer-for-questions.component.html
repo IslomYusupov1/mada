@@ -1,0 +1,62 @@
+<mat-card>
+  <mat-card-title>
+    <div class="d-flex">
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/settings/faq">Категории</a></li>
+          <li class="breadcrumb-item active" aria-current="page">{{categoryName}}</li>
+        </ol>
+      </nav>
+    </div>
+
+    <div class="d-flex justify-content-end mt-2">
+      <button
+        *ngIf="!data?.text || !data?.id"
+        class="btn btn-success ms-2"
+        (click)="openCreateCategoryDialog()"
+      >
+        + Добавить ответ
+      </button>
+    </div>
+  </mat-card-title>
+  <mat-card-content *ngIf="data?.id !== null">
+    <div  class="row pat-list pt-4" >
+      <div
+        class="col-sm-12 col-md-12 col-lg-12 mb-3"
+      >
+        <div class="mat-card position-relative">
+         <div>  <strong style="font-size: 18px">Ответ: </strong><span   class="title-item py-2" style="white-space: pre-line">{{data?.text}}</span></div>
+         <div *ngIf="data['actionType']">  <strong style="font-size: 18px">Вид действия: </strong><span   class="title-item py-2" style="white-space: pre-line">{{data?.['actionType']}}</span></div>
+         <div *ngIf="data['actionText']">  <strong style="font-size: 18px">Текст действия: </strong><span class="title-item py-2">{{data?.['actionText']}}</span><span>
+           <button
+             matTooltip="Перевод текст действия"
+             matTooltipPosition="above"
+            (click)="categoryActionTextDialog(data?.id)"
+             mat-icon-button class="fw-light">
+             <mat-icon>translate</mat-icon>
+            </button></span></div>
+          <mat-divider ></mat-divider>
+          <mat-card-actions class="text-end">
+            <button
+              matTooltip="Редактировать"
+              matTooltipPosition="above"
+              mat-icon-button class="fw-light"
+              color="primary"
+              (click)="openEditDialog(data?.id)"
+            >
+              <mat-icon>edit_outline</mat-icon>
+            </button>
+            <button
+              matTooltip="Перевод названия"
+              matTooltipPosition="above"
+              (click)="categoryTitleDialog(data?.id)"
+              mat-icon-button class="fw-light">
+              <mat-icon>translate</mat-icon>
+            </button>
+
+          </mat-card-actions>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

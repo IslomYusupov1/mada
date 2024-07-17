@@ -1,0 +1,119 @@
+<mat-card>
+  <mat-card-title>
+    <div class="d-flex align-items-center justify-content-between">
+      <div>Категории услуг</div>
+      <div *ngIf="dataList.length > 0">
+        <button *ngIf="!isDrop" mat-icon-button (click)="minimize()">
+          <img src="./assets/new-icons/Group-4-2.svg" alt="" style="max-height: 60%;">
+        </button>
+        <button *ngIf="isDrop" mat-button (click)="minimize()">Отменить</button>
+        <button *ngIf="isDrop" mat-button color="primary" (click)="sortData()">Сохранить</button>
+      </div>
+    </div>
+    <div class="d-flex justify-content-end mt-2">
+      <button
+        *ngIf="!isDrop"
+        class="btn btn-success"
+      >
+        + Добавить услугу
+      </button>
+      <button
+        *ngIf="!isDrop"
+        class="btn btn-success ms-2"
+        (click)="openCreateCategoryDialog()"
+      >
+        + Добавить категорию
+      </button>
+    </div>
+  </mat-card-title>
+  <mat-card-content>
+    <div *ngIf="dataList && dataList.length > 0 && !loading" cdkDropList [class]="isDrop ? 'p-list' : 'row pat-list pt-4'" (cdkDropListDropped)="drop($event)">
+      <div
+        [class]="isDrop ? 'p-box' : 'col-sm-6 col-md-4 col-lg-3 mb-3'"
+        *ngFor="let item of dataList" cdkDrag
+        [class.disab]="!item.visible"
+      >
+        <div class="p-placeholder" *cdkDragPlaceholder></div>
+        <div class="p-handle" cdkDragHandle [class.d-none]="!isDrop">
+          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+            <path
+              d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+            <path d="M0 0h24v24H0z" fill="none"></path>
+          </svg>
+        </div>
+        <div [class]="isDrop ? 'd-flex align-items-center' : 'mat-card'" [class.disab]="!item.visible">
+          <div *ngIf="isDrop" class="px-4 p-content">
+            <img [src]="item.logo?.path+'/'+item.logo?.name+'.'+item.logo?.ext" alt="" class="pc-image">
+            <!--              <img src="./assets/no-image.png" alt="" class="pc-image">-->
+          </div>
+          <div *ngIf="!isDrop" class="px-4 mat-card-content">
+            <a (click)="navigateTo(item.type, item.uuid)" style="cursor: pointer">
+              <img [src]="item.logo?.path+'/'+item.logo?.name+'.'+item.logo?.ext" alt="" class="mc-image">
+              <!--              <img src="./assets/no-image.png" alt="" class="mc-image">-->
+            </a>
+          </div>
+          <div [class]="isDrop ? 'p-title' : 'mat-card-title text-center py-2 d-flex align-items-end'">
+            <div class="title-item">{{ item.title }}</div>
+          </div>
+          <mat-divider *ngIf="!isDrop"></mat-divider>
+          <mat-card-actions *ngIf="!isDrop" class="text-end">
+            <button
+              matTooltip="Редактировать"
+              matTooltipPosition="above"
+              mat-icon-button
+              class="fw-light" color="primary"
+              (click)="openEditDialog(item.uuid, item.type)"
+            >
+              <mat-icon>edit_outline</mat-icon>
+            </button>
+            <button
+              matTooltip="Прикрепить фото"
+              matTooltipPosition="above"
+              mat-icon-button
+              class="fw-light"
+              (click)="openAttachPhotoDialog(item.uuid, item.type, item.logo)"
+            >
+              <mat-icon style="color: #383838">add_photo_alternate</mat-icon>
+            </button>
+            <button
+              matTooltip="Перевод названия"
+              matTooltipPosition="above"
+              (click)="openCategoryTitleDialog(item.uuid, item.type)"
+              mat-icon-button class="fw-light"
+            >
+              <mat-icon>translate</mat-icon>
+            </button>
+            <button
+              *ngIf="item.visible === 'INVISIBLE'"
+              matTooltip="Показать"
+              matTooltipPosition="above"
+              mat-icon-button class="fw-light"
+              color="primary"
+              (click)="changeShow(item.uuid, item.visible, item.type)"
+            >
+              <mat-icon>check</mat-icon>
+            </button>
+            <button
+              *ngIf="item.visible === 'VISIBLE'"
+              matTooltip="Скрыть"
+              matTooltipPosition="above"
+              mat-icon-button class="fw-light"
+              color="warn"
+              (click)="changeShow(item.uuid,  item.visible, item.type)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-card-actions>
+        </div>
+      </div>
+    </div>
+
+    <ng-container *ngIf="dataList.length === 0 && !loading"></ng-container>
+
+    <ng-container *ngIf="loading">
+      <div class="d-flex align-items-center justify-content-center">
+        <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+      </div>
+    </ng-container>
+  </mat-card-content>
+</mat-card>

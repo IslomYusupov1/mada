@@ -1,0 +1,121 @@
+<div style="max-height: 700px">
+  <h2>Детали</h2>
+
+  <div class="border rounded-3 p-2">
+    <div class="transaction-item">
+      <span>ID продукта:</span>
+      <span>{{data.info['productId']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>МФО:</span>
+      <span>{{data.info['branch']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>ID кредита:</span>
+      <span>{{data.info['loanId']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Код клиента:</span>
+      <span>{{data.info['clientCode']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Ф.И.О:</span>
+      <span>{{data.info['userName']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Серия паспорта:</span>
+      <span>{{data.info['passport']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>ПИНФЛ:</span>
+      <span>{{data.info['pinfl']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Номер телефона:</span>
+      <span>{{data.info['userPhone']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Сумма кредита:</span>
+      <span>{{(data.info['clientAmount'] / 100) | currency: '': ''}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Остаток суммы:</span>
+      <span>{{(data.info['saldo1'] / 100) | currency: '': ''}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Дата начала договора:</span>
+      <span>{{data.info['contractStartTime']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Дата окончания договора:</span>
+      <span>{{data.info['contractEndTime']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Статус:</span>
+      <span>{{data.info['state']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>conveyorAmount:</span>
+      <span>{{(data.info['conveyorAmount'] / 100) | currency: '': ''}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insuranceAmount:</span>
+      <span>{{(data.info['insuranceAmount'] / 100) | currency: '': ''}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insurancePolicyStatus:</span>
+      <span>{{data.info['insurancePolicyStatus']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insuranceRecipientEpos:</span>
+      <span>{{data.info['insuranceRecipientEpos']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insuranceSenderCard:</span>
+      <span>{{data.info['insuranceSenderCard']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insuranceStatus:</span>
+      <span>{{data.info['insuranceStatus']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insuranceTime:</span>
+      <span>{{data.info['insuranceTime']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>insuranceTransactionId:</span>
+      <span>{{data.info['insuranceTransactionId']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>provisionAmount:</span>
+      <span>{{(data.info['provisionAmount'] / 100) | currency: '':''}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>receivedAmount:</span>
+      <span>{{(data.info['receivedAmount'] / 100) | currency: '':''}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>receivedDate:</span>
+      <span>{{data.info['receivedDate']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>receivedTransactionId:</span>
+      <span>{{data.info['receivedTransactionId']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>receivedTransactionStatus:</span>
+      <span>{{data.info['receivedTransactionStatus']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>recipientMask:</span>
+      <span>{{data.info['recipientMask']}}</span>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end py-3">
+    <button
+      (click)="close()"
+      class="btn btn-outline-secondary">
+      Закрыть
+    </button>
+  </div>
+</div>

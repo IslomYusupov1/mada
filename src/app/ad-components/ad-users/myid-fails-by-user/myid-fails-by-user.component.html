@@ -1,0 +1,36 @@
+<div>
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Список сбоев MyID пользователя</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Код</th>
+          <th>Время</th>
+          <th>Сообщения</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <!-- If empty list -->
+        <tr *ngIf="data.list.length <= 0">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of data.list; index as i">
+          <tr class="table__td">
+            <td>{{i + 1}}</td>
+            <td>{{item.code}}</td>
+            <td>{{item.time}}</td>
+            <td>{{item.message}}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

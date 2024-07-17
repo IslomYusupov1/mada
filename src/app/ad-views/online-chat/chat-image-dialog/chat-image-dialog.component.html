@@ -1,0 +1,14 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Фото</h2>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div class="w-100 h-100 text-center"
+       style="background-position: center center; background-repeat: no-repeat; background-size: cover;"
+  >
+    <img class="w-100 h-100" style="object-fit: contain" [src]="data.path" alt="image">
+  </div>
+</div>

@@ -1,0 +1,163 @@
+<div style="padding: 0;margin:0;background: #F2F4F2">
+  <div class="row" style="height: 100vh; padding: 0; margin: 0">
+    <div class="col-6 ms-auto" style="padding: 0">
+      <div
+        style="
+          width: 100%;
+          height: 100vh;
+          margin-left: auto;
+          position: relative;
+        ">
+        <div
+          class="background__image__login"
+          style="
+            height: 547px;
+            width: 494px;
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          "
+        >
+          <div class="home-image">
+            <img width="400" height="400" src="assets/images/mainLogoLogin.svg" alt="#">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div style="
+        height: 100%;
+        padding: 0;
+        margin: 0; " class="col-6">
+      <div style="width: 100%; height: 100%; position: relative">
+        <div
+          style="
+            background-color: #FBFDF9;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+          "
+        >
+          <div style="width: 494px; height: 547px">
+            <form (ngSubmit)="userCheck()"  *ngIf="phoneNumberForm" [formGroup]="formPhoneNumber"
+                  style="position: relative; height: 100%">
+
+              <div style="padding: 76px 110px;">
+                <div
+                  style="
+                  font-size: 22px;
+                  color: #264796;
+                  margin-bottom: 26px;
+                "
+                >
+                  Вход
+                </div>
+                <label>Телефон номер</label>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    [showMaskTyped]="true" placeHolderCharacter="_"
+                    prefix="+"
+                    mask=" (000) 00 000 00 00"
+                    [required]="true"
+                    formControlName="username" matInput/>
+                </mat-form-field>
+              </div>
+              <div style="
+                  padding: 76px 110px;
+                  position: absolute;
+                  bottom: 50px;
+                  left: 0;
+                  right: 0;
+                  align-items: center;
+                ">
+                <button
+                  class="border-0"
+                  type="submit"
+                  style="display: flex;justify-content: center;align-items: center;background: #264796;width: 100%;height: 46px;cursor: pointer;border-radius: 12px!important;">
+                  <span style="color: #FFFFFF;font-size: 14px">Далее</span></button>
+              </div>
+            </form>
+            <form (ngSubmit)="userVerify()"  *ngIf="isConfirm" [formGroup]="formSmsCode"
+                  style="position: relative; height: 100%">
+              <div style="padding: 76px 110px">
+                <div
+                  style="
+                  font-size: 22px;
+                  color: #264796;
+                "
+                >
+                  Вход
+                </div>
+                <h4 class="text-center mt-3"><b>{{message}}</b></h4>
+                <mat-form-field class="w-100" appearance="outline">
+                  <mat-label>Код</mat-label>
+                  <input
+                    mask="000000"
+                    [required]="true" [class]="hr.validationClass(code)"
+                    formControlName="code" matInput #confirmCode/>
+                </mat-form-field>
+              </div>
+              <div style="
+                  padding: 76px 110px;
+                  position: absolute;
+                  bottom: 50px;
+                  left: 0;
+                  right: 0;
+                  align-items: center;
+                ">
+                <button
+                  class="border-0"
+                  type="submit"
+                  style="display: flex;justify-content: center;align-items: center;background: #264796;width: 100%;height: 46px;border-radius: 6px;cursor: pointer;border-radius: 12px!important;">
+                  <span style="color: #FFFFFF;font-size: 14px">Далее</span></button>
+              </div>
+            </form>
+            <form (ngSubmit)="loginUser()"  *ngIf="isLogin" [formGroup]="loginForm"
+                  style="position: relative; height: 100%">
+              <div style="padding: 76px 110px">
+                <div
+                  style="
+                  font-size: 22px;
+                  color: #264796;
+                  margin-bottom: 26px;
+                "
+                >
+                  Вход
+                </div>
+                <label>Пароль</label>
+                <mat-form-field class="w-100" appearance="outline">
+                  <input
+                    [type]="passShow ? 'text' : 'password'"
+                    [required]="true"
+                    placeholder="Введите пароль"
+                    formControlName="password" matInput #passwordInput/>
+                  <app-ad-btn-eye (click)="passShow = !passShow" [isShow]="passShow"></app-ad-btn-eye>
+                </mat-form-field>
+              </div>
+              <div style="
+                  padding: 76px 110px;
+                  position: absolute;
+                  bottom: 50px;
+                  left: 0;
+                  right: 0;
+                ">
+                <button
+                  class="border-0"
+                  type="submit"
+                  style="display: flex;justify-content: center;align-items: center;background: #264796;width: 100%;height: 46px;border-radius: 6px;cursor: pointer;margin-bottom: 70px;border-radius: 12px!important;">
+                  <span style="color: #FFFFFF;font-size: 14px">Войти</span></button>
+                <div style="display: flex;justify-content: center">
+                  <mat-checkbox color="primary">Запомнить меня на сутки</mat-checkbox>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,83 @@
+<mat-card>
+  <mat-card-title>
+    <h2 class="title">Карты пользователя</h2>
+  </mat-card-title>
+  <mat-card-content>
+    <table class="table mb-4">
+      <thead>
+      <tr class="table-header text-center">
+        <th scope="col">№</th>
+        <th scope="col">Тип карты</th>
+        <th scope="col">Банк</th>
+        <th scope="col">Имя валадельца</th>
+        <th scope="col">Номер карты</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">Валюта</th>
+        <th scope="col">Статус карты</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--=====   Loading   =====-->
+      <tr *ngIf="loading">
+        <td class="em-col"></td>
+        <td colspan="8">
+          <ngx-skeleton-loader
+            count="5"
+            [theme]="{ 'height.px': 25 }"
+          ></ngx-skeleton-loader>
+        </td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Empty   =====-->
+      <tr *ngIf="dataList && dataList.length <= 0 && !loading">
+        <td class="em-col"></td>
+        <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Content   =====-->
+      <ng-container *ngFor="let item of dataList; index as i;">
+        <tr class="table-body text-center" *ngIf="!loading">
+          <td>{{i + 1}}</td>
+          <td>
+            <img
+              width="36"
+              height="36"
+              style="object-fit: contain"
+              [src]="item.service ? item.service.logo.path+'/'+item.service.logo.name+'.'+item.service.logo.ext : ''"
+              alt="">
+          </td>
+          <td>
+            {{item['bank'] ? item.bank.name : '-'}}
+          </td>
+          <td>{{item['owner'] ? item['owner'] : '-'}}</td>
+          <td>{{item['panMask'] ? item['panMask'] : '-'}}</td>
+          <td>
+            {{item['balance'] ? (item.balance.amount['amount'] / 100 | currency: '': '') : '-'}}
+            <button
+              matTooltip="Актуальный баланс"
+              matTooltipPosition="above"
+              mat-icon-button
+              (click)="refreshBalance(item.id, item.panMask)"
+            >
+              <mat-icon class="text-secondary">refresh</mat-icon>
+            </button>
+          </td>
+          <td>{{item['balance'] ? item.balance.amount['currency'] : '-'}}</td>
+          <td>
+            <span [class]="{
+              'text-danger': item['status'] === 'BLOCKED',
+              'text-success': item['status'] === 'ACTIVE'
+            }">
+              {{item['status'] ? setCardStatus(item.status) : '-'}}
+            </span>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

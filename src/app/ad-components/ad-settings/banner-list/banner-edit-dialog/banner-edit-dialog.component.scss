@@ -1,0 +1,20 @@
+.attached-image {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #cccccc;
+  overflow: hidden;
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.mat-form-field {
+  width: 100%;
+}

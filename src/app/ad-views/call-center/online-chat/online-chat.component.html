@@ -1,0 +1,235 @@
+<div class="chat-layout">
+  <div class="chat-container">
+    <div class="d-flex w-100 h-100">
+      <div class="rooms">
+        <div class="room-header">
+          <p>Чат с клиентами</p>
+        </div>
+        <div class="search-form">
+          <div class="position-relative">
+            <input type="search" placeholder="Поиск">
+            <img src="assets/new-icons/search.svg" alt="">
+          </div>
+        </div>
+        <ul *ngIf="roomList && roomList.length > 0">
+          <li *ngFor="let room of roomList" (click)="getChat(room)"
+              [class.active]="room.active">
+            <p class="d-flex align-items-center">
+              <span class="avatar">
+                <img src="assets/new-icons/user.svg" alt="">
+                <span class="msg-status" *ngIf="room.user_msg_status">{{room.user_msg}}</span>
+                <span class="online-status"
+                      [class]="{'green': room.status === 'Online', 'red': room.status === 'Offline'}"></span>
+              </span>
+              {{room.room_name}}
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <div *ngIf="isChat" class="chat-body">
+        <div class="position-relative w-100 h-100">
+          <div class="absolute">
+            <img src="assets/new-icons/telegram.svg" width="100" alt="" style="opacity: 0.9">
+            <p>Ваши сообщения</p>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="!isChat"
+           class="chat-body"
+           [style]="isFile ? 'padding-bottom: 164px' : ''"
+      >
+        <div class="chat-operator">
+          <div>
+            <div class="d-flex text-white">
+              <div style="width: 30px; height: 30px; border-radius: 50%"
+                   class="shadow-sm bg-white d-flex justify-content-center align-items-center">
+                <img src="assets/new-icons/corp-avatar.png" alt="" width="15" style="opacity: 0.5">
+              </div>
+
+              <div class="corp-title">
+                <p>{{corpName}}</p>
+                <div class="status">
+                  {{corpStatus}}
+                  <div
+                    [class]="{'green' : corpStatus && corpStatus === 'Online', 'red' : corpStatus && corpStatus === 'Offline'}"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <button mat-icon-button>
+              <mat-icon (click)="closeChat()" matTooltip="Закрыть чат" matTooltipPosition="above">close</mat-icon>
+            </button>
+          </div>
+          <!--          <div class="show-right" (click)="show = !show">-->
+          <!--            <img *ngIf="show" src="assets/new-icons/left.svg" alt="">-->
+          <!--            <img *ngIf="!show" src="assets/new-icons/right.svg" alt="">-->
+          <!--          </div>-->
+        </div>
+        <div class="w-100 h-100 py-3">
+          <div *ngIf="messageList && messageList.length > 0" class="h-100 scrollbar"
+               style="overflow-y: auto; width: 95%; margin: 0 auto;"
+               #chatList>
+            <mat-progress-bar *ngIf="loading" mode="query"></mat-progress-bar>
+            <div class="d-flex align-items-center justify-content-center" *ngIf="!chatHistory">
+              <button (click)="getChatHistory()" mat-button>
+                Показать еще
+              </button>
+            </div>
+            <ul class="chat-list">
+              <li *ngFor="let item of messageList" class="d-flex px-3" style="margin: 40px 0;">
+                <div *ngIf="item.type !== 'FILE'" [class]="{
+                      'my-message' : (item && item.role === 'OPERATOR'),
+                      'message' : (item && item.role === 'USER'),
+                      'bot-message': (item && item.role === 'BOT')
+                      }">
+                  <div class="msg-header">
+                    <span class="user-name">{{item.username ? item.username : 'Me'}}</span>
+                    <span class="msg-date">
+                      {{item && item.created_at ? hrService.dateFormat(item.created_at) : ''}}
+                    </span>
+                  </div>
+                  <p class="text-content">{{item ? item.text : ''}}</p>
+                </div>
+
+                <div *ngIf="item.type === 'FILE'"
+                     [class]="{
+                      'my-message-file' : (item && item.role === 'OPERATOR'),
+                      'message-file' : (item && item.role === 'USER')
+                      }">
+                  <div class="msg-header">
+                    <span class="user-name">{{item.username ? item.username : 'Me'}}</span>
+                    <span class="msg-date">
+                      {{item && item.created_at ? hrService.dateFormat(item.created_at) : ''}}
+                    </span>
+                  </div>
+                  <div class="chat-file" style="background: white; border-radius: 6px; overflow: hidden; border: 1px solid #dcdcdc; width: 60px; height: 100px">
+                    <img style="width: 100%; height: 100%; cursor: pointer; object-fit: contain"
+                       [src]="item.text" alt="image" (click)="openChatImageDialog(item.text)">
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <div [class.d-none]="isChat" class="chat-action"
+               [style.height]="heightWithFile"
+          >
+            <form [formGroup]="chatForm" (ngSubmit)="sendMsg()">
+              <div *ngIf="isFile"
+                   style="height: 60px; margin-bottom: 4px; display: flex; align-items: center;">
+                <div
+                  style="width: 50px; height: 50px; border: 1px solid #a1a1a1; padding: 2px; border-radius: 3px; position: relative;">
+                  <img style="width: 100%; height: 100%; object-fit: contain" [src]="uploadedImage" alt="">
+                  <div style="position: absolute; top: -8px; right: -8px; cursor: pointer; background: white"
+                       (click)="clearFile()">
+                    <svg width="18px" height="18px" viewBox="0 0 24 24" fill="none"
+                         xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12Z"
+                        stroke="#000000" stroke-width="2"/>
+                      <path d="M9 9L15 15M15 9L9 15" stroke="#000000" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="d-flex align-items-center overflow-hidden chat-form">
+                <input type="file" [class.d-none]="fileInputStyle" (change)="uploadImage($event)" #fileInput>
+                <button type="button" mat-icon-button>
+                  <img src="assets/new-icons/sms.svg" alt="" style="margin-bottom: 3px">
+                </button>
+                <input type="text" placeholder="Введите свое сообщение здесь..." required formControlName="chatMessage"
+                       #chatInput>
+                <button type="button" class="me-1" (click)="fileInput.click()" mat-icon-button>
+                  <img src="assets/new-icons/paperclip.svg" alt="" style="margin-bottom: 3px">
+                </button>
+                <button type="submit" class="send-btn">
+                  отправить
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div *ngIf="loadContent" class="loading-list">
+            <ul>
+              <li>
+                <ngx-skeleton-loader
+                  count="1"
+                  appearance="line"
+                  [theme]="{ 'height.px': 25, 'width.px': 400 }"
+                ></ngx-skeleton-loader>
+              </li>
+              <li class="left">
+                <ngx-skeleton-loader
+                  count="1"
+                  appearance="line"
+                  [theme]="{ 'height.px': 25, 'width.px': 400 }"
+                ></ngx-skeleton-loader>
+              </li>
+              <li>
+                <ngx-skeleton-loader
+                  count="1"
+                  appearance="line"
+                  [theme]="{ 'height.px': 25, 'width.px': 400 }"
+                ></ngx-skeleton-loader>
+              </li>
+              <li class="left">
+                <ngx-skeleton-loader
+                  count="1"
+                  appearance="line"
+                  [theme]="{ 'height.px': 25, 'width.px': 400 }"
+                ></ngx-skeleton-loader>
+              </li>
+              <li>
+                <ngx-skeleton-loader
+                  count="1"
+                  appearance="line"
+                  [theme]="{ 'height.px': 25, 'width.px': 400 }"
+                ></ngx-skeleton-loader>
+              </li>
+              <li class="left">
+                <ngx-skeleton-loader
+                  count="1"
+                  appearance="line"
+                  [theme]="{ 'height.px': 25, 'width.px': 400 }"
+                ></ngx-skeleton-loader>
+              </li>
+            </ul>
+          </div>
+
+          <div *ngIf="messageList && messageList.length === 0 && !loadContent" class="position-relative w-100 h-100">
+            <div class="absolute">
+              <span>Сообщений пока нет...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="rooms new-rooms">
+        <div class="room-header">
+          <p>New Chats</p>
+        </div>
+        <ul *ngIf="newRoomsList && newRoomsList.length > 0">
+          <li *ngFor="let room of newRoomsList" (click)="getChat(room)" [class]="{
+              'new-message' : room.user_msg_status,
+              'default' : !room.user_msg_status
+            }">
+            <p class="d-flex align-items-center">
+              <span class="avatar">
+                <img src="assets/new-icons/user.svg" alt="">
+                <span class="msg-status" *ngIf="room.user_msg_status">{{room.user_msg}}</span>
+                <span class="online-status"
+                      [class]="{'green': room.status === 'Online', 'red': room.status === 'Offline'}"></span>
+              </span>
+              {{room.room_name}}
+            </p>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+</div>

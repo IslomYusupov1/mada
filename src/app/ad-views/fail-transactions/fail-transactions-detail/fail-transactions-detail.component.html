@@ -1,0 +1,69 @@
+<div>
+  <div class="align-items-center justify-content-between d-flex">
+    <div class="header__title mb-2">Операция</div>
+    <button class="btn btn-success rounded" (click)="openEditDialog(data.detail['transID'])">Провести</button>
+  </div>
+  <div>
+    <div>
+      <div class="d-flex align-items-center justify-content-between p-1">
+        {{'№' + ' ' + data.detail.transNO}}
+        <div><span class="me-2">{{data.detail.date +' '+ data.detail.time}}</span><span class="pe-2 ps-2" style="color: white;border-radius: 12px" [ngStyle]="{'background-color':bgStatus(data.detail.status)}">{{getStatus(data.detail.status)}}</span></div>
+      </div>
+    </div>
+        <div class="d-flex align-items-center justify-content-between p-1">
+          <div><strong>Отправитель</strong> </div>
+          <div>{{ data.detail.sender ? data.detail.sender['wallet'] : ''}} <span style="font-weight: 500">{{data.detail.sender ? '(' + data.detail.sender['currency'] + ')' : ''}}</span></div>
+        </div>
+
+        <div class="d-flex align-items-center justify-content-between p-1">
+          <div><strong>Получатель</strong> </div>
+          <div>{{data.detail.recipient ? data.detail.recipient['wallet'] : ''}} <span style="font-weight: 500">{{ data.detail.recipient ? '(' + data.detail.recipient['currency'] + ')' : ''}}</span></div>
+        </div>
+  </div>
+  <mat-divider></mat-divider>
+    <div class="d-flex align-items-center justify-content-between p-1">
+      <div><strong>Сумма списания</strong> </div>
+      <div>{{( data.detail.calc?.debit ? data.detail.calc?.debit['amount'] / 100 : '')  | currency:'':''}} {{ data.detail.calc?.debit ? '(' + data.detail.calc?.debit['currency'] + ')' : ''}}</div>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1">
+      <div><strong>Сумма зачисления</strong> </div>
+      <div>{{( data.detail.calc?.credit ? data.detail.calc?.credit['amount'] / 100 : '')  | currency:'':''}} {{ data.detail.calc?.credit ? '(' + data.detail.calc?.credit['currency'] + ')' : ''}}</div>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1">
+      <div><strong>Профит</strong> </div>
+      <div>{{( data.detail.calc?.profit ?  data.detail.calc?.profit['amount'] / 100 : '' ) | currency:'':''}} {{ data.detail.calc?.profit ? '(' + data.detail.calc?.profit['currency'] + ')' : ''}}</div>
+    </div>
+  <mat-divider></mat-divider>
+  <div  class="mt-2">
+    <div *ngIf="data.detail.result">
+      <mat-form-field appearance="outline" class="w-100">
+        <mat-label>Результат</mat-label>
+        <textarea [readonly]="true" matInput  [(ngModel)]="data.detail.result"></textarea>
+      </mat-form-field>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div class="header__title mb-3 mt-4">Проводки</div>
+  <div *ngIf="!data.detail.entry.length">Список пуст</div>
+  <div *ngFor="let item of data.detail.entry">
+    <mat-divider style="background: #0d6efd"></mat-divider>
+      <div class="d-flex align-items-center justify-content-between p-1">
+        {{'№' + ' ' + item.requestNum ? item.requestNum : '' }}
+        <div><span class="pe-2 ps-2" style="color: white;border-radius: 12px" [ngStyle]="{'background-color':bgStatus(item.status)}">{{getStatus(item.status)}}</span></div>
+      </div>
+    <mat-divider class="mt-2 mb-2"></mat-divider>
+    <div class="justify-content-between d-flex align-items-center">
+      <div><strong>{{item.debitNum? item.debitNum : ''}} {{item.debitBranch ? '(' + item.debitBranch + ')' : '' }}</strong></div>
+      <div><strong>{{item.creditNum? item.creditNum : ''}} {{item.creditBranch ? '(' + item.creditBranch + ')' : '' }}</strong></div>
+      <div class="text-success">{{( item.amount ? item.amount / 100 : '')  | currency:'':''}}</div>
+    </div>
+    <div  class="mt-2">
+      <div *ngIf="item.requestResult">
+        <mat-form-field appearance="outline" class="w-100">
+          <mat-label>Результат</mat-label>
+          <textarea [readonly]="true" matInput  [(ngModel)]="item.requestResult"></textarea>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

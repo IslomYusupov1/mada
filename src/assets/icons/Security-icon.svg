@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="33" viewBox="0 0 27 33">
+  <defs>
+    <style>.a, .b {
+      fill: none;
+      stroke-linecap: round;
+      stroke-width: 3px;
+    }
+
+    .a {
+      stroke: #343F97;
+    }
+
+    .b {
+      stroke: #007f61;
+      stroke-linejoin: round;
+      fill-rule: evenodd;
+    }</style>
+  </defs>
+  <g transform="translate(1421.5 154.5)">
+    <path class="a" d="M106,19.5V49" transform="translate(-1514 -172)"/>
+    <path class="b" d="M110,49s12-6,12-15V22l-12-3L98,22V34C98,43,110,49,110,49Z" transform="translate(-1518 -172)"/>
+  </g>
+</svg>

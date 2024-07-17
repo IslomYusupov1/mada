@@ -1,0 +1,55 @@
+<div>
+  <h2>Перевод названия</h2>
+  <form [formGroup]="titleTranslationForm" (ngSubmit)="saveTranslate()">
+    <mat-tab-group>
+      <mat-tab label="RU">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Название</mat-label>
+            <textarea type="text" matInput formControlName="RUS" rows="1"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="UZ">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Nomi</mat-label>
+            <textarea type="text" matInput formControlName="UZB" rows="1"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="ENG">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <textarea type="text" matInput formControlName="ENG" rows="1"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="KAA">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Nomi</mat-label>
+            <textarea type="text" matInput formControlName="KAA" rows="1"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="KRL">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Nomi</mat-label>
+            <textarea type="text" matInput formControlName="KRL" rows="1"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="d-flex align-items-center justify-content-end">
+      <button type="button" class="btn btn-outline-secondary" (click)="close()">
+        Отмена
+      </button>
+      <button type="submit" class="btn btn-success ms-2">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

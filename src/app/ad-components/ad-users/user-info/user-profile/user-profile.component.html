@@ -1,0 +1,49 @@
+<div class="px-3">
+  <h2 class="title">Паспортный данные</h2>
+  <mat-card>
+    <mat-card-content>
+      <div *ngIf="isPassport" class="row">
+        <div class="col-md-6">
+          <div class="card-data">
+            <div class="card-data_item">
+              <span>ИНН</span>
+              <span>{{passport['tin']}}</span>
+            </div>
+            <div class="card-data_item">
+              <span>ПИНФЛ</span>
+              <span>{{passport['pinfl']}}</span>
+            </div>
+            <div class="card-data_item">
+              <span>Серия и номер паспорта</span>
+              <span>{{passport['docData']}}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card-data">
+            <div class="card-data_item">
+              <span>Дата выдачи</span>
+              <span>{{passport['issuedDate']}}</span>
+            </div>
+            <div class="card-data_item">
+              <span>Дата истечения срока</span>
+              <span>{{passport['expireDate']}}</span>
+            </div>
+            <div class="card-data_item">
+              <span>Кем выдан</span>
+              <span>{{passport['issuedBy']}}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--===   No passport data   ===-->
+      <div *ngIf="!isPassport">
+        <div class="d-flex align-items-center justify-content-center ftz-16">
+          <mat-icon class="me-2 text-secondary">error_outline</mat-icon>
+          Нет паспортных данных
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

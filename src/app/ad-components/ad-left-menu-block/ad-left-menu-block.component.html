@@ -1,0 +1,170 @@
+<div class="l-menu" [class.mini]="miniVariant">
+  <div class="l-menu-content">
+    <div class="l-menu-over">
+      <div class="l-menu-parent2">
+        <div
+          mat-ripple
+          matRippleColor="primary"
+          style="cursor: pointer"
+          class="py-2 l-menu__logo"
+          (click)="miniVariant = !miniVariant"
+        >
+          <div
+            class="d-flex align-items-center justify-content-between px-3 py-2"
+            [class.justify-content-center]="miniVariant"
+          >
+            <img
+              src="/assets/images/Logo_AAB_BLACK.svg"
+              alt=""
+              [class.d-none]="miniVariant"
+              style="height: 24px"
+            />
+            <img
+              src="/assets/menu-icons/indent-decrease.svg"
+              alt=""
+              [class.d-none]="miniVariant"
+              style="height: 24px"
+            />
+            <img
+              src="/assets/menu-icons/indent-increase.svg"
+              alt=""
+              [class.d-none]="!miniVariant"
+              style="height: 24px"
+            />
+          </div>
+        </div>
+        <div class="l-menu__main-nav">
+          <mat-accordion>
+            <div *ngFor="let menuItem of menuList; let i = index">
+              <div class="exp-menu" *ngxPermissionsOnly="[menuItem.permission]">
+                <div
+                  class="another-menu-list"
+                  *ngIf="!menuItem.list || menuItem.list.length <= 0"
+                  [routerLink]="[menuItem.link]"
+                  matRipple
+                  routerLinkActive="active"
+                  matTooltipPosition="right"
+                  matTooltip="{{ miniVariant ? (menuItem.title ) : '' }}"
+                  [routerLinkActiveOptions]="{ exact: true }"
+                >
+                  <div
+                    class="spacer d-flex align-items-center"
+                    [class.justify-content-center]="miniVariant"
+                  >
+                    <div [class.me-3]="!miniVariant">
+                      <img
+                        *ngIf="menuItem.icon"
+                        src="/assets/menu-icons/{{ menuItem.icon }}"
+                        alt=""
+                        class="m-icon"
+                      />
+                      <img
+                        *ngIf="menuItem.icon2"
+                        src="/assets/menu-icons/{{ menuItem.icon2 }}"
+                        alt=""
+                        class="m-icon2"
+                      />
+                    </div>
+                    <div *ngIf="!miniVariant">{{ menuItem.title  }}</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="exp-menu" *ngxPermissionsOnly="[menuItem.permission]">
+                <mat-expansion-panel
+                  style="padding-left: 13px; padding-right: 13px"
+                  *ngIf="menuItem.list && menuItem.list.length > 0"
+                  class="mat-elevation-z0"
+                  [expanded]="step === i"
+                  [class.active]="step === i"
+                  (opened)="setStep(i)"
+                  (closed)="setStep(-1)"
+                >
+                  <mat-expansion-panel-header
+                    class="another-expansion"
+                    mat-ripple
+                    matRippleColor="primary"
+                    matTooltipPosition="right"
+                    matTooltip="{{ miniVariant ? (menuItem.title ) : '' }}"
+                    [class.pe-3]="!miniVariant"
+                    [title]="menuItem.title "
+                  >
+                    <mat-panel-title class="m-0">
+                      <div
+                        class="spacer d-flex align-items-center"
+                        [class.justify-content-center]="miniVariant"
+                      >
+                        <div [class.me-3]="!miniVariant">
+                          <img
+                            *ngIf="menuItem.icon"
+                            src="/assets/menu-icons/{{ menuItem.icon }}"
+                            alt=""
+                            class="menu-icon"
+                          />
+                          <img
+                            *ngIf="menuItem.icon2"
+                            src="/assets/menu-icons/{{ menuItem.icon2 }}"
+                            alt=""
+                            class="menu-icon2"
+                          />
+                        </div>
+                        <div *ngIf="!miniVariant">{{ menuItem.title  }}</div>
+                      </div>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <div>
+                    <ul>
+                      <li
+                        *ngFor="let menuItem2 of menuItem.list"
+                        class="d-flex align-items-center"
+                        [class.ps-0]="miniVariant"
+                        mat-ripple
+                        matRippleColor="primary"
+                      >
+                        <div
+                          *ngxPermissionsOnly="[menuItem2.permission]"
+                          [routerLink]="[menuItem2.link]"
+                          [routerLinkActiveOptions]="{ exact: true }"
+                          routerLinkActive="active"
+                          class="spacer d-flex align-items-center role-li l-inside"
+                          [title]="menuItem2.title"
+                          matTooltipPosition="right"
+                          matTooltip="{{ miniVariant ? (menuItem2.title ) : '' }}"
+                          [class.justify-content-center]="miniVariant"
+                        >
+                          <div
+                            [class.me-3]="!miniVariant"
+                            class="left-menu__dot-container"
+                          >
+                            <img
+                              *ngIf="menuItem2.icon"
+                              src="/assets/menu-icons/submenu/{{ menuItem2.icon }}"
+                              alt=""
+                              class="menu-icon"
+                            />
+                            <img
+                              *ngIf="menuItem2['icon2']"
+                              src="/assets/menu-icons/submenu/{{ menuItem2['icon2'] }}"
+                              alt=""
+                              class="menu-icon2"
+                            />
+                          </div>
+                          <a
+                            style="text-decoration: none"
+                            *ngIf="!miniVariant"
+                          >{{ menuItem2.title  }}</a
+                          >
+                        </div>
+                      </li>
+                    </ul>
+                  </div>
+                </mat-expansion-panel>
+              </div>
+            </div>
+          </mat-accordion>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

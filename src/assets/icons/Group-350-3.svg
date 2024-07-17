@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
+  <defs>
+    <style>.a {
+      fill: #343F97;
+    }
+
+    .b {
+      fill: #fff;
+    }</style>
+  </defs>
+  <g transform="translate(-14446 -1576)">
+    <g transform="translate(17 1120)">
+      <circle class="a" cx="8" cy="8" r="8" transform="translate(14429 456)"/>
+      <g transform="translate(14041 -14)">
+        <rect class="b" width="2" height="7" rx="1" transform="translate(395 476)"/>
+        <rect class="b" width="2" height="2" rx="1" transform="translate(395 473)"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,52 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">GOLD пользователи</mat-card-title>
+    <mat-card-content>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">ПИНФЛ</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">Имя</th>
+          <th scope="col">Фамилия</th>
+          <th scope="col">Активность</th>
+          <th scope="col">Создан в</th>
+          <th class="text-center">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item.pinfl}}</td>
+            <td>{{item.phone}}</td>
+            <td>{{item.firstName}}</td>
+            <td>{{item.lastName}}</td>
+            <td>{{item.isActive? 'Активный' : ' Не активный'}}</td>
+            <td>{{item.createdAt}}</td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="detail(item.id)">
+                  <mat-icon color="primary">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробнее</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>
+

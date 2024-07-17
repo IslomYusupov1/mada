@@ -1,0 +1,98 @@
+<div class="p-lg-4">
+  <div class="d-flex justify-content-between align-items-center">
+    <div class="users__info__title">Пользователи</div>
+    <a routerLink="/user/clients">Перейти к пользователям ></a>
+  </div>
+  <ng-container *ngIf="statisticsShow">
+    <div class="row">
+      <div class="col-4">
+        <div class="users__info">
+          <div class="users__phys">
+            <img src="assets/icons/dashboard-users-statistics/users.svg" alt="#">
+            <div class="users__info__name">Общее количество</div>
+            <div class="users_info__count">{{clientStatisticsList['totalUsers']}}</div>
+          </div>
+          <div class="users__phys">
+            <img src="assets/icons/dashboard-users-statistics/active-users.svg" alt="#">
+            <div class="users__info__name">Активные</div>
+            <div class="users_info__count">{{clientStatisticsList.status?.active}}</div>
+          </div>
+          <div class="users__phys">
+            <img src="assets/icons/dashboard-users-statistics/blocked-users.svg" alt="#">
+            <div class="users__info__name">Удаленный</div>
+            <div class="users_info__count">{{clientStatisticsList.status?.blocked}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="users__info">
+          <div class="users__phys">
+            <img src="assets/icons/dashboard-users-statistics/ios.svg" alt="#">
+            <div class="users__info__name">IOS</div>
+            <div class="users_info__count">{{clientStatisticsList.platform.ios}}</div>
+          </div>
+          <div class="users__phys">
+            <img src="assets/icons/dashboard-users-statistics/android.svg" alt="#">
+            <div class="users__info__name">Android</div>
+            <div class="users_info__count">{{clientStatisticsList.platform.android}}</div>
+          </div>
+          <div class="users__phys">
+            <img src="assets/icons/dashboard-users-statistics/unknown.svg" alt="#">
+            <div class="users__info__name">Неизвестный</div>
+            <div class="users_info__count">{{clientStatisticsList.platform.unknown}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-4">
+        <div class="users__info">
+          <div class="users__phys">
+            <div style="background-color: green;width: 40px;height: 40px;border-radius: 50%"></div>
+            <div class="users__info__name" style="color: green">GREEN</div>
+            <div class="users_info__count">{{clientStatisticsList.zone?.['green']}}</div>
+          </div>
+          <div class="users__phys">
+            <div style="background-color: red;width: 40px;height: 40px;border-radius: 50%"></div>
+            <div class="users__info__name" style="color: red">RED</div>
+            <div class="users_info__count">{{clientStatisticsList.zone?.['red']}}</div>
+          </div>
+          <div class="users__phys">
+            <div style="background-color: yellow;width: 40px;height: 40px;border-radius: 50%"></div>
+            <div class="users__info__name" style="color: orange">YELLOW</div>
+            <div class="users_info__count">{{clientStatisticsList.zone?.['yellow']}}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="d-flex justify-content-between align-items-center">
+        <h3 style="color: #0d6efd">Графическая аналитика пользователей</h3>
+        <a routerLink="/transaction/history">Перейти к переводам ></a>
+      </div>
+      <div class="col-6">
+        <mat-card>
+          <div class="chart__canvas" style="width: 400px; height: 400px;margin: 0 auto">
+            <canvas
+              baseChart
+              [type]="chartType"
+              [data]="chartData"
+              [options]="chartOptions"
+              (chartHover)="chartHovered($event)"
+              (chartClick)="chartClicked($event)"
+            ></canvas>
+          </div>
+        </mat-card>
+      </div>
+      <div class="col-6">
+        <mat-card>
+          <div class="chart__canvas" style="width: 400px; height: 400px;margin: 0 auto">
+            <canvas
+              baseChart
+              [type]="chartType2"
+              [data]="chartData2"
+            ></canvas>
+          </div>
+        </mat-card>
+      </div>
+    </div>
+  </ng-container>
+</div>

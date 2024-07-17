@@ -1,0 +1,53 @@
+<div>
+  <h2 class="text-center">Детали</h2>
+  <div class="ordered-card">
+    <div class="ordered-card_item">
+      <span>Название сервиса</span>
+      <span class="text-end">{{ data.info['serviceName'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>ПИНФЛ</span>
+      <span>{{ data.info['indPinfl'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Инфо</span>
+      <span>{{ data.info['info'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Дата создание</span>
+      <span>{{ data.info['createdDate'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Дата подтверждение</span>
+      <span>{{ data.info['confirmedTime'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Сумма оплаты</span>
+      <span>{{ (data.info['paymentAmount'] / 100) | currency: '':''}}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Дата оплаты</span>
+      <span>{{ data.info['paymentTime'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Статус оплаты</span>
+      <span>{{ data.info['paymentStatus'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Статус операции</span>
+      <span>{{ data.info['operationStatus'] }}</span>
+    </div>
+
+  </div>
+  <div class="d-flex align-items-center justify-content-end pt-3">
+    <button type="button" class="btn btn-secondary" (click)="close()">Закрыть</button>
+  </div>
+</div>

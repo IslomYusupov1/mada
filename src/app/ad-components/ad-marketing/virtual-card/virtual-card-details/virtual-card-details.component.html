@@ -1,0 +1,56 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="ftz-18">Детали</div>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div class="border rounded-2 p-2">
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Ф.И.О</span>
+      <span>{{data.item['owner']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>ПИНФЛ:</span>
+      <span>{{data.item['pinfl']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Номер телефона:</span>
+      <span>{{data.item['phoneNumber']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>ID заказа:</span>
+      <span>{{data.item['orderId']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Номер карты:</span>
+      <span>{{data.item['pan'] ? data.item['pan'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Срок карты</span>
+      <span>{{data.item['expiry'] ? data.item['expiry'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Сервис карты:</span>
+      <span>{{data.item['cardService'] ? data.item['cardService'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Статус:</span>
+      <span>{{data.item['status'] ? data.item['status'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Дата создания:</span>
+      <span>{{data.item.createdDate['date']}} {{data.item.createdDate['time']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Дата завершения:</span>
+      <span>{{data.item['successDate'] ? data.item['successDate'] : '-'}}</span>
+    </div>
+    <div *ngIf="data.item['errorMessage']"
+         class="d-flex flex-column align-items-center justify-content-center gap-2 p-1">
+      <span>Описание ошибки:</span>
+      <span>{{data.item['errorMessage'] ? data.item['errorMessage'] : '-'}}</span>
+    </div>
+  </div>
+</div>

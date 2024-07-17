@@ -1,0 +1,41 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Подробно</h2>
+    <button mat-icon-button (click)="closeDialog()"><mat-icon>close</mat-icon></button>
+  </div>
+  <hr>
+  <div class="border p-2 rounded-3 d-flex flex-column gap-2">
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">Ф.И.О.</span>
+      <span>{{data.item['lastName']}} {{data.item['firstName']}} {{data.item['middleName']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">Номер телефона:</span>
+      <span>{{data.item['phone']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">Номер и серия пасспорта:</span>
+      <span>{{data.item['docSerial']}} {{data.item['docNumber']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">ПИНФЛ:</span>
+      <span>{{data.item['pinfl']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">Код клиента:</span>
+      <span>{{data.item['clientCode']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">Продукты:</span>
+      <span>{{data.item['loanType'] | json}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span style="font-weight: 500; color: #3f6d5b">Админ:</span>
+      <span>{{data.item['admin']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 gap-2">
+      <span style="font-weight: 500; color: #3f6d5b">Комментарий:</span>
+      <span class="text-end">{{data.item['adminComment']}}</span>
+    </div>
+  </div>
+</div>

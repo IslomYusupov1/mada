@@ -1,0 +1,58 @@
+<div>
+  <h2 class="text-center" style="color: #3F6D5B">Подробнее</h2>
+  <div class="ordered-card">
+    <div class="ordered-card_item">
+      <span>Название продукта</span>
+      <span>{{ data.info['productName'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Тип карты</span>
+      <span>{{ data.info['type'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Номер карты</span>
+      <span>{{ data.info['maskedPan'] ? data.info['maskedPan'] : 'Карта еще не готова' }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Ф.И.О</span>
+      <span>{{ data.info['fullName'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Номер телефона</span>
+      <span>{{ data.info['phone_number'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>ПИНФЛ</span>
+      <span>{{ data.info['pinfl'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Серийный номер</span>
+      <span>{{ data.info['docSerialNumber'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Регион</span>
+      <span>{{ data.info['region'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Район</span>
+      <span>{{ data.info['district'] }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Описание</span>
+      <span>{{ data.info['description'] ? data.info['description'] : '-' }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Статус заказа</span>
+      <span>{{ hrService.getOrderCardStatus(data.info['status']) }}</span>
+    </div>
+    <div class="ordered-card_item">
+      <span>Причина обновления статуса</span>
+      <span>{{ data.info['updateReason'] ? data.info['updateReason'] : '-' }}</span>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end mt-2">
+    <button (click)="close()" class="btn btn-outline-secondary">
+      Закрыть
+    </button>
+  </div>
+</div>

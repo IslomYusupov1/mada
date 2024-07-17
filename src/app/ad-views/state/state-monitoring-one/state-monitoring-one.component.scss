@@ -1,0 +1,33 @@
+.card__items {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  .card_item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 4px 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #eeeeee;
+    }
+
+    &__title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #191C1A;
+    }
+
+    &__value {
+      span {
+        font-size: 12px;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.mat-form-field {
+  width: 100%;
+}

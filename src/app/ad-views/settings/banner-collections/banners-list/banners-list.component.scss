@@ -1,0 +1,38 @@
+.banner-card {
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative;
+
+  &_order{
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    background-color: grey;
+    color: #ffffff;
+  }
+
+  &:hover {
+    transform: scale(1.05);
+  }
+
+  .card-logo {
+    object-fit: contain;
+    border: 1px solid #e5e5e5;
+    border-radius: 8px;
+  }
+
+  .banner-title {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #3f6d5b;
+  }
+
+  .banner-description {
+    text-align: center;
+    font-size: 16px;
+    font-weight: 400;
+    color: #777777;
+  }
+}
+

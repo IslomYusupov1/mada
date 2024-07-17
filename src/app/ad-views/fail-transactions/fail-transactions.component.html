@@ -1,0 +1,109 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Неудачные транзакции</mat-card-title>
+    <mat-card-actions>
+      <form [formGroup]="dateForm">
+        <div class="align-items-center d-flex justify-content-center gap-4">
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>От</mat-label>
+              <input formControlName="from" matInput type="date" />
+            </mat-form-field>
+          </div>
+          <div>
+            <mat-form-field appearance="outline">
+              <mat-label>До</mat-label>
+              <input  formControlName="to" matInput type="date" />
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="text-center">
+          <button type="submit" (click)="search()" mat-stroked-button color="primary">Поиск</button>
+        </div>
+      </form>
+    </mat-card-actions>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">Дата</th>
+          <th scope="col">Отправитель</th>
+          <th scope="col">Сумма списания</th>
+          <th scope="col">Получатель</th>
+          <th scope="col">Сумма зачисления</th>
+          <th scope="col">Профит</th>
+          <th scope="col">Результат</th>
+          <th scope="col">Статус</th>
+          <th scope="col" class="text-end">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item.date + '  ' + item.time}}</td>
+            <td>{{item.sender ? item.sender['wallet'] : ''}} {{item.sender ? '(' + item.sender.currency + ')' : ''}}</td>
+            <td>
+              <div
+                class="text-danger">{{ (item.calc?.debit ? item.calc?.debit['amount'] / 100 : '')  | currency:'':''}} {{item.calc?.debit ? '(' + item.calc?.debit['currency'] + ')' : ''}}</div>
+            </td>
+            <td>{{item.recipient ? item.recipient['wallet'] : ''}} {{item.recipient ? '(' + item.recipient.currency + ')' : ''}}</td>
+            <td>
+              <div
+                class="text-success">{{ (item.calc?.credit ? item.calc?.credit['amount'] / 100 : '')  | currency:'':''}} {{item.calc?.credit ? '(' + item.calc?.credit['currency'] + ')' : ''}}</div>
+            </td>
+            <td>
+              <div
+                style="color: blue">{{ (item.calc?.profit ? item.calc?.profit['amount'] / 100 : '')  | currency:'':''}} {{item.calc?.profit ? '(' + item.calc?.profit['currency'] + ')' : ''}}</div>
+            </td>
+            <td>{{item.result ? item.result : ''}}</td>
+
+            <td>
+              <div style="
+              color: white;
+              border-radius: 12px;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              padding-right: 2px;
+              padding-left: 2px"
+              [ngStyle]="{'background-color':bgStatus(item.status)}">{{getStatus(item.status)}}</div>
+            </td>
+
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="detail(item['transID'])">
+                  <mat-icon color="primary">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробнее</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>
+

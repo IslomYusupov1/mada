@@ -1,0 +1,138 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Frauds</mat-card-title>
+
+    <div style="display: flex;justify-content: end;align-items: center">
+      <button (click)="openDialogEditFraud('create')" style="color: #3F6D5B;" mat-flat-button>
+        <mat-icon>add</mat-icon>
+        Добавить
+      </button>
+
+    </div>
+
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <mat-accordion>
+        <div *ngFor="let headerItem of dataList; let i = index">
+          <mat-expansion-panel style="background: white!important;">
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <div class="text-black">{{ headerItem.name}}</div>
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div>
+              <ul>
+                <li>
+                  <div style="padding: 24px 24px">
+                    <div *ngIf="dataList.length > 0">
+                      <button *ngIf="!isDrop" mat-icon-button (click)="minimize()">
+                        <img src="./assets/new-icons/Group-4-2.svg" alt="" style="max-height: 60%;">
+                      </button>
+                      <button *ngIf="isDrop" mat-button color="accent" (click)="minimize()">Отменить</button>
+                      <button *ngIf="isDrop" mat-button color="primary" (click)="sortData(i)">Сохранить</button>
+                    </div>
+                    <div *ngIf="isDrop" cdkDropList [class]="isDrop ? 'fraud-list' : 'row pat-list pt-4'"
+                         (cdkDropListDropped)="drop($event , i)">
+                      <div
+                        [class]="isDrop ? 'p-box' : 'col-sm-12 col-md-12 col-lg-12 mb-3'"
+                        *ngFor="let item of headerItem['fraudLimitChild']" cdkDrag
+                      >
+                        <div class="p-placeholder" *cdkDragPlaceholder></div>
+                        <div class="p-handle" cdkDragHandle [class.d-none]="!isDrop">
+                          <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                              d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                            <path d="M0 0h24v24H0z" fill="none"></path>
+                          </svg>
+                        </div>
+
+                          <div class="row w-100">
+                            <div class="col-1"><strong>order:</strong> {{ item['order'] }}</div>
+                            <div class="col-2"><strong>limitType:</strong> {{ item['limitType'] }}</div>
+                            <div class="col-2"><strong>blockTime:</strong> {{ item['blockTime'] }}</div>
+                            <div class="col-2"><strong>tryLimit:</strong> {{ item['tryLimit'] }}</div>
+                            <div class="col-2">
+                              <div *ngIf="item['isForever']">
+                                <mat-icon color="primary">check_circle</mat-icon>
+                              </div>
+                              <div *ngIf="!item['isForever']">
+                                <mat-icon color="warn">block</mat-icon>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <table class="table mb-4">
+                      <thead>
+                      <tr class="design__line">
+                        <th scope="col">order</th>
+                        <th scope="col">blockTime</th>
+                        <th scope="col">limitType</th>
+                        <th scope="col">tryLimit</th>
+                        <th scope="col">isForever</th>
+                        <th scope="col" class="text-end">Действия</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr *ngIf="loadingList">
+                        <td colspan="8">
+                          <ngx-skeleton-loader
+                            count="5"
+                            [theme]="{ 'height.px': 25 }"
+                          ></ngx-skeleton-loader>
+                        </td>
+                      </tr>
+                      <tr *ngIf="headerItem['fraudLimitChild'].length <= 0 && !loadingList">
+                        <td colspan="8" class="grey97-text text-center py-4">
+                          Список пуст
+                        </td>
+                      </tr>
+                      <ng-container *ngIf="!loadingList">
+                        <tr *ngFor="let innerItem of headerItem['fraudLimitChild']" class="table__td">
+                          <td>{{innerItem['order'] }}</td>
+                          <td>{{innerItem['blockTime']}}</td>
+                          <td>{{innerItem['limitType']}}</td>
+                          <td>{{innerItem['tryLimit']}}</td>
+                          <td>
+                            <div *ngIf="innerItem['isForever']">
+                              <mat-icon color="primary">check_circle</mat-icon>
+                            </div>
+                            <div *ngIf="!innerItem['isForever']">
+                              <mat-icon color="warn">block</mat-icon>
+                            </div>
+                          </td>
+
+                          <td class="text-end">
+                            <button mat-icon-button [matMenuTriggerFor]="menu">
+                              <mat-icon>more_horiz</mat-icon>
+                            </button>
+                            <mat-menu #menu>
+
+                              <button (click)="openDialogEditFraud(innerItem['uuid'])" class="mat__menu__item"
+                                      mat-menu-item>
+                                <mat-icon color="accent">edit</mat-icon>
+                                <span class="title__menu_item">Редактировать</span></button>
+                              <button (click)="showCancelDialog(innerItem['uuid'])" class="mat__menu__item"
+                                      mat-menu-item>
+                                <mat-icon color="warn">delete</mat-icon>
+                                <span class="title__menu_item">Удалить</span></button>
+                            </mat-menu>
+                          </td>
+                        </tr>
+                      </ng-container>
+                      </tbody>
+                    </table>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </mat-expansion-panel>
+        </div>
+      </mat-accordion>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+
+
+

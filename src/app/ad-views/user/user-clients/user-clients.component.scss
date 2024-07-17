@@ -1,0 +1,58 @@
+p {
+  margin: 0;
+}
+
+.export-btn {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  color: #3F6D5B;
+  background-color: #FFFFFF;
+  border: 1px solid #3F6D5B;
+  font-size: 16px;
+  padding: 8px 16px;
+  font-weight: 400;
+}
+
+.client-statistics {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  p {
+    font-size: 16px;
+
+    span:last-child {
+      font-weight: 600;
+    }
+  }
+}
+
+.search {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  &-form {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+
+    &__element {
+      width: 220px;
+    }
+  }
+
+  &-actions{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
+  }
+}
+
+.mat-form-field {
+  width: 100% !important;
+}
+

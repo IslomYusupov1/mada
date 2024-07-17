@@ -1,0 +1,364 @@
+<mat-card>
+  <mat-card-title class="d-flex mb-3">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a routerLink="/paynet/categories">Категории</a></li>
+        <li class="breadcrumb-item active" aria-current="page">{{data.title}}</li>
+      </ol>
+    </nav>
+    <div class="spacer"></div>
+  </mat-card-title>
+  <mat-card-content class="payment-service">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="d-flex justify-content-between">
+          <div class="d-flex">
+            <div class="payment-service-logo">
+              <img width="120" height="120"
+                   [src]="data.logo ? (data.logo?.path+'/'+data.logo?.name+'.'+data.logo?.ext) : ''" alt="">
+            </div>
+            <div class="payment-service-title">
+              <h3><span>Название:</span> {{data.title}}</h3>
+              <h3>
+                <span>Минимальная сумма:</span>
+                {{data.minAmount ? (summa(data.minAmount) | currency: '':'') : ''}}
+              </h3>
+              <h3><span>Максимальная сумма:</span> {{data.maxAmount ? (summa(data.maxAmount) | currency: '':'') : ''}}
+              </h3>
+              <h3 *ngIf="data['merchant']"><span class="me-2">Мерчант:</span><span class="px-2 py-1 text-white bg-secondary rounded-5" [ngClass]="{'bg-success':data['merchant']=== 'MUNIS'}">{{data['merchant']}}</span>
+              </h3>
+            </div>
+          </div>
+          <div class="d-flex flex-column align-items-end">
+            <button
+              routerLink="/paynet/service/request/params/create"
+              [queryParams]="{id: data.uuid}"
+              class="edit-btn"
+            >
+              + Добавить параметры запроса
+            </button>
+            <button
+              (click)="openCreateResponseParam()"
+              class="edit-btn mt-2"
+            >
+              + Добавить параметры ответа
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr *ngIf="data.responseParams && data.responseParams.length > 0">
+    <div *ngIf="data.responseParams && data.responseParams.length > 0" class="row">
+      <div class="d-flex align-items-center justify-content-between mb-2">
+        <div>
+          <h2 class="m-0">Параметры ответа</h2>
+        </div>
+      </div>
+      <div class="row">
+        <div *ngFor="let item of data.responseParams" class="col-md-3 mb-2">
+          <div class="card h-100">
+            <div class="card-body position-relative">
+              <button
+                class="position-absolute top-0 end-0"
+                mat-icon-button
+                matTooltip="Редактировать"
+                matTooltipPosition="left"
+                (click)="openEditResponseParam(item.uuid)"
+              >
+                <mat-icon style="color: grey">edit</mat-icon>
+              </button>
+              <h4>
+                <span>Название:</span>
+                {{item.title}}
+                <button
+                  matTooltip="Переводы название"
+                  matTooltipPosition="above"
+                  mat-icon-button
+                  (click)="openResponseTranslate(item.uuid, item.translates)"
+                >
+                  <mat-icon>
+                    translate
+                  </mat-icon>
+                </button>
+              </h4>
+              <h4><span>Тип:</span> {{item.type}}</h4>
+              <h4><span>Mаска:</span> {{item.mask ? item.mask : '-'}}</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <div class="row">
+      <div *ngIf="data.requestParams" class="d-flex align-items-center justify-content-between mb-2">
+        <div>
+          <h2>Параметры запроса</h2>
+        </div>
+        <div>
+          <button
+            *ngIf="!isDrop"
+            matTooltip="Сортировка"
+            matTooltipPosition="left"
+            (click)="isDrop = !isDrop"
+            mat-icon-button>
+            <mat-icon>format_list_numbered</mat-icon>
+          </button>
+          <button
+            *ngIf="isDrop"
+            class="btn btn-outline-secondary"
+            (click)="isDrop = !isDrop"
+          >
+            Отмена
+          </button>
+          <button
+            *ngIf="isDrop"
+            class="btn btn-outline-success ms-2"
+            (click)="sortRequestParams()"
+          >
+            Сохранить
+          </button>
+        </div>
+      </div>
+      <div *ngIf="!isDrop" class="row">
+        <div *ngFor="let item of data.requestParams, index as i" class="col-md-6 h-auto mb-2">
+          <div class="card h-100">
+            <div class="card-body position-relative">
+              <button
+                matTooltip="Редактировать"
+                matTooltipPosition="left"
+                class="position-absolute top-0 end-0"
+                mat-icon-button
+                routerLink="/paynet/service/request/param/edit"
+                [queryParams]="{id: item.uuid}"
+              >
+                <mat-icon style="color: grey">edit</mat-icon>
+              </button>
+              <h4>
+                <span>Название:</span>
+                {{item.title}}
+                <button
+                  matTooltip="Переводы название"
+                  matTooltipPosition="above"
+                  mat-icon-button
+                  (click)="openParamTranslate(item.uuid, item.translates)"
+                >
+                  <mat-icon>
+                    translate
+                  </mat-icon>
+                </button>
+              </h4>
+              <h4><span>Тип:</span> {{item.type}}</h4>
+              <h4><span>Mаска:</span> {{item.mask ? item.mask : '-'}}</h4>
+              <h4><span>Обязательное поле:</span> {{item.required ? 'Да' : 'Нет'}}</h4>
+              <div *ngIf="item.type === 'SELECT'" class="d-flex justify-content-end mb-1">
+                <button
+                  (click)="openParamChildCreate(item.uuid)"
+                  class="btn btn-sm btn-warning">
+                  Добавить опции
+                </button>
+              </div>
+
+              <div
+                *ngIf="item.selectValue && item.selectValue.length > 0"
+                class="border rounded-3"
+              >
+                <h3 class="mb-0 mt-2 d-flex align-items-center px-2">
+                  Опции
+                  <button
+                    *ngIf="!isDropOption"
+                    matTooltip="Сортировка"
+                    matTooltipPosition="right"
+                    class="ms-1"
+                    (click)="isDropOption = !isDropOption"
+                    mat-icon-button>
+                    <mat-icon>format_list_numbered</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="isDropOption"
+                    class="btn btn-sm btn-outline-secondary ms-2"
+                    (click)="isDropOption = !isDropOption"
+                  >
+                    Отмена
+                  </button>
+                  <button
+                    *ngIf="isDropOption"
+                    class="btn btn-sm btn-outline-success ms-2"
+                    (click)="sortRequestParamsChild(i)"
+                  >
+                    Сохранить
+                  </button>
+                </h3>
+
+                <div *ngIf="!isDropOption" class="px-3">
+                  <div class="row mb-2">
+                    <div *ngFor="let select of item.selectValue, index as ind"
+                         class="col-md-6 p-2">
+                      <div class="border rounded-3 p-1 h-100">
+                        <div class="d-flex align-items-center justify-content-between">
+                          <div class="d-flex align-items-center">
+                            <div style="width: 24px; height: 24px">
+                              <img
+                                width="24" height="24"
+                                style="object-fit: contain"
+                                [src]="select.icon ? (select.icon?.path+'/'+select.icon?.name+'.'+select.icon?.ext) : ''"
+                                alt="">
+                            </div>
+                            <div class="ms-1">{{select.title}}</div>
+                          </div>
+                          <div class="d-flex align-items-center">
+                            <button
+                              *ngIf="!isSelectChildDrop"
+                              matTooltip="Редактировать"
+                              matTooltipPosition="above"
+                              mat-icon-button
+                              (click)="openParamEditDialog(select.uuid)"
+                            >
+                              <mat-icon>edit</mat-icon>
+                            </button>
+                            <button
+                              *ngIf="!isSelectChildDrop"
+                              matTooltip="Перевод"
+                              matTooltipPosition="above"
+                              mat-icon-button
+                              (click)="openParamTranslate(select.uuid, select.translates)"
+                            >
+                              <mat-icon>translate</mat-icon>
+                            </button>
+                            <button
+                              *ngIf="!isSelectChildDrop"
+                              matTooltip="Добавить опции"
+                              matTooltipPosition="above"
+                              mat-icon-button
+                              (click)="openParamChildCreate(select.uuid)"
+                            >
+                              <mat-icon>playlist_add</mat-icon>
+                            </button>
+                            <button
+                              *ngIf="!isSelectChildDrop"
+                              matTooltip="Сортировка"
+                              matTooltipPosition="above"
+                              class="ms-1"
+                              (click)="isSelectChildDrop = !isSelectChildDrop"
+                              mat-icon-button>
+                              <mat-icon>format_list_numbered</mat-icon>
+                            </button>
+                            <button
+                              *ngIf="isSelectChildDrop"
+                              matTooltip="Отмена"
+                              matTooltipPosition="above"
+                              mat-icon-button
+                              class="ms-2"
+                              (click)="isSelectChildDrop = !isSelectChildDrop"
+                            >
+                              <mat-icon color="warn">close</mat-icon>
+                            </button>
+                            <button
+                              *ngIf="isSelectChildDrop"
+                              matTooltip="Сохранить"
+                              matTooltipPosition="above"
+                              mat-icon-button
+                              (click)="sortRequestParamSelectChild(i, ind)"
+                            >
+                              <mat-icon color="primary">check</mat-icon>
+                            </button>
+                          </div>
+                        </div>
+                        <div *ngIf="!isSelectChildDrop && select.children && select.children.length > 0">
+                          <div
+                            *ngFor="let child of select.children"
+                            class="d-flex align-items-center mb-1"
+                          >
+                            {{child.title}}
+                            <mat-icon
+                              (click)="openParamEditDialog(child.uuid)"
+                              style="cursor: pointer; font-size: 14px; text-align: center; line-height: 24px; color: grey"
+                            >
+                              edit
+                            </mat-icon>
+                            <mat-icon (click)="openParamTranslate(child.uuid, child.translates)"
+                                      style="cursor: pointer; font-size: 14px; text-align: center; line-height: 24px">
+                              translate
+                            </mat-icon>
+                          </div>
+                        </div>
+
+                        <!--  Drag and Drop Select Childen   -->
+                        <div *ngIf="isSelectChildDrop && select.children && select.children.length > 0"
+                             [class]="isSelectChildDrop ? 'p-list m-2' : 'row pat-list pt-4'"
+                             style="max-width: 90%"
+                             cdkDropList (cdkDropListDropped)="dropSelectChildren($event, i, ind)">
+                          <div
+                            *ngFor="let child of select.children"
+                            [class]="isSelectChildDrop ? 'p-box' : 'col-sm-6 col-md-4 col-lg-3 mb-3'"
+                            cdkDrag>
+                            <div class="p-placeholder" *cdkDragPlaceholder></div>
+                            <div class="p-handle" cdkDragHandle [class.d-none]="!isSelectChildDrop">
+                              <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                                <path
+                                  d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                                <path d="M0 0h24v24H0z" fill="none"></path>
+                              </svg>
+                            </div>
+                            <div [class]="isSelectChildDrop ? 'd-flex align-items-center' : 'mat-card'">
+                              <h2 class="m-0">{{child.title}}</h2>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div *ngIf="isDropOption"
+                     [class]="isDropOption ? 'p-list m-2' : 'row pat-list pt-4'"
+                     cdkDropList (cdkDropListDropped)="dropOption($event, i)">
+                  <div
+                    *ngFor="let select of item.selectValue"
+                    [class]="isDropOption ? 'p-box' : 'col-sm-6 col-md-4 col-lg-3 mb-3'"
+                    cdkDrag>
+                    <div class="p-placeholder" *cdkDragPlaceholder></div>
+                    <div class="p-handle" cdkDragHandle [class.d-none]="!isDropOption">
+                      <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+                        <path
+                          d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                      </svg>
+                    </div>
+                    <div [class]="isDropOption ? 'd-flex align-items-center' : 'mat-card'">
+                      <h2 class="m-0">{{select.title}}</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--   If Drag Drop   -->
+      <div
+        *ngIf="isDrop"
+        [class]="isDrop ? 'p-list' : 'row pat-list pt-4'"
+        cdkDropList (cdkDropListDropped)="drop($event)"
+      >
+        <div
+          *ngFor="let item of data.requestParams"
+          [class]="isDrop ? 'p-box' : 'col-sm-6 col-md-4 col-lg-3 mb-3'"
+          cdkDrag>
+          <div class="p-placeholder" *cdkDragPlaceholder></div>
+          <div class="p-handle" cdkDragHandle [class.d-none]="!isDrop">
+            <svg width="24px" fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+              <path d="M0 0h24v24H0z" fill="none"></path>
+            </svg>
+          </div>
+          <div [class]="isDrop ? 'd-flex align-items-center' : 'mat-card'">
+            <h2 class="m-0">{{item.title}}</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

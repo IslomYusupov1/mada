@@ -1,0 +1,87 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Fraud devices</mat-card-title>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="d-flex  align-items-center">
+       <form (keyup.enter)="filterDevice()" [formGroup]="filterForm">
+         <mat-form-field class="me-2" appearance="outline">
+           <mat-label> device id</mat-label>
+           <input formControlName="deviceId" matInput type="text"/>
+           <mat-icon matPrefix>search</mat-icon>
+         </mat-form-field>
+         <mat-form-field class="me-2" appearance="outline">
+           <mat-label> device model</mat-label>
+           <input formControlName="deviceModel" matInput type="text"/>
+           <mat-icon matPrefix>search</mat-icon>
+         </mat-form-field>
+       </form>
+        <mat-form-field appearance="outline">
+          <mat-label>Status</mat-label>
+          <mat-select [(ngModel)]="params.status" (selectionChange)="filter()">
+            <mat-option *ngFor="let status of ['Все','ACTIVE','BLOCKED']" [value]="status">{{status}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="d-flex justify-content-end">
+        <button (click)="clear()" matTooltip="refresh" matTooltipPosition="above" mat-flat-button class="d-flex justify-content-end align-items-center">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>{{['deviceId']}}</th>
+          <th>{{['deviceModel']}}</th>
+          <th>{{['date'] }}</th>
+          <th>{{['status']}}</th>
+          <th scope="col" class="text-end" >Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item['deviceId']}}</td>
+            <td>{{item['deviceModel']}}</td>
+            <td>{{item.date['date'] + ' ' + item.date['time']}}</td>
+            <td>
+             <span [class]="{
+              'text-danger': item['status'] === 'BLOCKED',
+              'text-success': item['status'] === 'ACTIVE'
+            }">
+              {{item['status'] ? setText(item.status) : '-'}}
+            </span>
+            </td>
+            <td class="text-end">
+              <button mat-icon-button [matMenuTriggerFor]="menu"><mat-icon>more_horiz</mat-icon></button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item  (click)="changeStatusDevice(item.id)">
+                  <mat-icon color="primary" >settings</mat-icon><span class="title__menu_item">change status</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

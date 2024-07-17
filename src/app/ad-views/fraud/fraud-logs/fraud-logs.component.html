@@ -1,0 +1,101 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Логи</mat-card-title>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="mb-2">
+        <button type="button" class="btn btn-success" (click)="showFilter = !showFilter">Фильтр</button>
+      </div>
+      <ng-container *ngIf="showFilter">
+        <div class="mb-2 p-3 border rounded-3">
+          <form [formGroup]="filterForm" (ngSubmit)="search()">
+            <div class="mb-3 pt-2">
+              <app-ad-filter-buttons
+                [selectedBtn]="selectedFilterBtn"
+                (time)="setTime($event)"
+                (fromTime)="setFromTime($event)"
+                (toTime)="setToTime($event)"
+              ></app-ad-filter-buttons>
+            </div>
+            <div class="d-flex align-items-center justify-content-center gap-3">
+              <div>
+                <mat-form-field appearance="standard" class="w-100">
+                  <mat-label>Имя пользователя</mat-label>
+                  <input type="text" matInput formControlName="username">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="standard" class="w-100">
+                  <mat-label>ID устройства</mat-label>
+                  <input type="text" matInput formControlName="deviceId">
+                </mat-form-field>
+              </div>
+              <div>
+                <mat-form-field appearance="standard" class="w-100">
+                  <mat-label>Тип действия</mat-label>
+                  <mat-select formControlName="actionType">
+                    <mat-option *ngFor="let item of actionTypeList" [value]="item">{{item}}</mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center gap-2">
+              <button type="button" class="btn btn-outline-secondary" (click)="clearFilter()">Сбросить</button>
+              <button type="submit" class="btn btn-warning">Показать</button>
+            </div>
+          </form>
+        </div>
+      </ng-container>
+      <hr>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>{{['#']}}</th>
+          <th>{{['deviceId']}}</th>
+          <th>{{['username']}}</th>
+          <th>{{['date']}}</th>
+          <th>{{['actionType']}}</th>
+          <th>{{['deviceAttemptCount']}}</th>
+          <th>{{['userAttemptCount']}}</th>
+          <th>{{['message']}}</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item['position']}}</td>
+            <td>{{item['deviceId']}}</td>
+            <td>{{item['username']}}</td>
+            <td>{{item.date['date'] + ' ' + item.date['time']}}</td>
+            <td>{{item['actionType']}}</td>
+            <td>{{item['deviceAttemptCount']}}</td>
+            <td>{{item['userAttemptCount']}}</td>
+            <td>{{item['message']}}</td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>
+
+

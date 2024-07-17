@@ -1,0 +1,172 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between pt-3">
+    <h2>Детали</h2>
+    <button type="button" class="btn btn-secondary" (click)="close()">Закрыть</button>
+
+  </div>
+  <div style="display: flex;gap: 5px;text-align: end;margin-bottom: 5px">
+    <strong>Оператор:</strong>
+    <div>{{info['operator']}}</div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-6 mb-3">
+      <!-- user's old data-->
+      <div class="ordered-card border border-1 rounded-2 p-2">
+        <h3 class="text-center m-0 fw-bolder">Старые данные</h3>
+        <div class="ordered-card_item">
+          <span>Ф.И.О</span>
+          <span>{{ info['oldLastName'] }} {{ info['oldFirstName'] }} {{ info['oldMiddleName'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Серия и номер паспорта</span>
+          <span>{{ info['oldDocSerial'] }}{{ info['oldDocNumber'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Дата выдачи</span>
+          <span>{{ info['oldIssuedDate'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Кем выдан</span>
+          <span>{{ info['oldIssuedBy'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Срок действия</span>
+          <span>{{ info['oldExpiryDate'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Тип документа</span>
+          <span>{{ info['oldDocType'] ? info['oldDocType'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Uid клиента</span>
+          <span>{{ info['oldClientUid'] ? info['oldClientUid'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Id клиента</span>
+          <span>{{ info['oldClientId'] ? info['oldClientId'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Код клиента</span>
+          <span>{{ info['oldClientCode'] ? info['oldClientCode'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Branch</span>
+          <span>{{ info['oldBranch'] ? info['oldBranch'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>ABS Ф.И.О.</span>
+          <span>{{info['oldAbsLastName'] ? info['oldAbsLastName'] : '-'}} {{info['oldAbsFirstName']}} {{info['oldAbsMiddleName']}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Nibbd</span>
+          <span>{{info['oldNibbd'] ? info['oldNibbd'] : '-'}}</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-6 mb-3">
+      <!-- user's new data-->
+      <div class="ordered-card border border-1 rounded-2 p-2">
+        <h3 class="text-center m-0 fw-bolder">Новые данные</h3>
+        <div class="ordered-card_item">
+          <span>Ф.И.О</span>
+          <span>{{ info['newLastName'] }} {{ info['newFirstName'] }} {{ info['newMiddleName'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Серия и номер паспорта</span>
+          <span>{{ info['newDocSerial'] }}{{ info['newDocNumber'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Дата выдачи</span>
+          <span>{{ info['newIssuedDate'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Кем выдан</span>
+          <span>{{ info['newIssuedBy'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Срок действия</span>
+          <span>{{ info['newExpiryDate'] }}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Тип документа</span>
+          <span>{{ info['newDocType'] ? info['newDocType'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Uid клиента</span>
+          <span>{{ info['newClientUid'] ? info['newClientUid'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Id клиента</span>
+          <span>{{ info['newClientId'] ? info['newClientId'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Код клиента</span>
+          <span>{{ info['newClientCode'] ? info['newClientCode'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Branch</span>
+          <span>{{ info['newBranch'] ? info['newBranch'] : '-'}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>ABS Ф.И.О.</span>
+          <span>{{info['newAbsLastName'] ? info['newAbsLastName'] : '-'}} {{info['newAbsFirstName']}} {{info['newAbsMiddleName']}}</span>
+        </div>
+
+        <div class="ordered-card_item">
+          <span>Nibbd</span>
+          <span>{{info['newNibbd'] ? info['newNibbd'] : '-'}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ordered-card border border-1 rounded-2 p-2">
+    <div class="ordered-card_item ">
+      <span>Номер телефона</span>
+      <span>{{info['phone']}}</span>
+    </div>
+
+    <div class="ordered-card_item ">
+      <span>ПИНФЛ</span>
+      <span>{{info['pinfl']}}</span>
+    </div>
+
+    <div class="ordered-card_item ">
+      <span>Сообщение о статусе</span>
+      <span>{{info['statusMessage']}}</span>
+    </div>
+
+    <div class="ordered-card_item ">
+      <span>Статус заявки</span>
+      <span>{{info['applicationStatus']}}</span>
+    </div>
+
+    <div class="ordered-card_item ">
+      <span>Статус профиля</span>
+      <span>{{info['profileStatus']}}</span>
+    </div>
+  </div>
+</div>

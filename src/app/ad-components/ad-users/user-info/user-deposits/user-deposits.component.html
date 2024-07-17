@@ -1,0 +1,75 @@
+<mat-card>
+  <mat-card-title>
+    <h2 class="title">Вклады пользователя</h2>
+  </mat-card-title>
+  <mat-card-content>
+    <table class="table mb-4">
+      <thead>
+      <tr class="table-header text-center">
+        <th scope="col">№</th>
+        <th scope="col">Название депозита</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">Валюта</th>
+        <th scope="col">Срок депозита</th>
+        <th scope="col">Дата открытия депозита</th>
+        <th scope="col">Статус</th>
+        <th scope="col">Действие</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--=====   Loading   =====-->
+      <tr *ngIf="loading">
+        <td class="em-col"></td>
+        <td colspan="8">
+          <ngx-skeleton-loader
+            count="5"
+            [theme]="{ 'height.px': 25 }"
+          ></ngx-skeleton-loader>
+        </td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Empty   =====-->
+      <tr *ngIf="dataList && dataList.length <= 0 && !loading">
+        <td class="em-col"></td>
+        <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Content   =====-->
+      <ng-container *ngFor="let item of dataList; index as i;">
+        <tr class="table-body text-center" *ngIf="!loading">
+          <td>{{i + 1}}</td>
+          <td>
+            {{item['depositDep'] ? item.depositDep['depName'] : '-'}}
+          </td>
+          <td>{{item['saldo'] ? (item.saldo['amount'] / 100 | currency:'':'') : '-'}}</td>
+          <td>{{item['saldo'] ? item.saldo['currency'] : '-'}}</td>
+          <td>{{item['depositDep'] ? item.depositDep['depTemp'] : '-'}}</td>
+          <td>{{item['openDate'] ? item.openDate['date'] : '-'}}</td>
+          <td>
+            <span [class]="{
+              'text-danger': item['state'] === 'BLOCKED',
+              'text-success': item['state'] === 'ACTIVE'
+            }">
+              {{item['state'] ? setDepositStatus(item.state) : '-'}}
+            </span>
+          </td>
+          <td>
+            <button
+              matTooltip="Проверить процент"
+              matTooltipPosition="above"
+              mat-icon-button
+              (click)="checkPercent(item.uuId)"
+            >
+              <mat-icon style="color: grey">info</mat-icon>
+            </button>
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

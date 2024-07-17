@@ -1,0 +1,35 @@
+<div style="padding: 24px 24px">
+    <div class="header__title mb-4">Сверка реестра</div>
+      <table class="table mb-4" >
+        <thead >
+        <tr class="design__line">
+          <th scope="col">loanId</th>
+          <th scope="col" >nspcTransId</th>
+          <th scope="col" >paymentDate</th>
+          <th scope="col" >requestId</th>
+          <th scope="col" >Сумма</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="data.resultList.length <= 0">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container >
+          <tr [class]="item['check'] ? 'primary-text' : 'red-text'" *ngFor="let item of data.resultList" class="table__td">
+            <td>{{item['loanId']}}</td>
+            <td>{{item['nspcTransId']}}</td>
+            <td>{{item['paymentDate']}}</td>
+            <td>{{item['requestId']}}</td>
+            <td>
+              {{(item['amount'] / 100) | currency:'':''}}
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+</div>
+
+

@@ -1,0 +1,210 @@
+<mat-card>
+  <mat-card-title class="d-flex align-items-center">
+    <button mat-icon-button class="bg-light me-3" routerLink="/products/deposits">
+      <mat-icon>keyboard_return</mat-icon>
+    </button>
+    Добавить
+  </mat-card-title>
+  <mat-card-content>
+    <form action="" autocomplete="off" [formGroup]="createDepositForm" class="needs-validation">
+      <div class="row">
+        <div class="d-flex">
+          <div class="d-flex align-items-center justify-content-center border border-1 p-2"
+               style="width: 150px; height: 150px">
+            <img class="w-100" style="object-fit: contain" [src]="imagePath" alt="">
+          </div>
+          <div class="ms-2">
+            <input type="file" (change)="fileUpload($event)" class="d-none" #fileInput>
+            <button class="btn btn-secondary" (click)="fileInput.click()">Загрузить изображение</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Наименование</mat-label>
+            <input type="text" matInput placeholder="Наименование" id="name" formControlName="name"
+                   [required]="true" [class]="hr.validationClass(name)">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Процент</mat-label>
+            <input type="number" matInput placeholder="Процент" id="annualRate"
+                   formControlName="annualRate"
+                   [required]="true" [class]="hr.validationClass(annualRate)">
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Минимальная сумма</mat-label>
+            <input  type="text" mask="separator.2" matInput placeholder="Введите сумму" id="minAmount"
+                   formControlName="minAmount"
+                   [required]="true" [class]="hr.validationClass(minAmount)">
+          </mat-form-field>
+        </div>
+        <div class="col-md-12 mt-3">
+          <mat-tab-group>
+            <mat-tab label="RU">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Необходимое</mat-label>
+                <textarea
+                  matInput type="text"
+                  style="height: 100px"
+                  formControlName="requirements"
+                  [required]="true"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab formGroupName="translate" label="UZ">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Kerakli malumotlar</mat-label>
+                <textarea
+                  formControlName="uzRequirements"
+                  matInput type="text"
+                  style="height: 100px"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab formGroupName="translate" label="EN">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Requirements</mat-label>
+                <textarea
+                  matInput type="text"
+                  style="height: 100px"
+                  formControlName="enRequirements"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+            <mat-tab formGroupName="translate" label="KAA">
+              <mat-form-field class="w-100" appearance="outline">
+                <mat-label>Kerekli maǵlıwmatlar</mat-label>
+                <textarea
+                  matInput type="text"
+                  style="height: 100px"
+                  formControlName="kaaRequirements"
+                ></textarea>
+              </mat-form-field>
+            </mat-tab>
+          </mat-tab-group>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Тип первоначального взноса</mat-label>
+                <mat-select (selectionChange)="initialPaymentTypeChange($event)" [required]="true" formControlName="initialPaymentType">
+                  <mat-option *ngFor="let item of ['AMOUNT','RATE']" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Первоначальный взнос</mat-label>
+                <input matInput type="number" placeholder="{{text}}" id="initialPayment"
+                       formControlName="initialPayment" [required]="true" [class]="hr.validationClass(initialPayment)">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Тип депозита</mat-label>
+                <mat-select [class]="hr.validationClass(depositType)" formControlName="depositType" [required]="true">
+                  <mat-option *ngFor="let item of ['DEMAND','SAVING','TERM']" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Продукт ID</mat-label>
+                <input type="text" matInput placeholder="Продукт ID" id="productId"
+                       formControlName="productId" [required]="true" [class]="hr.validationClass(productId)">
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Валюта</mat-label>
+                <mat-select  formControlName="currency" [required]="true" [class]="hr.validationClass(currency)">
+                  <mat-option *ngFor="let item of ['UZS','USD','EUR','GBP','RUB']" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Время</mat-label>
+                <mat-select [required]="true" [class]="hr.validationClass(periodType)" (selectionChange)="periodTypeChange($event)" formControlName="periodType">
+                  <mat-option *ngFor="let item of ['UNLIMITED','MONTH','AGE']" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Тип вклада</mat-label>
+                <mat-select [required]="true" formControlName="depositCondition">
+                  <mat-option *ngFor="let item of conditionTypeList" [value]="item.code">{{item.displayName}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-12" *ngIf="isUnlimited">
+              <div class="row">
+                <div class="col-md-4 d-flex align-items-center">
+                  <mat-checkbox color="primary" formControlName="periodInterval"  (change)="logger($event)">
+                    Интервал
+                  </mat-checkbox>
+                  <mat-icon >arrow_right</mat-icon>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>From</mat-label>
+                    <input type="number" matInput placeholder="from" id="from" formControlName="fromPeriod">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                  <mat-form-field appearance="outline" class="w-100">
+                    <mat-label>То</mat-label>
+                    <input type="number" matInput placeholder="to" id="to" formControlName="toPeriod">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 mt-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Досрочное закрытие</mat-label>
+                <mat-select formControlName="enableEarlyClose">
+                  <mat-option value="yes">Да</mat-option>
+                  <mat-option value="no">Нет</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-4 mt-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Оферта</mat-label>
+                <mat-select formControlName="ofertaId">
+                  <mat-option *ngFor="let item of documentList" [value]="item.uuid">{{item.name}} - {{item.type}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mt-3 d-flex align-items-center">
+                <mat-checkbox color="primary" formControlName="additional" class="mt-3">Дополнительный платеж
+                </mat-checkbox>
+              </div>
+
+              <div class="col-md-4 mt-3 d-flex align-items-center">
+                <mat-checkbox color="primary" formControlName="decrease" class="mt-3">Частичное снятие
+                </mat-checkbox>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <button class="btn btn-success ms-auto px-4 py-2 d-block" (click)="createDeposit()">Сохранить</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

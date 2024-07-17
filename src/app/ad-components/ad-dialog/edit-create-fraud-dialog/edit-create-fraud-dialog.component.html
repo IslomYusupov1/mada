@@ -1,0 +1,70 @@
+<div *ngIf="createModule">
+  <div class="header__title mb-3">
+    Создание fraud
+  </div>
+  <form [formGroup]="createFraudForm">
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>fraudLimitType</mat-label>
+        <mat-select formControlName="fraudLimitType">
+          <mat-option *ngFor="let item of data.responseLimitType" [value]="item">
+            {{item}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>tryLimit</mat-label>
+        <input formControlName="tryLimit" type="number" min="0" placeholder="tryLimit" [required]="true" matInput/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>blockTime</mat-label>
+        <input formControlName="blockTime" type="number" min="0" placeholder="blockTime" [required]="true" matInput/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-checkbox formControlName="isForever">isForever</mat-checkbox>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;"
+              class="btn btn-outline-success me-2">Отменить
+      </button>
+      <button (click)="formSubmit('create')"
+              style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить
+      </button>
+    </div>
+  </form>
+</div>
+<div *ngIf="editModule">
+  <div class="header__title mb-3">
+    Редактирование fraud
+  </div>
+  <form [formGroup]="editFraudForm">
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>tryLimit</mat-label>
+        <input formControlName="tryLimit" type="number" min="0" placeholder="tryLimit" [required]="true" matInput/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field class="w-100" appearance="outline">
+        <mat-label>blockTime</mat-label>
+        <input formControlName="blockTime" type="number" min="0" placeholder="blockTime" [required]="true" matInput/>
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-checkbox formControlName="isForever">isForever</mat-checkbox>
+    </div>
+    <div style="display:flex;justify-content: end">
+      <button (click)="closeDialog()" style="width: 103px;height: 36px;font-size: 14px;"
+              class="btn btn-outline-success me-2">Отменить
+      </button>
+      <button (click)="formSubmit('edit')"
+              style="background:#3F6D5B;color: #FFFFFF;width: 103px;height: 36px; border:0; font-size: 14px;">Сохранить
+      </button>
+    </div>
+  </form>
+</div>

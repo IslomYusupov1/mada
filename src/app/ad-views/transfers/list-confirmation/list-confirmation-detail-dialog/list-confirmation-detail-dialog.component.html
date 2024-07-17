@@ -1,0 +1,104 @@
+<div>
+  <h2>Детали</h2>
+  <hr>
+  <div class="border rounded-3 p-2 d-flex flex-column gap-2 mb-2">
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Владелец операции:</span>
+      <span>{{data.item['operationOwner'] ? data.item['operationOwner'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Тип операции:</span>
+      <span>{{data.item['operationType'] ? data.item['operationType'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Сумма:</span>
+      <span>{{data.item['amount'] ? (data.item['amount'] / 100 | currency: '': '') : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Отправитель:</span>
+      <span>{{data.item['senderMask'] ? data.item['senderMask'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Тип отправителья:</span>
+      <span>{{data.item['senderService'] ? data.item['senderService'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Получатель:</span>
+      <span>{{data.item['receiptMask'] ? data.item['receiptMask'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Тип получателья:</span>
+      <span>{{data.item['recipientService'] ? data.item['recipientService'] : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Старый статус:</span>
+      <span>{{data.item['oldStatus'] ? data.item['oldStatus'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Новый статус:</span>
+      <span>{{data.item['newStatus'] ? data.item['newStatus'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Статус:</span>
+      <span>{{data.item['status'] ? data.item['status'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2">
+      <span>№ транзакции:</span>
+      <span
+        [matTooltip]="isCopy ? 'Текст скопирован' : 'Скопировать текст'"
+        matTooltipPosition="above"
+        [cdkCopyToClipboard]="data.item.operationUUID"
+        (click)="copyText()"
+        style="cursor: pointer; position: relative"
+      >
+        {{data.item['operationUUID'] ? data.item['operationUUID'] : '-'}}
+      </span>
+    </div>
+  </div>
+
+  <div class="border rounded-3 p-2 d-flex flex-column gap-2 mb-2">
+    <div>Prepared by</div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Имя:</span>
+      <span>{{data.item['preparedByUsername'] ? data.item['preparedByUsername'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Номер телефона:</span>
+      <span>{{data.item['preparedByPhone'] ? data.item['preparedByPhone'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Дата:</span>
+      <span>
+        {{data.item.preparedDate['date'] ? data.item.preparedDate['date'] : ''}}
+        {{data.item.preparedDate['time'] ? data.item.preparedDate['time'] : ''}}
+      </span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2">
+      <span>Описание:</span>
+      <span class="text-end">{{data.item['cause'] ? data.item['cause'] : 'Неизвестно'}}</span>
+    </div>
+  </div>
+
+  <div class="border rounded-3 p-2 d-flex flex-column gap-2 mb-2">
+    <div>Confirmed by</div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Имя:</span>
+      <span>{{data.item['confirmedByUsername'] ? data.item['confirmedByUsername'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2 border-bottom">
+      <span>Номер телефона:</span>
+      <span>{{data.item['confirmedByPhone'] ? data.item['confirmedByPhone'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-2">
+      <span>Дата:</span>
+      <span>
+        {{data.item.confirmedDate && data.item.confirmedDate['date'] ? data.item.confirmedDate['date'] : '-'}}
+        {{data.item.confirmedDate && data.item.confirmedDate['time'] ? data.item.confirmedDate['time'] : ''}}
+      </span>
+    </div>
+  </div>
+
+  <div>
+    <button type="button" class="btn btn-secondary" (click)="close()">Закрыть</button>
+  </div>
+</div>

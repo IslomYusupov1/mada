@@ -1,0 +1,58 @@
+<div class="host">
+  <h2>Статистика</h2>
+  <hr>
+  <div class="d-flex flex-column gap-2 border p-2">
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>ДАТА:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item['date']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>SCORING PROCESS:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item['scoringProcess']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>PAY_INSURANCE:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['PAY_INSURANCE']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>CREATE_CUSTOMER:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['CREATE_CUSTOMER']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>CREATE_APPLICATION:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['CREATE_APPLICATION']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>CHECK_APPLICATION:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['CHECK_APPLICATION']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>CREATE_CONTRACT:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['CREATE_CONTRACT']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>CHECK_CONTRACT:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['CHECK_CONTRACT']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>ABS_ISSUANCE:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['ABS_ISSUANCE']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>INSURANCE_PAYMENT:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['INSURANCE_PAYMENT']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1 border-bottom">
+      <span>INSURANCE_POLICY:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['INSURANCE_POLICY']}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between py-1">
+      <span>WALLET_ISSUANCE:</span>
+      <span style="color: #3f6d5b; font-weight: 500">{{this.data.item.items['WALLET_ISSUANCE']}}</span>
+    </div>
+  </div>
+  <hr>
+  <div>
+    <button type="button" class="btn btn-secondary" (click)="close()">Закрыть</button>
+  </div>
+</div>

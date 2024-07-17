@@ -1,0 +1,110 @@
+<div>
+  <h2>Детали</h2>
+  <hr>
+  <div class="border rounded-2 p-1 mb-3">
+    <div class="text-center fw-bolder ftz-18">Insurance</div>
+    <ng-container *ngIf="!data.info.insurance">
+      <div class="text-center">
+        Нет данных
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="data.info.insurance">
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Отправитель:</span>
+        <span>{{data.info.insurance['sender']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Получатель:</span>
+        <span>{{data.info.insurance['recipient']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Сумма:</span>
+        <span>{{(data.info.insurance['amount'] / 100) | currency: '': ''}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Дата:</span>
+        <span>{{data.info.insurance['time']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Статус:</span>
+        <span>{{data.info.insurance['status']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1">
+        <span>ID транзакции:</span>
+        <span>{{data.info.insurance['transactionId']}}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="border rounded-2 p-1 mb-3">
+    <div class="text-center fw-bolder ftz-18">Loan to wallet</div>
+    <ng-container *ngIf="!data.info.loanToWallet">
+      <div class="text-center">
+        Нет данных
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="data.info.loanToWallet">
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Отправитель:</span>
+        <span>{{data.info.loanToWallet['sender']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Получатель:</span>
+        <span>{{data.info.loanToWallet['recipient']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Сумма:</span>
+        <span>{{(data.info.loanToWallet['amount'] / 100) | currency: '': ''}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Дата:</span>
+        <span>{{data.info.loanToWallet['time']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+        <span>Статус:</span>
+        <span>{{data.info.loanToWallet['status']}}</span>
+      </div>
+      <div class="d-flex align-items-center justify-content-between p-1">
+        <span>ID транзакции:</span>
+        <span>{{data.info.loanToWallet['transactionId']}}</span>
+      </div>
+    </ng-container>
+  </div>
+
+  <div class="border rounded-2 p-1 mb-3">
+    <div class="text-center fw-bolder ftz-18 mb-2">Дополнительно</div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Статус страхового полиса:</span>
+      <span>{{data.info['insurancePolicyStatus'] ? data.info['insurancePolicyStatus'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Тип страхового полиса:</span>
+      <span>{{data.info['insurancePolicyType'] ? data.info['insurancePolicyType'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Дата начала контракта:</span>
+      <span>{{data.info['contractEndTime'] ? data.info['contractEndTime'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Дата окончания контракта:</span>
+      <span>{{data.info['contractEndTime'] ? data.info['contractEndTime'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Состояние:</span>
+      <span>{{data.info['state'] ? data.info['state'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+      <span>Сальдо:</span>
+      <span>{{data.info['saldo1'] ? data.info['saldo1'] : 'Неизвестно'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1">
+      <span>Сумма резерва:</span>
+      <span>{{data.info['provisionAmount'] ? data.info['provisionAmount'] : 'Неизвестно'}}</span>
+    </div>
+  </div>
+  <div>
+    <button type="button" class="btn btn-secondary" (click)="close()">Закрыть</button>
+  </div>
+</div>

@@ -1,0 +1,77 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="d-flex align-items-center justify-content-between">
+      <div class="d-flex align-items-center">
+        <button
+          matTooltip="Назад"
+          matTooltipPosition="right"
+          class="me-2"
+          (click)="back()"
+          mat-icon-button>
+          <mat-icon>keyboard_return</mat-icon>
+        </button>
+        <div class="header__title">
+          Список содержимого баннера
+        </div>
+      </div>
+
+      <div>
+        <button
+          (click)="openCreateBannerContentDialog()"
+          class="btn btn-success">+ Добавить
+        </button>
+      </div>
+    </mat-card-title>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <hr>
+      <div *ngIf="!loading && dataList && dataList.length > 0" class="row">
+        <div *ngFor="let item of dataList" class="col-md-3 mb-2">
+          <mat-card class="banner-card">
+            <mat-card-title>
+              <div class="text-center">
+                <img class="card-logo" width="200" height="200" [src]="item.attachmentFullPath" alt="">
+              </div>
+            </mat-card-title>
+            <mat-card-content>
+              <h2 class="banner-title">{{item.title}}</h2>
+              <p class="banner-description">{{item.description}}</p>
+            </mat-card-content>
+            <mat-card-actions class="d-flex align-items-center justify-content-end border-top">
+<!--              <button-->
+<!--                matTooltip="Подробно"-->
+<!--                matTooltipPosition="above"-->
+<!--                mat-icon-button-->
+<!--              >-->
+<!--                <mat-icon style="color: grey">remove_red_eye</mat-icon>-->
+<!--              </button>-->
+              <button
+                matTooltip="Редактировать"
+                matTooltipPosition="above"
+                mat-icon-button
+                (click)="openEditBannerDialog(item.id)">
+                <mat-icon color="primary">edit</mat-icon>
+              </button>
+              <button
+                matTooltip="Удалить"
+                matTooltipPosition="above"
+                mat-icon-button
+                (click)="showDeleteDialog(item.id)">
+                <mat-icon color="warn">delete</mat-icon>
+              </button>
+            </mat-card-actions>
+          </mat-card>
+        </div>
+      </div>
+
+      <!--===  Empty  ===-->
+      <div *ngIf="!loading && dataList && dataList.length <= 0">
+        <h3 class="text-center">Список пуст</h3>
+      </div>
+
+      <!--===  Loader  ===-->
+      <div *ngIf="loading" class="d-flex justify-content-center">
+        <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

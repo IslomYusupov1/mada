@@ -1,0 +1,90 @@
+<mat-card>
+  <mat-card-title>
+    <h2 class="title">Кошелек пользователя</h2>
+  </mat-card-title>
+  <mat-card-content>
+    <table class="table mb-4">
+      <thead>
+      <tr class="table-header text-center">
+        <th scope="col">№</th>
+        <th scope="col">Имя валадельца</th>
+        <th scope="col">Кошелек</th>
+        <th scope="col">Тип кошелька</th>
+        <th scope="col">Счет</th>
+        <th scope="col">Статус карты</th>
+        <th scope="col">Сумма</th>
+        <th scope="col">Валюта</th>
+        <th scope="col">Действия</th>
+      </tr>
+      </thead>
+      <tbody>
+      <!--=====   Loading   =====-->
+      <tr *ngIf="loading">
+        <td class="em-col"></td>
+        <td colspan="8">
+          <ngx-skeleton-loader
+            count="5"
+            [theme]="{ 'height.px': 25 }"
+          ></ngx-skeleton-loader>
+        </td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Empty   =====-->
+      <tr *ngIf="dataList.length < 2 && !loading">
+        <td class="em-col"></td>
+        <td colspan="8" class="grey97-text text-center py-4"><button color="primary"  (click)="openWalletDialog()" mat-flat-button><mat-icon class="me-2">account_balance_wallet</mat-icon>Открыть кошелек</button></td>
+        <td class="em-col"></td>
+      </tr>
+
+      <!--=====   Content   =====-->
+      <ng-container *ngFor="let item of dataList; index as i;">
+        <tr class="table-body text-center" *ngIf="!loading">
+          <td>{{i + 1}}</td>
+          <td>{{item['owner'] ? item['owner'] : '-'}}</td>
+          <td>
+            {{item['ident'] ? item['ident'] : '-'}}
+          </td>
+          <td>
+            <span
+              class="py-1 px-2 text-white rounded-3"
+              [class]="{
+                'bg-warning': item['type'] === 'CASHBACK',
+                'bg-success': item['type'] === 'REGULAR'
+              }"
+            >
+              {{item['type'] ? item['type'] : '-'}}
+            </span>
+          </td>
+          <td>
+            {{item['accountNumber'] ? item['accountNumber'] : '-'}}
+          </td>
+          <td>
+            <span [class]="{
+              'text-danger': item['status'] === 'BLOCKED',
+              'text-success': item['status'] === 'ACTIVE'
+            }">
+              {{item['status'] ? setWalletStatus(item.status) : '-'}}
+            </span>
+          </td>
+          <td>
+            {{item['balance'] ? (item.balance.amount.amount / 100 | currency: '':'') : '-'}}
+            <button
+              matTooltip="Актуальный баланс"
+              matTooltipPosition="above"
+              mat-icon-button
+              (click)="refreshBalance(item.ident)"
+            >
+              <mat-icon class="text-secondary">refresh</mat-icon>
+            </button>
+          </td>
+          <td>{{item['currency'] ? item.currency['key'] : '-'}}</td>
+          <td>
+            <button (click)="reOpenWalletDialog(item['uuid'])" matTooltip="wallet reopen" matTooltipPosition="above" *ngIf="item['status']==='BLOCKED'" mat-icon-button><mat-icon color="primary">restore_page</mat-icon></button>
+          </td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

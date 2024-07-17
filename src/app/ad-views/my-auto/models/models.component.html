@@ -1,0 +1,57 @@
+<div class="models-page">
+  <div class="model-title">Название модели</div>
+  <div class="model-actions">
+    <div class="d-flex align-items-center gap-2">
+      <form [formGroup]="searchForm" (ngSubmit)="searchByName()">
+        <input type="text" class="model-actions_search" placeholder="Поиск по названию модели" formControlName="name">
+        <button type="submit" color="primary" mat-icon-button>
+          <mat-icon>search</mat-icon>
+        </button>
+      </form>
+    </div>
+    <div>
+      <button type="button" class="model-actions_btn" (click)="openCreateAutoModelDialog()">
+        + Добавить модель
+      </button>
+    </div>
+  </div>
+
+  <div class="model-content">
+    <ng-container *ngIf="loadingList">
+      <div class="d-flex align-items-center justify-content-center">
+        <mat-progress-spinner value="50" mode="indeterminate"></mat-progress-spinner>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="(dataList && dataList.length > 0) && !loadingList">
+      <div class="row m-0">
+        <div *ngFor="let item of dataList" class="col-lg-2 col-md-3 col-sm-6 col-12 mb-2">
+          <app-auto-model-card
+            [model]="item"
+            (onEdit)="openEditDialog($event)"
+          ></app-auto-model-card>
+        </div>
+      </div>
+
+      <div class="mt-2 d-flex align-items-center justify-content-end gap-2">
+        <span>Общее количество:</span>
+        <span style="color: #3F6D5B; font-weight: 600">{{totalItems}}</span>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="(dataList && dataList.length === 0) && !loadingList">
+      <div class="text-center fst-italic">
+        Список пустой
+      </div>
+    </ng-container>
+
+  </div>
+
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

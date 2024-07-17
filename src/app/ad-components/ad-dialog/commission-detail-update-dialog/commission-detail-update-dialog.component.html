@@ -1,0 +1,15 @@
+<div>
+  <h2>Редактирования</h2>
+  <form [formGroup]="updateCommissionForm">
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Фиксированная сумма</mat-label>
+      <input  matInput formControlName="fixAmount"/>
+    </mat-form-field>
+    <mat-form-field class="w-100" appearance="outline">
+      <mat-label>Rate</mat-label>
+      <input  matInput formControlName="rate"/>
+    </mat-form-field>
+    <div><mat-checkbox color="primary" (change)="setIsFixAmount($event.checked)" formControlName="isFixAmount">Фиксирования</mat-checkbox></div>
+   <div class="text-center mt-2"> <button mat-raised-button (click)="formSubmit()" class="bg-success text-white">Сохранить</button></div>
+  </form>
+</div>

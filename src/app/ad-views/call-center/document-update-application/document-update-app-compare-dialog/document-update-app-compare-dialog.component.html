@@ -1,0 +1,51 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h2 class="m-0">Проверка от iABS</h2>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div>
+    <table class="table mb-4">
+      <thead>
+      <tr class="design__line">
+        <th scope="col">Клиент</th>
+        <th scope="col">Клиент код</th>
+        <th scope="col">Клиент ID</th>
+        <th scope="col">Клиент UID</th>
+        <th scope="col">Серия и номер пасспорта</th>
+        <th scope="col">ПИНФЛ</th>
+        <th scope="col">Статус</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngIf="data.item && data.item.absClients.length <= 0">
+        <td colspan="11" class="grey97-text text-center py-4">Список пуст</td>
+      </tr>
+      <ng-container>
+        <tr class="table__td">
+          <td style="color: #3f6d5b">juicer</td>
+          <td style="color: #3f6d5b">{{data.item['dbClientCode']}}</td>
+          <td style="color: #3f6d5b">{{data.item['dbClientId']}}</td>
+          <td style="color: #3f6d5b">{{data.item['dbClientUid']}}</td>
+          <td style="color: #3f6d5b">{{data.item['dbDocSerial']}} {{data.item['dbDocNumber']}}</td>
+          <td style="color: #3f6d5b">{{data.item['dbPinfl']}}</td>
+          <td>-</td>
+        </tr>
+      </ng-container>
+      <ng-container *ngFor="let item of data.item.absClients; index as i;">
+        <tr class="table__td">
+          <td style="color: #0d6efd">Клиент - {{i + 1}}</td>
+          <td style="color: #0d6efd">{{item['absClientCode']}}</td>
+          <td style="color: #0d6efd">{{item['absClientId']}}</td>
+          <td style="color: #0d6efd">{{item['absClientUid']}}</td>
+          <td style="color: #0d6efd">{{item['absDocSerial']}} {{item['absDocNumber']}}</td>
+          <td style="color: #0d6efd">{{item['absPinfl']}}</td>
+          <td style="color: #0d6efd">{{item['status'] ? item['status'] : ''}}</td>
+        </tr>
+      </ng-container>
+      </tbody>
+    </table>
+  </div>
+</div>

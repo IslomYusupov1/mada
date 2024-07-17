@@ -1,0 +1,150 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Черный список iABS</mat-card-title>
+    <mat-card-content>
+      <hr>
+      <div class="mb-2">
+        <form [formGroup]="searchForm" (ngSubmit)="search()">
+          <div class="row">
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по имени</mat-label>
+                <input type="text" matInput formControlName="firstName">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по фамилии</mat-label>
+                <input type="text" matInput formControlName="lastName">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по ПИНФЛ</mat-label>
+                <input type="text" matInput formControlName="pinfl">
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Статус заявки</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="ABS_ERROR">ABS_ERROR</mat-option>
+                  <mat-option value="FAIL">FAIL</mat-option>
+                  <mat-option value="SUCCESS">SUCCESS</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Статус проверки</mat-label>
+                <mat-select formControlName="reviewStatus">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="NEW">NEW</mat-option>
+                  <mat-option value="READ">READ</mat-option>
+                  <mat-option value="CONFIRMED">CONFIRMED</mat-option>
+                  <mat-option value="APPROVED">APPROVED</mat-option>
+                  <mat-option value="CANCELED">CANCELED</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" (click)="clearFilter()">Сбросить</button>
+            <button type="submit" class="btn btn-outline-success ms-2">Показать</button>
+          </div>
+        </form>
+      </div>
+      <hr>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">№</th>
+          <th scope="col">Ф.И.О.</th>
+          <th scope="col">ПИНФЛ</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">Оператор</th>
+          <th scope="col">Дата создание</th>
+          <th scope="col">Назначение</th>
+          <th scope="col">Статус заявки</th>
+          <th scope="col">Статус проверки</th>
+          <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="9" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item['position']}}</td>
+            <td>{{item['fullName']}}</td>
+            <td>{{item['pinfl']}}</td>
+            <td>{{item['phone']}}</td>
+            <td>{{item['operator'] ? item['operator'] : '-'}}</td>
+            <td>{{item['createdAt']}}</td>
+            <td>{{item['purpose'] ? item['purpose'] : '-'}}</td>
+            <td>
+              <span class="text-white rounded-2 px-2 py-1"
+                    [class]="{
+                  'bg-danger': item['status'] === 'ABS_ERROR',
+                  'bg-primary': item['status'] === 'NEW',
+                  'bg-success': item['status'] === 'SUCCESS',
+                  'bg-warning': item['status'] === 'FAIL'
+                }"
+              >{{item['status']}}</span>
+            </td>
+            <td>
+              <span class="text-white rounded-2 px-2 py-1"
+                    [class]="{
+                  'bg-danger': item['reviewStatus'] === 'CANCELED',
+                  'bg-primary': item['reviewStatus'] === 'NEW',
+                  'bg-success': item['reviewStatus'] === 'CONFIRMED' || item['reviewStatus'] === 'APPROVED',
+                  'bg-warning': item['reviewStatus'] === 'READ'
+                }"
+              >{{item['reviewStatus']}}</span></td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="openDetailsDialog(item.id)">
+                  <mat-icon color="accent" style="padding: 0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Детали</span></button>
+                <button class="mat__menu__item" mat-menu-item (click)="checkFromAbs(item.id)">
+                  <mat-icon color="accent" style="padding: 0">search</mat-icon>
+                  <span class="title__menu_item">Проверка от iABS</span></button>
+                <button
+                  *ngIf="item['reviewStatus'] === 'READ'"
+                  class="mat__menu__item" mat-menu-item (click)="confirm(item.id, item.fullName)">
+                  <mat-icon color="primary" style="padding: 0">refresh</mat-icon>
+                  <span class="title__menu_item">Потдвердить</span></button>
+                <button *ngIf="item['reviewStatus'] === 'NEW'" class="mat__menu__item" mat-menu-item
+                        (click)="openReadAppDialog(item.id)">
+                  <mat-icon color="primary" style="padding: 0">check</mat-icon>
+                  <span class="title__menu_item">Принять заявку</span></button>
+              </mat-menu>
+              <mat-icon *ngIf="item['reviewStatus'] === 'READ'" color="accent">report</mat-icon>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+      <div *ngIf="totalItems" class="d-flex align-items-center justify-content-end">
+        Общее количество: <span class="fw-bolder ms-2">{{totalItems}}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>

@@ -1,0 +1,93 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Список страховых полисов</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <hr>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Наименование</th>
+          <th>Тип</th>
+          <th>Дата контракта</th>
+          <th>Номер контракта</th>
+          <th>Комиссия</th>
+          <th>Годовая ставка</th>
+          <th>Статус</th>
+          <th>Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loading -->
+        <tr *ngIf="loading">
+          <td colspan="9">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length <= 0 && !loading">
+          <td colspan="9" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loading">
+            <td>{{item.position}}</td>
+            <td>{{item.name ? item.name : 'Неизвестно'}}</td>
+            <td>{{item.type ? item.type : 'Неизвестно'}}</td>
+            <td>{{item.contractDate ? item.contractDate : 'Неизвестно'}}</td>
+            <td>{{item.contractNumber ? item.contractNumber : 'Неизвестно'}}</td>
+            <td>{{item.coefficient ? item.coefficient : 'Неизвестно'}}</td>
+            <td>{{item.annualRate ? item.annualRate : 'Неизвестно'}}</td>
+            <td><mat-icon [color]="item.active ? 'primary' : 'warn'">{{item.active ? 'check' : 'close'}}</mat-icon></td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <div>
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                  >
+                    <mat-icon color="accent" class="p-0">info</mat-icon>
+                    <span class="title__menu_item">Подробно</span>
+                  </button>
+                </div>
+                <ng-container *ngIf="item.active">
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                  >
+                    <mat-icon color="warn" class="p-0">close</mat-icon>
+                    <span class="title__menu_item">Деактивировать</span>
+                  </button>
+                </ng-container>
+                <ng-container *ngIf="!item.active">
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                  >
+                    <mat-icon color="warn" class="p-0">check</mat-icon>
+                    <span class="title__menu_item">Активировать</span>
+                  </button>
+                </ng-container>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

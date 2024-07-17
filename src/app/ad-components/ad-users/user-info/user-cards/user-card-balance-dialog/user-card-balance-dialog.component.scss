@@ -1,0 +1,19 @@
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  border-bottom: 1px solid #c7c7c7;
+
+  span:first-child {
+    font-size: 14px;
+    font-weight: 400;
+    color: #191C1A;
+  }
+
+  span:last-child {
+    font-size: 14px;
+    font-weight: 500;
+    color: #3f6d5b;
+  }
+}

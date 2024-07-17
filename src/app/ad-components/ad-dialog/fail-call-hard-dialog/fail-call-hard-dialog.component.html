@@ -1,0 +1,11 @@
+<form [formGroup]="callHardForm">
+  <h2>Вы точно хотите пропустить</h2>
+  <mat-form-field class="w-100">
+    <mat-label>Комментарий</mat-label>
+    <textarea formControlName="comment" matInput placeholder="Комментарий"></textarea>
+  </mat-form-field>
+  <div mat-dialog-actions style="display: flex;justify-content: center">
+    <button class="btn btn-secondary" mat-button (click)="closeDialog()">Нет</button>
+    <button class="btn btn-success ms-2" mat-flat-button color="primary" type="button" (click)="apply()">Да</button>
+  </div>
+</form>

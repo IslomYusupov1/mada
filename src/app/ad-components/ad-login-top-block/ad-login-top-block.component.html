@@ -1,0 +1,39 @@
+<div class="header-block2">
+  <div class="ms-auto h-100">
+    <div class="ms-2 d-flex align-items-center" *ngIf="authToken">
+<!--      <div style="display: flex;flex-direction: column;align-items: end">-->
+<!--        <span style="font-size: 16px; color: #3f6d5b;">{{ name ? name : "" }} {{ lastname ? lastname : "" }}</span>-->
+<!--        <span style="font-size: 14px; color: #000000;">-->
+<!--              {{ merchantName ? merchantName : roleName }}-->
+<!--            </span>-->
+<!--      </div>-->
+      <div>
+        <button class="me-2" color="accent" mat-icon-button><mat-icon>notifications_none</mat-icon></button>
+      </div>
+      <div class="me-2">
+        <a style="text-decoration: none; color: #264796; font-size: 14px;" routerLink="/my/profile">{{firstname + " " + lastname}}</a>
+      </div>
+      <div style="border-right: 1px solid #FFFFFF"><button mat-icon-button><mat-icon>calendar_today</mat-icon></button></div>
+      <div><button mat-icon-button><mat-icon>view_headline</mat-icon></button></div>
+      <div class="ms-4">
+
+        <button
+          mat-icon-button
+          style="color: #264796"
+          class="bolder"
+          (click)="logout()"
+        >
+          <mat-icon>logout</mat-icon>
+        </button>
+      </div>
+<!--      <div class="ms-4 d-flex">-->
+<!--        <div style="border-right: 1px solid">-->
+<!--          <button (click)="useLanguage('uz')" mat-button>UZ</button>-->
+<!--        </div>-->
+<!--        <div>-->
+<!--          <button (click)="useLanguage('ru')" mat-button>RU</button>-->
+<!--        </div>-->
+<!--      </div>-->
+    </div>
+  </div>
+</div>

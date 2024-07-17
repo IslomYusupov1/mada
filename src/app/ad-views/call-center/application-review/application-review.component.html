@@ -1,0 +1,165 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Заявки на редактирование пользователя</mat-card-title>
+    <mat-card-content>
+      <div class="mb-2">
+        <form [formGroup]="searchForm" (ngSubmit)="search()">
+          <div class="mb-3 pt-2">
+            <app-ad-filter-buttons
+              [selectedBtn]="selectedFilterBtn"
+              (time)="setTime($event)"
+              (fromTime)="setFromTime($event)"
+              (toTime)="setToTime($event)"
+            ></app-ad-filter-buttons>
+          </div>
+          <div class="row">
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по имени</mat-label>
+                <input type="text" matInput formControlName="firstName">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по фамилии</mat-label>
+                <input type="text" matInput formControlName="lastName">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по номеру телефона</mat-label>
+                <input type="text" matInput formControlName="phone">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по ПИНФЛ</mat-label>
+                <input type="text" matInput formControlName="pinfl">
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по статусу</mat-label>
+                <mat-select formControlName="status">
+                  <mat-option *ngFor="let item of statusList" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Поиск по типу</mat-label>
+                <mat-select formControlName="type">
+                  <mat-option *ngFor="let item of typeList" [value]="item">{{item}}</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+              <mat-form-field appearance="outline" class="w-100">
+                <mat-label>Владелец</mat-label>
+                <mat-select formControlName="isOwner">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="yes">Да</mat-option>
+                  <mat-option value="no">Нет</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-end">
+            <button type="button" class="btn btn-outline-secondary" (click)="clearFilter()">Сбросить</button>
+            <button type="submit" class="btn btn-outline-success ms-2">Показать</button>
+          </div>
+        </form>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">№</th>
+          <th scope="col">Ф.И.О</th>
+          <th scope="col">Серия и номер паспорта</th>
+          <th scope="col">ПИНФЛ</th>
+          <th scope="col">Код клиента</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">Тип</th>
+          <th scope="col">Статус</th>
+          <th scope="col">Ошибка</th>
+          <th scope="col">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="7">
+          </td>
+        </tr>
+
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="7" class="grey97-text text-center py-4">Список пуст</td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{item['position']}}</td>
+            <td>{{item['lastName']}} {{item['firstName']}} {{item['middleName']}}</td>
+            <td>{{item['docSerial']}}{{item['docNumber']}}</td>
+            <td>{{item['pinfl']}}</td>
+            <td>{{item['clientCode'] ? item['clientCode'] : '-'}}</td>
+            <td>{{item['phone']}}</td>
+            <td>{{item['type']}}</td>
+            <td>
+              <div class="d-flex align-items-center justify-content-center position-relative">
+                <span
+                  class="text-white rounded-2 px-2 py-1"
+                  [class]="{
+                  'bg-primary': item.status === 'NEW',
+                  'bg-danger': item.status === 'CANCELED',
+                  'bg-success': item.status === 'APPROVED',
+                  'bg-warning': item.status === 'READ'
+                }"
+                >{{item.status}}</span>
+                <span *ngIf="item.status === 'READ' && item.isOwner" class="position-absolute top-50 translate-middle-y"
+                      style="right: -10px">
+                <mat-icon style="font-size: 16px" color="primary">lock_open</mat-icon>
+              </span>
+                <span *ngIf="item.status === 'READ' && !item.isOwner"
+                      class="position-absolute top-50 translate-middle-y" style="right: -10px">
+                <mat-icon style="font-size: 16px" color="warn">lock</mat-icon>
+              </span>
+              </div>
+            </td>
+            <td>
+              {{ item['errorMessage'] }}
+            </td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button class="mat__menu__item" mat-menu-item (click)="openDetailsDialog(item.id)">
+                  <mat-icon color="accent" style="padding: 0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Детали</span></button>
+                <button *ngIf="item.status === 'NEW'" class="mat__menu__item" mat-menu-item
+                        (click)="openReadAppDialog(item.id)">
+                  <mat-icon color="primary" style="padding: 0">check</mat-icon>
+                  <span class="title__menu_item">Принять заявку</span></button>
+                <button *ngIf="item.status === 'READ' && item.isOwner" class="mat__menu__item" mat-menu-item
+                        (click)="openConfirmApplication(item.id)">
+                  <mat-icon color="primary" style="padding: 0">check</mat-icon>
+                  <span class="title__menu_item">Подтвердить</span></button>
+                <button *ngIf="item.status === 'READ' && item.isOwner" class="mat__menu__item" mat-menu-item
+                        (click)="openCancelDialog(item.id)">
+                  <mat-icon color="warn" style="padding: 0">close</mat-icon>
+                  <span class="title__menu_item">Отменить</span></button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+      <div *ngIf="totalItems" class="d-flex align-items-center justify-content-end">
+        Общее количество: <span class="fw-bolder ms-2">{{totalItems}}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>
+

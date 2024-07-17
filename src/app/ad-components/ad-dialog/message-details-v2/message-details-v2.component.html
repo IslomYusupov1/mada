@@ -1,0 +1,42 @@
+<div>
+  <h2 class="text-center m-0 border-bottom border-1 px-1">Подробнее</h2>
+  <div class="details-content mt-2">
+    <div class="details-content_item">
+      <span>Ключ</span>
+      <span>{{data.details['key']}}</span>
+    </div>
+    <div class="details-content_item">
+      <span>Информация</span>
+      <span>{{data.details['info'] ? data.details['info'] : '-'}}</span>
+    </div>
+    <div class="details-content_item">
+      <span>Сообщение на русском языке</span>
+      <span>{{data.details['messageRu'] ? data.details['messageRu'] : '-'}}</span>
+    </div>
+    <div class="details-content_item">
+      <span>Сообщение на узбекском языке</span>
+      <span>{{data.details['messageUz'] ? data.details['messageUz'] : '-'}}</span>
+    </div>
+    <div class="details-content_item">
+      <span>Сообщение на английском языке</span>
+      <span>{{data.details['messageUz'] ? data.details['messageEng'] : '-'}}</span>
+    </div>
+    <div class="details-content_item">
+      <span>Сообщение на каракалпакском языке</span>
+      <span>{{data.details['messageUz'] ? data.details['messageKaa'] : '-'}}</span>
+    </div>
+    <div class="details-content_item">
+      <span>Сообщение на крыльце</span>
+      <span>{{data.details['messageUz'] ? data.details['messageKr'] : '-'}}</span>
+    </div>
+  </div>
+  <div class="mt-2 d-flex justify-content-end">
+    <button
+      type="button"
+      class="btn btn-outline-secondary"
+      (click)="close()"
+    >
+      Закрыть
+    </button>
+  </div>
+</div>

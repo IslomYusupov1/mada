@@ -1,0 +1,179 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <h1>Интрумент {{data.operationType ? data.operationType : ''}}</h1>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <div class="border border-2 rounded-3 p-3 mb-2">
+    <div class="d-flex align-items-center justify-content-between">
+      <span>Изменено кем</span>
+      <span *ngIf="changedLoader"><ngx-skeleton-loader></ngx-skeleton-loader></span>
+      <span *ngIf="!changedLoader">{{changedData ? changedData : '-'}}</span>
+    </div>
+  </div>
+
+<!-- Debit -->
+  <div *ngIf="data.senderService !== 'inps_outcome' && this.data.operationType !== 'Wallet2P'" class="border border-2 rounded-3 p-3 mb-2">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <h2>Дебет</h2>
+      <button class="btn btn-outline-secondary" (click)="paymentTransactionCheck()">Refresh</button>
+    </div>
+    <div class="border rounded-3 p-2">
+      <ng-container *ngIf="transactionData && !transactionLoader">
+        <div class="d-flex flex-column gap-2">
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Наименование сервиса:</div>
+            <div>{{transactionData['serviceName']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>ID транзакции:</div>
+            <div>{{transactionData['paymentRef']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Сумма:</div>
+            <div>{{(transactionData['amount'] / 100) | currency: '': ''}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Статус:</div>
+            <div>{{transactionData['status']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Карта отправителья:</div>
+            <div>{{transactionData['pan']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Дата:</div>
+            <div>{{transactionData['time']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Код ответа транзакции:</div>
+            <div>{{transactionData['responseCode']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+            <div>Мерчант ID:</div>
+            <div>{{transactionData['merchantId']}}</div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-between p-1">
+            <div>Терминал ID:</div>
+            <div>{{transactionData['terminalId']}}</div>
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngIf="!transactionData && !transactionLoader">
+        <span>Ошибка!</span>
+      </ng-container>
+
+      <ng-container *ngIf="transactionLoader">
+        <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+      </ng-container>
+    </div>
+  </div>
+
+<!-- Credit -->
+  <div class="border border-2 rounded-3 p-3 mb-2">
+    <div class="d-flex align-items-center justify-content-between mb-2">
+      <h2>{{data.senderService === 'inps_outcome' ? 'Дебет' : 'Кредит'}}</h2>
+      <button *ngIf="data.recipientService !== 'paynet'" class="btn btn-outline-secondary"
+              (click)="checkCreditTransaction()">Refresh
+      </button>
+    </div>
+    <div class="border rounded-3 p-2">
+      <ng-container
+        *ngIf="!loanLoader; else loader">
+        <div *ngIf="data.recipientService !== 'paynet'">
+          <div *ngIf="loanData && loanData.length > 0">
+            <div *ngFor="let item of loanData" class="d-flex flex-column gap-2 border mb-2">
+              <div *ngIf="!item.errorMessage" class="d-flex align-items-center justify-content-between p-1 border-bottom">
+                <div>Наименование сервиса:</div>
+                <div>{{item['serviceName']}}</div>
+              </div>
+
+              <div class="d-flex align-items-center justify-content-between p-1 border-bottom">
+                <div>ID транзакции:</div>
+                <div>{{item['transactionId']}}</div>
+              </div>
+
+              <div *ngIf="!item.errorMessage" class="d-flex align-items-center justify-content-between p-1 border-bottom">
+                <div>Сумма:</div>
+                <div>{{(item['amount'] / 100) | currency: '': ''}}</div>
+              </div>
+
+              <div *ngIf="!item.errorMessage" class="d-flex align-items-center justify-content-between p-1 border-bottom">
+                <div>Дата:</div>
+                <div>{{item['date']}}</div>
+              </div>
+
+              <div *ngIf="!item.errorMessage"
+                   class="d-flex align-items-center justify-content-between p-1 border-bottom">
+                <div>Код ответа:</div>
+                <div>{{item['responseCode']}}</div>
+              </div>
+
+              <div *ngIf="!item.errorMessage" class="d-flex align-items-center justify-content-between p-1 border-bottom">
+                <div>Маск отправителья:</div>
+                <div class="text-end">{{item['recipientMask']}}</div>
+              </div>
+
+              <div *ngIf="!item.errorMessage"
+                   class="d-flex align-items-center justify-content-center flex-column gap-2 p-1">
+                <div class="text-center">Описание ответа:</div>
+                <div class="text-center">{{item['responseMessage']}}</div>
+              </div>
+
+              <div *ngIf="item.errorMessage" class="d-flex align-items-center justify-content-between p-1">
+                <div>Сообщение об ошибке:</div>
+                <div class="text-end">{{item['errorMessage']}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="loanData && loanData.length === 0">
+            Список пусть
+          </div>
+        </div>
+
+
+        <div *ngIf="data.recipientService === 'paynet'" class="text-center">
+          Tranzaksiyani Paynet admin panelidan tekshiring!
+        </div>
+      </ng-container>
+
+      <ng-template #loader>
+        <mat-progress-spinner mode="indeterminate" value="50"></mat-progress-spinner>
+      </ng-template>
+    </div>
+  </div>
+
+  <hr>
+  <div class="d-flex align-items-center justify-content-end gap-2">
+    <button class="btn btn-outline-secondary" (click)="close()">
+      Закрыть
+    </button>
+    <ng-container *ngIf="data.status === 'PENDING' && data.cause === 'prepare' && data.operationType !== 'Wallet2P' && data.senderService !== 'inps_outcome'">
+      <button *ngxPermissionsOnly="['TRANSACTION_REVERSE_PREPARE']" class="btn btn-warning" (click)="openAgreeDialog()">
+        Reverse
+      </button>
+    </ng-container>
+    <ng-container *ngIf="data.status === 'PREPARE' && data.cause === 'confirm' && data.operationType !== 'Wallet2P' && data.senderService !== 'inps_outcome'">
+      <button class="btn btn-danger" (click)="paymentTransactionCancel()">
+        Cancel
+      </button>
+    </ng-container>
+    <ng-container *ngIf="data.status === 'PREPARE' && data.cause === 'confirm' && data.operationType !== 'Wallet2P' && data.senderService !== 'inps_outcome'">
+      <button class="btn btn-warning" (click)="openConfirmDialog()">
+        Confirm
+      </button>
+    </ng-container>
+  </div>
+</div>

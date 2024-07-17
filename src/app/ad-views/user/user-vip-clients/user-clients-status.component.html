@@ -1,0 +1,98 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Список VIP клиентов</mat-card-title>
+    <br>
+    <hr>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="mb-2 d-flex justify-content-between align-items-center">
+        <div class="d-flex align-items-center">
+          <form [formGroup]="searchForm" (ngSubmit)="searchByPhone()">
+            <mat-form-field appearance="standard">
+              <mat-label>Поиск по номеру</mat-label>
+              <input type="text" matInput formControlName="phone">
+            </mat-form-field>
+            <button
+              type="submit"
+              class="btn btn-sm btn-warning ms-2"
+            >Показать</button>
+          </form>
+        </div>
+        <div class="text-end">Общее количество: <span style="font-weight: 600; color: #3f6d5b">{{totalItems}}</span>
+        </div>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line text-center">
+          <th scope="col">№</th>
+          <th scope="col">Ф.И.О</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td class="em-col"></td>
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+          <td class="em-col"></td>
+        </tr>
+        <tr *ngIf="dataList && dataList.length <= 0 && !loadingList">
+          <td class="em-col"></td>
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+          <td class="em-col"></td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td text-center" *ngIf="!loadingList">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td>{{item.firstName ? item.firstName : 'Неизвестно'}} {{item.lastName ? item.lastName : ''}}</td>
+            <td>{{item.phone}}</td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu #menu>
+                <button
+                  class="mat__menu__item"
+                  mat-menu-item
+                  routerLink="/user/client/info"
+                  [queryParams]="{id: item.id}"
+                >
+                  <mat-icon color="accent" class="p-0">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробно</span>
+                </button>
+
+                <button
+                  *ngxPermissionsOnly="['VIP_USER_GET_LIMIT_LIST']"
+                  class="mat__menu__item"
+                  mat-menu-item
+                  routerLink="/user/vip-client/limit"
+                  [queryParams]="{id: item.id}"
+                >
+                  <mat-icon color="accent" class="p-0">tune</mat-icon>
+                  <span class="title__menu_item">Лимит</span>
+                </button>
+
+                <button
+                  *ngxPermissionsOnly="['DELETE_VIP']"
+                  class="mat__menu__item"
+                  mat-menu-item
+                  (click)="showDeleteVipStatus(item.id)"
+                >
+                  <mat-icon color="warn" class="p-0">close</mat-icon>
+                  <span class="title__menu_item">Удалить из VIP-статуса</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination [page]="currentPage" [totalPages]="totalPages" (pageClick)="pageClicked($event)"
+                     (pagePrev)="pagePrevTo()" (pageNext)="pageNextTo()"></app-ad-pagination>
+</div>

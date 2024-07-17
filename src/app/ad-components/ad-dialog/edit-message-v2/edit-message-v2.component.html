@@ -1,0 +1,81 @@
+<div>
+  <form [formGroup]="createMessage" (ngSubmit)="editMessageV2()">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Ключ</mat-label>
+        <input type="text" matInput formControlName="key">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Инфо</mat-label>
+        <input readonly type="text" matInput formControlName="info">
+      </mat-form-field>
+    </div>
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Тип</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let item of data.types" [value]="item">{{ item }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-tab-group>
+      <mat-tab label="Ru">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Русское сообщение</mat-label>
+            <textarea type="text" matInput formControlName="messageRu"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="Uz">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Узбекское сообщение</mat-label>
+            <textarea type="text" matInput formControlName="messageUz"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="En">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Английское сообщение</mat-label>
+            <textarea type="text" matInput formControlName="messageEng"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="Kaa">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Каракалпакское сообщение</mat-label>
+            <textarea type="text" matInput formControlName="messageKaa"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+      <mat-tab label="Kr">
+        <div class="mt-2">
+          <mat-form-field appearance="outline">
+            <mat-label>Сообщение крыльца</mat-label>
+            <textarea type="text" matInput formControlName="messageKr"></textarea>
+          </mat-form-field>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="d-flex align-items-center justify-content-end mt-3">
+      <button
+        type="button"
+        class="btn btn-outline-secondary me-2"
+        (click)="close()"
+      >
+        Закрыть
+      </button>
+      <button
+        type="submit"
+        class="btn btn-success"
+      >
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

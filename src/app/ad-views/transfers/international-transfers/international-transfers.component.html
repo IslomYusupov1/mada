@@ -1,0 +1,185 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Международные переводы</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <button (click)="isFilter = !isFilter" class="btn-green">
+            <img src="./assets/new-icons/filter.svg" alt="">
+            Фильтр
+            <img src="./assets/new-icons/filter-1.svg" alt="">
+          </button>
+        </div>
+        <div>
+          <button class="export-btn" (click)="exportToExcel()">
+            <img width="24" src="assets/new-icons/excel-icon.svg" alt="excel">
+            <span class="ms-1">Экспортировать</span>
+          </button>
+        </div>
+      </div>
+
+      <div *ngIf="isFilter">
+        <form [formGroup]="filterForm" (ngSubmit)="filter()">
+          <div class="mb-2">
+            <app-ad-filter-buttons
+              [selectedBtn]="selectedFilterBtn"
+              (time)="setTime($event)"
+              (fromTime)="setFromTime($event)"
+              (toTime)="setToTime($event)"
+            ></app-ad-filter-buttons>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Имя</mat-label>
+                <input type="text" formControlName="firstName" matInput>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Фамилия</mat-label>
+                <input type="text" formControlName="lastName" matInput>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Код клиента</mat-label>
+                <input type="text" formControlName="clientCode" matInput>
+              </mat-form-field>
+            </div>
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>ID клиента</mat-label>
+                <input type="text" formControlName="clientId" matInput>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="d-flex align-items-center justify-content-center gap-3 mb-2">
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Валюта</mat-label>
+                <mat-select formControlName="currency">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="UZS">UZS</mat-option>
+                  <mat-option value="USD">USD</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Направление трансфера</mat-label>
+                <mat-select formControlName="transferDirection">
+                  <mat-option value="">Все</mat-option>
+                  <mat-option value="IN">IN</mat-option>
+                  <mat-option value="OUT">OUT</mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div>
+              <mat-form-field appearance="legacy" class="w-100">
+                <mat-label>Страна</mat-label>
+                <input type="text" formControlName="country" matInput>
+              </mat-form-field>
+            </div>
+          </div>
+          <div class="d-flex align-items-center justify-content-center gap-3">
+            <button type="submit" class="btn btn-primary">Показать</button>
+            <button type="button" class="btn btn-outline-secondary" (click)="clearFilter()">Сбросить</button>
+          </div>
+        </form>
+      </div>
+
+
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Отправитель</th>
+          <th>Получатель</th>
+          <th>Название</th>
+          <th>Дата транзакции</th>
+          <th>Сумма</th>
+          <th>Валюта</th>
+          <th>Direction</th>
+          <th>Статус</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loading -->
+        <tr *ngIf="loadingList">
+          <td colspan="10">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="10" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td><span class="fw-normal"
+                      [class.fst-italic]="!item.sender">{{item.sender ? item.sender : 'Неизвестно'}}</span></td>
+            <td><span class="fw-normal"
+                      [class.fst-italic]="!item.receiver">{{item.receiver ? item.receiver : 'Неизвестно'}}</span></td>
+            <td>{{item.name}}</td>
+            <td>{{item.date}}</td>
+            <td>{{(item.amount / 100) | currency: '':''}} {{item.currency}}</td>
+            <td>{{item.currencyName}}</td>
+            <td>{{item.direction}}</td>
+            <td>
+              <span
+                class="text-white px-2 py-1 rounded-3"
+                [class]="{
+                'bg-success' : item.state === 'Успешный',
+                'bg-warning' : item.state === 'В ожидании',
+                'bg-primary': item.state === 'CONFIRM',
+                'bg-secondary' : item.state === 'PREPARE' || item.state === 'CANCEL'
+                }"
+              >
+                {{item.state}}
+              </span>
+            </td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <div>
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openDetailsDialog(item.id)"
+                  >
+                    <mat-icon color="accent" class="p-0">info</mat-icon>
+                    <span class="title__menu_item">Подробно</span>
+                  </button>
+                </div>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

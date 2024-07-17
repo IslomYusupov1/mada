@@ -1,0 +1,47 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title></mat-card-title>
+    <mat-card-content>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col" class="text-center">service</th>
+          <th scope="col" class="text-center">url</th>
+          <th scope="col" class="text-center">requestDate</th>
+          <th scope="col" class="text-center">responseDate</th>
+          <th scope="col" class="text-center">responseCode</th>
+          <th class="text-center">Действие</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td class="em-col"></td>
+          <td colspan="8">
+          </td>
+          <td class="em-col"></td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td class="em-col"></td>
+          <td colspan="8" class="grey97-text text-center py-4">Список пуст</td>
+          <td class="em-col"></td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i;">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td class="text-center">{{item.service}}</td>
+            <td class="text-center">{{item.url}}</td>
+            <td class="text-center">{{item['requestDate']}}</td>
+            <td class="text-center">{{item['responseDate']}}</td>
+            <td class="text-center">{{item['responseCode']}}</td>
+            <td class="text-center">
+              <button matTooltip="request" matTooltipPosition="above" mat-icon-button  (click)="openJsonDialog(item.request, item.response,'request')"><mat-icon color="primary" style="padding: 0">call_made</mat-icon>
+               </button>
+              <button matTooltip="response" matTooltipPosition="above" mat-icon-button  (click)="openJsonDialog(item.request, item.response,'response')"><mat-icon color="primary" style="padding: 0">call_received</mat-icon>
+              </button>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+</div>

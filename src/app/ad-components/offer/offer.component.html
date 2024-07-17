@@ -1,0 +1,52 @@
+<div style="padding: 24px 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Комиссия за транзакцию</mat-card-title>
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <table class="table mb-4" >
+        <thead >
+        <tr class="design__line">
+          <th scope="col">ID</th>
+          <th scope="col" >Код операции</th>
+          <th scope="col" >Валюта по умолчанию</th>
+          <th scope="col" >Определение</th>
+          <th scope="col" class="text-end" >Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngIf="loadingList">
+          <td colspan="8">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="8" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr style="cursor: pointer" (click)="navigateTo(item.id)" class="table__td" *ngIf="!loadingList">
+            <td>{{item.id}}</td>
+            <td>{{item['operationCode']}}</td>
+            <td>{{item['defaultCurrency']}}</td>
+            <td>{{item['definition']}}</td>
+
+            <td class="text-end">
+              <button (click)="navigateTo(item.id)" mat-icon-button><mat-icon color="primary">remove_red_eye</mat-icon></button>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

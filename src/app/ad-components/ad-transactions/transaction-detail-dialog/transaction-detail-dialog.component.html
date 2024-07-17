@@ -1,0 +1,66 @@
+<div style="max-height: 700px">
+  <h2 class="text-center">Детали операции</h2>
+  <div class="border rounded-3 p-2">
+    <div class="transaction-item">
+      <span>Имя отправителя:</span>
+      <span>{{info.details['senderOwner']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Карта отправителя:</span>
+      <span>{{info.details['senderMask']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Имя получателя:</span>
+      <span>{{info.details['recipientOwner']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Карта получателя:</span>
+      <span>{{info.details['recipientMask']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Общая сумма:</span>
+      <span>{{(info.amount['amount'] / 100) | currency:'':''}} {{info.amount['currency']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Комиссия:</span>
+      <span>{{(info.details.commission['amount'] / 100) | currency:'':''}} {{info.details.commission['currency']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Номер телефона:</span>
+      <span>{{info.phone}}  </span>
+    </div>
+    <div class="transaction-item">
+      <span>Дата транзакции:</span>
+      <span>{{info.date['date']}} {{info.date['time']}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Тип операции:</span>
+      <span>{{info.operationType}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>Статус:</span>
+      <span>{{info.status}}</span>
+    </div>
+    <div class="transaction-item">
+      <span>№ транзакции:</span>
+      <span>
+        {{info.uuid}}
+        <img
+          matTooltip="Скопировать текст"
+          matTooltipPosition="above"
+          [cdkCopyToClipboard]="info.uuid"
+          (click)="copyText()"
+          width="20" height="20"
+          src="./assets/new-icons/paperclip.svg" alt="">
+        <span *ngIf="isCopy" class="copy-text">Текст скопирован</span>
+      </span>
+    </div>
+  </div>
+  <div class="d-flex justify-content-end mt-3">
+    <button
+      (click)="close()"
+      class="btn btn-outline-secondary">
+      Закрыть
+    </button>
+  </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="filter">
+  <div class="filter__options">
+    <button type="button"
+            [class]="{'btn--active': yesterdayBtn}"
+            (click)="setFilterDate('yesterday')"
+    >
+      За вчера
+    </button>
+    <button type="button"
+            [class]="{'btn--active': todayBtn}"
+            (click)="setFilterDate('today')"
+    >
+      За сегодня
+    </button>
+    <button type="button"
+            [class]="{'btn--active': prevMonthBtn}"
+            (click)="setFilterDate('prevMonth')"
+    >
+      За прошлый месяц
+    </button>
+    <button type="button"
+            [class]="{'btn--active': monthBtn}"
+            (click)="setFilterDate('month')"
+    >
+      За текуший месяц
+    </button>
+    <button type="button"
+            [class]="{'btn--active': settingsBtn}"
+            (click)="showSettings('settings')"
+    >
+      Настройка
+    </button>
+  </div>
+  <div *ngIf="showDateSettings" class="d-flex align-items-center justify-content-center">
+    <mat-form-field appearance="standard">
+      <mat-label>С</mat-label>
+      <input type="date" matInput (change)="setFromTime($event)">
+    </mat-form-field>
+    <mat-form-field appearance="standard" class="ms-3">
+      <mat-label>До</mat-label>
+      <input type="date" matInput (change)="setToTime($event)">
+    </mat-form-field>
+  </div>
+</div>

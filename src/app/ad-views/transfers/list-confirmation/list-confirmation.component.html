@@ -1,0 +1,122 @@
+<div class="p-4">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Переводы для подтверждения</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <hr>
+      <div class="d-flex align-items-center justify-content-between">
+        <div>
+          <mat-form-field appearance="standard">
+            <mat-label>Статус</mat-label>
+            <mat-select (selectionChange)="statusChanged($event)" [(ngModel)]="status">
+              <mat-option value="PREPARE">PREPARE</mat-option>
+              <mat-option value="APPROVE">APPROVE</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div>
+            <span>
+              Количество транзакций:
+            </span>
+          <span>
+              {{totalItems}}
+            </span>
+        </div>
+      </div>
+
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th>№</th>
+          <th>Имя</th>
+          <th>Номер телефона</th>
+          <th>Дата</th>
+          <th>Тип операции</th>
+          <th>Сумма</th>
+          <th>Старый статус</th>
+          <th>Новый статус</th>
+          <th>Статус</th>
+          <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- Loading -->
+        <tr *ngIf="loading">
+          <td colspan="10">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <!-- If list empty -->
+        <tr *ngIf="dataList.length <= 0 && !loading">
+          <td colspan="10" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loading">
+            <td>{{reqData.paging.page * reqData.paging.size + (i + 1)}}</td>
+            <td>{{item['preparedByUsername']}}</td>
+            <td>{{item['preparedByPhone'] ? item['preparedByPhone'] : '-'}}</td>
+            <td>{{item.preparedDate['date']}} {{item.preparedDate['time']}}</td>
+            <td>{{item['operationType'] ? item['operationType'] : '-'}}</td>
+            <td>{{item['amount'] ? (item['amount'] / 100 | currency: '': '') : '-'}}</td>
+            <td>{{item['oldStatus'] ? item['oldStatus'] : '-'}}</td>
+            <td>{{item['newStatus'] ? item['newStatus'] : '-'}}</td>
+            <td>
+              <span
+                class="text-white px-2 py-1 rounded-3"
+                [class]="{
+                'bg-danger' : item.status === 'ERROR',
+                'bg-success' : item.status === 'SUCCESS' || item.status === 'APPROVE',
+                'bg-warning' : item.status === 'PENDING',
+                'bg-primary': item.status === 'CONFIRM',
+                'bg-secondary' : item.status === 'PREPARE' || item.status === 'CANCEL'
+                }"
+              >
+                {{item.status}}
+              </span>
+            </td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <div>
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                    (click)="openDetailsDialog(item)"
+                  >
+                    <mat-icon color="accent" class="p-0">info</mat-icon>
+                    <span class="title__menu_item">Подробно</span>
+                  </button>
+                </div>
+                <ng-container>
+                  <button
+                    class="mat__menu__item" mat-menu-item
+                    (click)="paymentToolCheck(item.operationUUID, item.operationType, item.status, item.recipientService)"
+                  >
+                    <mat-icon color="warn" class="p-0">settings</mat-icon>
+                    <span class="title__menu_item">Инструмент</span>
+                  </button>
+                </ng-container>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>

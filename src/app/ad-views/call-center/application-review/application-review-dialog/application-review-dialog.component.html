@@ -1,0 +1,87 @@
+<div>
+  <h2 class="text-center">Детали</h2>
+  <div class="ordered-card">
+    <div class="ordered-card_item">
+      <span>Ф.И.О</span>
+      <span>{{ info['lastName'] }} {{ info['firstName'] }} {{ info['middleName'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Серия и номер паспорта</span>
+      <span>{{ info['docSerial'] }}{{ info['docNumber'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>ПИНФЛ</span>
+      <span>{{ info['pinfl'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Код клиента</span>
+      <span>{{ info['clientCode'] ? info['clientCode'] : '-' }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Номер телефона</span>
+      <span>{{ info['phone'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Кем выдан</span>
+      <span>{{ info['issuedBy'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Дата выдачи</span>
+      <span>{{ info['issuedDate'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Срок действия</span>
+      <span>{{ info['expiryDate'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Тип</span>
+      <span>{{ info['type'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Статус</span>
+      <span>{{ info['status'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Дата заявки</span>
+      <span>{{ info['createdAt'] }}</span>
+    </div>
+
+    <div class="ordered-card_item">
+      <span>Последние обновление</span>
+      <span>{{ info['updatedAt']}}</span>
+    </div>
+
+    <div *ngIf="info['readTime']" class="ordered-card_item">
+      <span>Дата принятия заявки</span>
+      <span>{{ info['readTime'] }}</span>
+    </div>
+
+    <div *ngIf="info['operator']" class="ordered-card_item">
+      <span>Оператор:</span>
+      <span>{{ info['operator'] }}</span>
+    </div>
+
+    <div *ngIf="info['operatorComment']" class="ordered-card_item">
+      <span>Комментарий</span>
+      <span>{{ info['operatorComment'] }}</span>
+    </div>
+
+    <div *ngIf="info['errorMessage']" class="ordered-card_item">
+      <span>Сообщение об ошибке:</span>
+      <span style="color: red !important;">{{ info['errorMessage'] }}</span>
+    </div>
+  </div>
+  <div class="d-flex align-items-center justify-content-end pt-3">
+    <button type="button" class="btn btn-secondary" (click)="close()">Закрыть</button>
+  </div>
+</div>

@@ -1,0 +1,19 @@
+<div>
+  <h2>Редактирование категории</h2>
+  <form [formGroup]="categoryCreateForm">
+    <div>
+      <mat-form-field appearance="outline">
+        <mat-label>Название</mat-label>
+        <input type="text" matInput formControlName="title">
+      </mat-form-field>
+    </div>
+    <div class="d-flex align-items-center justify-content-end mt-3">
+      <button (click)="close()" class="btn btn-outline-secondary">
+        Отмена
+      </button>
+      <button (click)="editCategory()" class="btn btn-success ms-2">
+        Сохранить
+      </button>
+    </div>
+  </form>
+</div>

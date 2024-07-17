@@ -1,0 +1,43 @@
+<div>
+  <div class="d-flex align-items-center justify-content-between">
+    <div class="ftz-18">Детали</div>
+    <button mat-icon-button (click)="closeDialog()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div class="border rounded-2 p-2">
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>Ф.И.О.</span>
+      <span>{{data.info.fullName}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>ПИНФЛ:</span>
+      <span>{{data.info.pinfl}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>Номер телефона:</span>
+      <span>{{data.info.phone}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>Дата создание:</span>
+      <span>{{data.info.createdAt}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>Статус заявки:</span>
+      <span>{{data.info.status}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>Статус проверки:</span>
+      <span>{{data.info.reviewStatus}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between border-bottom p-1">
+      <span>Оператор:</span>
+      <span>{{data.info.operator ? data.info.operator : '-'}}</span>
+    </div>
+    <div class="d-flex align-items-center justify-content-between p-1">
+      <span>Комментарий:</span>
+      <span class="text-end">{{data.info.operatorComment ? data.info.operatorComment : '-'}}</span>
+    </div>
+  </div>
+</div>

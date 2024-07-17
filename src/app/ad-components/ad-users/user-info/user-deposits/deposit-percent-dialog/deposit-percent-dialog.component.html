@@ -1,0 +1,38 @@
+<div>
+  <h2>Процент</h2>
+  <div class="border p-2 mb-2">
+    <div class="d-flex align-items-center justify-content-between">
+      <div>Сумма для снятия:</div>
+      <div style="font-weight: 600">{{(data.percentAmount / 100) | mask: 'separator'}}</div>
+    </div>
+  </div>
+  <div class="mb-3">
+    <mat-checkbox (change)="isWallet = !isWallet">Снять сумму</mat-checkbox>
+  </div>
+  <div *ngIf="isWallet">
+    <form [formGroup]="percentForm">
+      <div class="border p-2">
+        <div class="mb-2">
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Сумма</mat-label>
+            <input type="text" mask="separator.2" matInput formControlName="percentAmount">
+            <mat-hint>Макс.сумма: {{(data.percentAmount / 100) | currency: '': ''}}</mat-hint>
+          </mat-form-field>
+        </div>
+        <div class="d-flex align-items-center justify-content-center">
+          <button type="button" class="btn btn-primary btn-sm" (click)="withdrawalOfInterest()">
+            Снять сумму
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="d-flex align-items-center justify-content-end pt-2">
+    <button
+      type="button"
+      class="btn btn-secondary"
+      (click)="close()"
+    >Закрыть
+    </button>
+  </div>
+</div>

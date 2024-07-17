@@ -1,0 +1,94 @@
+<div style="padding: 24px">
+  <mat-card style="border-radius: 10px!important;">
+    <mat-card-title class="header__title">Заказанные карты</mat-card-title>
+
+    <mat-card-content class="p-0 pt-2 pb-2 ftz-16">
+      <div class="d-flex align-items-center justify-content-end">
+        <div>
+          <mat-form-field appearance="standard">
+            <mat-label>Статус</mat-label>
+            <mat-select (selectionChange)="filterByStatus($event)">
+              <mat-option *ngFor="let item of statusList" [value]="item.value">{{item.text}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <table class="table mb-4">
+        <thead>
+        <tr class="design__line">
+          <th scope="col">ID заказа</th>
+          <th scope="col">ФИО</th>
+          <th scope="col">Номер телефона</th>
+          <th scope="col">Название продукта</th>
+          <th scope="col">Тип карты</th>
+          <th scope="col">Регион</th>
+          <th scope="col">Статус</th>
+          <th scope="col">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr *ngIf="loadingList">
+          <td colspan="7">
+            <ngx-skeleton-loader
+              count="5"
+              [theme]="{ 'height.px': 25 }"
+            ></ngx-skeleton-loader>
+          </td>
+        </tr>
+
+        <tr *ngIf="dataList.length <= 0 && !loadingList">
+          <td colspan="7" class="grey97-text text-center py-4">
+            Список пуст
+          </td>
+        </tr>
+
+        <ng-container *ngFor="let item of dataList; index as i">
+          <tr class="table__td" *ngIf="!loadingList">
+            <td>{{ item['orderId'] }}</td>
+            <td>{{ item['fullName'] }}</td>
+            <td>{{ item['phone_number'] }}</td>
+            <td>{{ item['productName'] }}</td>
+            <td>{{ item['type'] }}</td>
+            <td>{{ item['region'] }}</td>
+            <td>
+              <span
+                class="py-1 px-3 rounded-2"
+                [class]="item.class"
+              >
+                {{ hrService.getOrderCardStatus(item['status']) }}
+              </span>
+            </td>
+            <td>
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_horiz</mat-icon>
+              </button>
+              <mat-menu style="height: 40px" #menu>
+                <button (click)="openOrderCardDetails(item.uuid)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon class="p-0 text-secondary">remove_red_eye</mat-icon>
+                  <span class="title__menu_item">Подробно</span>
+                </button>
+                <button (click)="openChangeStatusDialog(item)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="primary" style="padding: 0">edit</mat-icon>
+                  <span class="title__menu_item">Изменить статус</span>
+                </button>
+                <button (click)="openLogsDialog(item.logs)" class="mat__menu__item" mat-menu-item>
+                  <mat-icon color="primary" style="padding: 0">android</mat-icon>
+                  <span class="title__menu_item">Все обновления</span>
+                </button>
+              </mat-menu>
+            </td>
+          </tr>
+        </ng-container>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+  <app-ad-pagination
+    [page]="currentPage"
+    [totalPages]="totalPages"
+    (pageClick)="pageClicked($event)"
+    (pagePrev)="pagePrevTo()"
+    (pageNext)="pageNextTo()"
+  ></app-ad-pagination>
+</div>
